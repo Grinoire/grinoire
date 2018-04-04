@@ -17,7 +17,10 @@ require_once("../config/splAutoloadRegister.php");
 </head>
 <body>
 
-
+    
+<?php
+require '../view/home.php';
+?>
 
 
 
