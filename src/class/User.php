@@ -3,9 +3,11 @@
 declare(strict_types = 1);
 
 /**
- * Description of User
- *
- * @author webuser1801
+ * 
+ * ATTENTION, en PHP 7.1 quand on utilise le typage, on force le NULL 
+ * dans les SETTERS avec "   ?    "    <--------    !!!!!!
+ * ---------------------------------------------------------
+ * 
  */
 class User {
 
@@ -28,8 +30,8 @@ class User {
      * ATTRIBUE FORKEY
      * 
      */
-    protected $deck;
-    protected $role;
+    protected $deckId;
+    protected $roleId;
     
     
 
@@ -44,11 +46,23 @@ class User {
      * @param array $data
      * 
      */
-    private function hydration(array $data): void {
-        foreach ($data as $key => $val) {
-            $nomSetter = 'set' . ucfirst($key);
+    private function hydration(array $dataUser): void {
+        
+        foreach ($dataUser as $attribut => $val) {
+            
+            $listeNomDecoupe = explode('_', $attribut);
+            unset($listeNomDecoupe[0]);
+            
+            $nomSetter = 'set';
+            
+            foreach ($listeNomDecoupe as $nom){
+                 $nomSetter .= ucfirst($nom);
+            }
 
             if (method_exists($this, $nomSetter)) {
+                if(is_numeric($val)){
+                    $val = (int)$val;
+                }
                 $this->$nomSetter($val);
             }
         }
@@ -97,10 +111,10 @@ class User {
     public function getPlayedGame() : int {
         return $this->playedGame;
     }
-    public function getDeck() : int {
+    public function getDeckId() : int {
         return $this->deck;
     }
-    public function getRole() : int {
+    public function getRoleId() : int {
         return $this->role;
     }
 
@@ -115,11 +129,11 @@ class User {
         $this->id = $id;
     }
 
-    public function setLastName(string $lastName) : void {
+    public function setLastName(?string $lastName) : void {
         $this->lastName = $lastName;
     }
 
-    public function setFirstName(string $firstName) : void {
+    public function setFirstName(?string $firstName) : void {
         $this->firstName = $firstName;
     }
 
@@ -139,17 +153,17 @@ class User {
         $this->inscription = $inscription;
     }
 
-    public function setWinnedGame(int $winnedGame) : void {
+    public function setWinnedGame(?int $winnedGame) : void {
         $this->winnedGame = $winnedGame;
     }
 
-    public function setPlayedGame(int $playedGame) : void {
+    public function setPlayedGame(?int $playedGame) : void {
         $this->playedGame = $playedGame;
     }
-    public function setDeck(int $deck) : void {
+    public function setDeckId(?int $deck) : void {
         $this->deck = $deck;
     }
-    public function setRole(int $role) : void {
+    public function setRoleId(int $role) : void {
         $this->role = $role;
     }
 
