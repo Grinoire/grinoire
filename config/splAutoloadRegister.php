@@ -6,7 +6,7 @@
 **/
 function loadClass( $className )
 {
-    $path = ['../src/class/', '../src/class/classManager/'];
+    $path = ['../src/class/', '../src/classManager/'];
     $fileName = $className . '.php';
 
     foreach ($path as $chemin)
