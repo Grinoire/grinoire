@@ -1,0 +1,31 @@
+*{
+    user-select:none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#home div{
+    border: 1px solid black;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+#home a{
+    font-size: 2rem;
+    margin: auto;
+    text-decoration: none;
+}
+#profil{
+    width: 1000px;
+    margin: auto;
+}
+
+#profil-avatar{
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+}
