@@ -6,7 +6,5 @@ session_start(); ?>
 <h1>LOADING....</h1>
 
 <?php
-foreach ( $_SESSION["grinoire"]["deck"] as $idObj => $carteData) {
-    echo $carteData;
-}
+var_dump($_SESSION["grinoire"]["deck"]);
 ?>

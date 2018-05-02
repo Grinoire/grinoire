@@ -9,18 +9,14 @@ try {
 
     if ( isset($_POST["selectedDeck"]) && ($_POST["selectedDeck"] == 1 || $_POST["selectedDeck"] == 2) ) {
         //generation du deck selectionné
-        $cardManager = new CardManager;
-        $listCard = $cardManager->getAllCardByDeck($_POST["selectedDeck"]);
-        $deck = $cardManager->setDeck($listCard)->getDeck();
+        $deckManager = new DeckManager;
+        $deck = $deckManager->getDeckById($_POST["selectedDeck"])->getDeck();
         $_SESSION["grinoire"]["deck"] = $deck;
-
+        
         //on envoie sur la page de recherche d'utilisateur : MATCHMAKING
         redirection( 'matchMaking.php' );
-        var_dump($_SESSION["grinoire"]["deck"]);
-    }
-    else {
-        echo 'pas de deck selectionne';
-    }
+
+    } else { echo 'pas de deck selectionne'; }
 
 } catch (Exception $e) { getErrorMessageDie($e); }
 

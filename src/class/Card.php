@@ -6,9 +6,6 @@ declare(strict_types= 1);
 */
 class Card
 {
-    // ----------------------- //
-    // ------ ATTRIBUT ------- //
-    // ----------------------- //
 
     /**
     *  @var  int
@@ -78,7 +75,6 @@ class Card
             . 'STATUS -> ' . br( $this->getStatus())
             . 'TYPE_ID -> ' . br( $this->getTypeIdFk())
             . 'DECK_ID -> ' . br( $this->getDeckIdFk()) . '<br>';
-
     }
 
 
