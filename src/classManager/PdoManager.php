@@ -65,7 +65,6 @@ class PDOManager
             //on affecte les parametre aux placeholder
             foreach ($params as $placeholder => $value)
             {
-
                 if ( is_array($value) )
                 {
                     if($statement->bindValue($placeholder, $value[0], $value[1]) === false)
@@ -149,5 +148,4 @@ class PDOManager
 
         throw new PdoException($errorMessage);
     }
-
 }
