@@ -45,6 +45,7 @@ INSERT INTO `action` (`action_id`, `action_name`, `action_power_needed`) VALUES
 -- --------------------------------------------------------
 
 --
+
 -- Structure de la table `card`
 --
 
@@ -119,6 +120,7 @@ INSERT INTO `can` (`role_id`, `action_id`) VALUES
 
 CREATE TABLE `role` (
   `role_id` int(11) NOT NULL,
+
   `role_name` varchar(25) NOT NULL,
   `role_power` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -126,6 +128,7 @@ CREATE TABLE `role` (
 --
 -- Déchargement des données de la table `role`
 --
+
 
 INSERT INTO `role` (`role_id`, `role_name`, `role_power`) VALUES
 (1, 'Admin', 0),
@@ -147,6 +150,7 @@ CREATE TABLE `type` (
 -- --------------------------------------------------------
 
 --
+
 -- Structure de la table `user`
 --
 
@@ -241,7 +245,7 @@ ALTER TABLE `action`
 --
 ALTER TABLE `card`
   MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT;
-
+  
 --
 -- AUTO_INCREMENT pour la table `deck`
 --
@@ -272,6 +276,7 @@ ALTER TABLE `type`
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
+
 --
 -- Contraintes pour les tables déchargées
 --
@@ -296,6 +301,7 @@ ALTER TABLE `can`
 ALTER TABLE `user`
   ADD CONSTRAINT `FK_user_deck_id` FOREIGN KEY (`deck_id`) REFERENCES `deck` (`deck_id`),
   ADD CONSTRAINT `FK_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

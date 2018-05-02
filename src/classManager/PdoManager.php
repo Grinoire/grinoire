@@ -62,12 +62,9 @@ class PDOManager
         //SINON SI il ya des parametre on execute PREPARE
         elseif(($statement = $this->pdo->prepare($sql)) !== false)
         {
-            echo ("<script>console.log('preparation requete');</script>");
             //on affecte les parametre aux placeholder
             foreach ($params as $placeholder => $value)
             {
-                echo ("<script>console.log('bindValue');</script>");
-
                 if ( is_array($value) )
                 {
                     if($statement->bindValue($placeholder, $value[0], $value[1]) === false)
@@ -81,14 +78,11 @@ class PDOManager
                 }
             }
             //SI execute retourne false
-            if($statement->execute())
-            {
-                echo "<script>console.log('execution requete');</script>";
-            }
-            else
+            if(!$statement->execute())
             {
                 $this->setErrorStatement( 'Execute', $sql, $params ); //erreur
             }
+
         }
 
         return $statement;
@@ -104,7 +98,6 @@ class PDOManager
     //EX : $this->makeSelect( ' SELECT * FROM nain WHERE n_id = :id' , [ :id => [ $id , PDO::PARAM_INT, 'PDO::PARAM_INT' ] , :name => $name] , PDO::FETCH_NUM )
     public function makeSelect( string $sql, array $params = array(), $fetchStyle = PDO::FETCH_ASSOC, $fetchArg = NULL) :array
     {
-        echo ("<script>console.log('makeSelect()');</script>");
         $statement = $this->makeStatement($sql, $params);
 
         $data = isset($fetchArg) ? $statement->fetchAll($fetchStyle, $fetchArg) : $statement->fetchAll($fetchStyle);
@@ -117,7 +110,6 @@ class PDOManager
 
     public function makeUpdate( string $sql, array $params = array()) :void
     {
-        echo ("<script>console.log('makeUpdate()');</script>");
         $statement = $this->makeStatement($sql, $params);
         $statement->closeCursor();
     }
@@ -156,5 +148,4 @@ class PDOManager
 
         throw new PdoException($errorMessage);
     }
-
 }
