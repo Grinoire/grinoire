@@ -1,3 +1,6 @@
+<?php
+//var_dump($_SESSION);
+?>
 <section id="home">
     
 <div>

@@ -2,17 +2,17 @@
 session_start();
 
 if (isset($_GET['deconnexion'])) {
-    $_SESSION['userConnected'] = array();
+    $_SESSION['grinoire']['userConnected'] = array();
     session_destroy();
-    header('Location: ../web/index.php');
-    die();
 }
 
 var_dump($_SESSION);
+echo '<br>';
+var_dump($_SESSION['grinoire']['userConnected']);
 ?>
 <section style="display: grid;">
     <h1 style="color:red;text-align: center;">Bienvenue dans le jeux de carte GRINOIRE</h1>
-    <a href="#" style="text-align:right;">PROFIL</a>
+    <a href="?section=profil" style="text-align:right;">PROFIL</a>
     <a href="#" style="text-align:center;">JOUER</a>
     <a href="?deconnexion">Deconnexion</a>
 </section>

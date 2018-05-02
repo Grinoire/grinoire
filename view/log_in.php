@@ -2,14 +2,13 @@
 try {
     if (isset($_POST['email']) AND isset($_POST['password'])) {
         $user = new UserManager();
-        $arrayUser = $user->getUserDataBase($_POST['email'], $_POST['password']);
+        $arrayUser = $user->getUserDataBase(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['password']));
         if (!$arrayUser) {
             echo '<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">login ou password incorrect</span>';
         } else {
             session_start();
             $_SESSION['grinoire']['userConnected'] = $arrayUser[0]['user_id']; //Je prefere passer par un getter de ma class UserManager pour récupérer mon object
-            header('Location: index.php?section=grinoire');
-            die();
+            redirection('?section=grinoire');
         }
     }
 } catch (Exception $e) {
@@ -23,7 +22,7 @@ try {
 
 <form method="POST" action=''>
     <label>Votre email : </label>
-    <input type='email' name='email' value='<?php if (isset($_POST['email'])) echo $_POST['email'] ?>'>
+    <input type='email' name='email' value='<?php if (isset($_POST['email'])) echo htmlspecialchars($_POST['email']) ?>'>
     <label>Votre mot de passe :</label>
     <input type="password" name='password'>
     <input type='submit' name='' value='Soumettre'>

@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
- * 
- * ATTENTION, en PHP 7.1 quand on utilise le typage, on force le NULL 
+ *
+ * ATTENTION, en PHP 7.1 quand on utilise le typage, on force le NULL
  * dans les SETTERS avec "   ?    "    <--------    !!!!!!
  * ---------------------------------------------------------
- * 
+ *
  */
-class User {
+class User
+{
 
     /**
      *
      * ATTRIBUE
-     * 
+     *
      */
     protected $id;
     protected $lastName;
@@ -25,42 +26,44 @@ class User {
     protected $inscription;
     protected $winnedGame;
     protected $playedGame;
+    protected $avatar;
     /**
-     * 
+     *
      * ATTRIBUE FORKEY
-     * 
+     *
      */
     protected $deckId;
     protected $roleId;
-    
-    
 
-    public function __construct(array $data) {
+
+    public function __construct(array $data)
+    {
 
         $this->hydration($data);
-        
+
     }
 
     /**
-     * 
+     *
      * @param array $data
-     * 
+     *
      */
-    private function hydration(array $dataUser): void {
-        
+    private function hydration(array $dataUser): void
+    {
+
         foreach ($dataUser as $attribut => $val) {
-            
+
             $listeNomDecoupe = explode('_', $attribut);
             unset($listeNomDecoupe[0]);
-            
+
             $nomSetter = 'set';
-            
-            foreach ($listeNomDecoupe as $nom){
-                 $nomSetter .= ucfirst($nom);
+
+            foreach ($listeNomDecoupe as $nom) {
+                $nomSetter .= ucfirst($nom);
             }
 
             if (method_exists($this, $nomSetter)) {
-                if(is_numeric($val)){
+                if (is_numeric($val) AND $attribut !== 'user_password') {
                     $val = (int)$val;
                 }
                 $this->$nomSetter($val);
@@ -76,95 +79,133 @@ class User {
      * 
      */
 
-    public function getId() : int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function getLastName() : string {
+    public function getLastName(): ?string
+    {
         return $this->lastName;
     }
 
-    public function getFirstName() : string {
+    public function getFirstName(): ?string
+    {
         return $this->firstName;
     }
 
-    public function getMail() : string {
+    public function getMail(): string
+    {
         return $this->mail;
     }
 
-    public function getLogin() : string {
+    public function getLogin(): ?string
+    {
         return $this->login;
     }
 
-    public function getPassword() : string {
+    public function getPassword(): string
+    {
         return $this->password;
     }
 
-    public function getInscription() : string {
+    public function getInscription(): string
+    {
         return $this->inscription;
     }
 
-    public function getWinnedGame() : int {
+    public function getWinnedGame(): ?int
+    {
         return $this->winnedGame;
     }
 
-    public function getPlayedGame() : int {
+    public function getPlayedGame(): ?int
+    {
         return $this->playedGame;
     }
-    public function getDeckId() : int {
+
+    public function getDeckId(): int
+    {
         return $this->deck;
     }
-    public function getRoleId() : int {
+
+    public function getRoleId(): int
+    {
         return $this->role;
     }
 
+    public function getAvatar() : ?string
+    {
+        return $this->avatar;
+    }
+
+
     /**
-     * 
-     * 
+     *
+     *
      * SETTER
-     * 
-     * 
+     *
+     *
      */
-    public function setId(int $id) : void {
+    public function setId(int $id): void
+    {
         $this->id = $id;
     }
 
-    public function setLastName(?string $lastName) : void {
+    public function setLastName(?string $lastName): void
+    {
         $this->lastName = $lastName;
     }
 
-    public function setFirstName(?string $firstName) : void {
+    public function setFirstName(?string $firstName): void
+    {
         $this->firstName = $firstName;
     }
 
-    public function setMail(string $mail) : void {
+    public function setMail(string $mail): void
+    {
         $this->mail = $mail;
     }
 
-    public function setLogin(string $login) : void {
+    public function setLogin(?string $login): void
+    {
         $this->login = $login;
     }
 
-    public function setPassword(string $password) : void {
+    public function setPassword(string $password): void
+    {
         $this->password = $password;
     }
 
-    public function setInscription(string $inscription) : void {
+    public function setInscription(string $inscription): void
+    {
         $this->inscription = $inscription;
     }
 
-    public function setWinnedGame(?int $winnedGame) : void {
+    public function setWinnedGame(?int $winnedGame): void
+    {
         $this->winnedGame = $winnedGame;
     }
 
-    public function setPlayedGame(?int $playedGame) : void {
+    public function setPlayedGame(?int $playedGame): void
+    {
         $this->playedGame = $playedGame;
     }
-    public function setDeckId(?int $deck) : void {
+
+    public function setDeckId(?int $deck): void
+    {
         $this->deck = $deck;
     }
-    public function setRoleId(int $role) : void {
+
+    public function setRoleId(int $role): void
+    {
         $this->role = $role;
     }
+
+    public function setAvatar(?string $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
 
 }
