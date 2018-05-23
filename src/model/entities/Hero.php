@@ -1,9 +1,10 @@
 <?php
 declare(strict_types= 1);
 
+namespace grinoire\src\model\entities;
 
 /**
- *
+ *  Represente le Hero
  */
 class Hero
 {

@@ -1,15 +1,3 @@
-<?php
-try {
-    if (isset($_POST['email']) AND isset($_POST['login']) AND isset($_POST['password'])) {
-        $userSetDataBase = new UserManager();
-        $userSetDataBase->setConnectionUser(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['login']), htmlspecialchars($_POST['password']));
-        redirection('?section=home');
-    }
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
-?>
-
 <section id="create-account">
     
 <h1>Creer un compte pour jouer</h1>

@@ -1,8 +1,17 @@
 <?php
-
 declare(strict_types= 1);
 
+namespace grinoire\src\model;
 
+use grinoire\src\model\entities\Deck;
+use grinoire\src\model\entities\Hero;
+
+
+/**
+ *  DeckManager gere les requetes necessaire a la construction d'un deck
+ *  Il est compose d'une entite {Deck}
+ *  Elle même compose d'une entite {Hero} et de 19 entite {Card}
+ */
 class DeckManager
 {
 
@@ -23,6 +32,9 @@ class DeckManager
     // ----------------------------- //
     // ------ METHOD MAGIQUE ------- //
     // ----------------------------- //
+    /**
+     *  DeckManager Construct
+     */
     public function __construct()
     {
         $this->pdo = PdoManager::getInstance();
@@ -36,7 +48,6 @@ class DeckManager
 
     /**
      *  Recupere et instancie un deck ( cartes + hero ) [COMPOSITION]
-
      *  @param    int   $deck_id  [description]
      *  @return   self            [description]
      */
@@ -103,7 +114,7 @@ class DeckManager
 
     /**
      *  Insere le tableau d'objet Card dans l'attribut deck
-     *  @param    Deck  Instances de {card} représentant les cartes du deck
+     *  @param    Deck  $cardObj Instance representant le deck (AGREGATION)
      *  @return   self
      */
     public function setDeck( Deck $cardObj ) :self
@@ -114,7 +125,7 @@ class DeckManager
 
     /**
     * Instance du hero lié au deck
-    * @param  Hero instance de la classe {Hero}
+    * @param  Hero  $hero instance de la classe {Hero}
     * @return self ->FLUENT->
     */
     public function setHero( Hero $hero ) :self {

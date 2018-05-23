@@ -34,3 +34,14 @@ function br( $msg ) :string
 {
     return $msg.'<br>';
 }
+
+function errorMessage()
+{
+    $msg = null;
+    if(isset($_SESSION['grinoire']['error']) AND !empty($_SESSION['grinoire']['error']))
+    {
+        $msg = $_SESSION['grinoire']['error'];
+        unset($_SESSION['grinoire']['error']);
+    }
+    return $msg;
+}

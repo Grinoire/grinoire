@@ -1,6 +1,8 @@
 <?php
 declare(strict_types= 1);
 
+namespace grinoire\src\model\entities;
+
 
 /**
  *  Contient les carte et le hero associé au deck
@@ -83,11 +85,11 @@ class Deck
 
                     $this->$nomSetter($val);
                 }
-                else { throw new Exception(" La Setter ' . $nomSetter . ':params= ' . $val . ' n\'existe pas !"); }
+                else { throw new \Exception(" La Setter ' . $nomSetter . ':params= ' . $val . ' n\'existe pas !"); }
 
             }
         }
-        catch (Exception $e) { getErrorMessageDie( $e ); }
+        catch (\Exception $e) { getErrorMessageDie( $e ); }
     }
 
 
@@ -138,7 +140,7 @@ class Deck
     */
     public function setCardList( array $cardList ) :self {
         foreach ($cardList as $id => $data ) {
-            $this->cardList[] = new Card( $data );
+            $this->cardList[] = new Card($data);
         }
         return $this;
     }
@@ -149,7 +151,7 @@ class Deck
     * @return self  ->FLUENT->
     */
     public function setHero( array $hero ) :self {
-        $this->hero = new hero($hero);
+        $this->hero = new Hero($hero);
         return $this;
     }
 

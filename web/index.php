@@ -1,53 +1,38 @@
 <?php
-require_once("../config/ini.php");
-require_once("../config/splAutoloadRegister.php");
-require_once("../src/common/commonFunction.php");
-?>
+declare(strict_types=1);
 
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="description" content="Jeu de cartes a collectionner">
-    <meta name="author" content="Darragon Damien, Alexandre Le Forestier">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Import LOCAL master.css-->
-    <link rel="stylesheet" href="css/master.css">
-    <title>Grinoire</title>
-</head>
-<body>
+namespace grinoire\web;
+use Exception;
+
+session_start();
+
+require_once '../config/ini.php';
+require_once '../config/autoload.php';
+require_once '../src/common/commonFunction.php';
 
 
-<?php
-if (isset($_GET['section'])) {
-    switch ($_GET['section']) {
-        case 'create_account':
-            require '../view/create_account.php';
-            break;
-        case 'log_in':
-            require '../view/log_in.php';
-            break;
-        case 'grinoire':
-            require '../view/grinoire.php';
-            break;
-        case 'profil':
-            require '../view/profil.php';
-            break;
-        case 'home':
-            require '../view/home.php';
-            break;
-        default :
-            require '../view/home.php';
+
+
+//Define controller -> merge default controller whith $_GET, so data are update if user need other view
+$controller = array_merge(['c' => "Home", "a" => "home"], $_GET);
+
+/**
+ * On defini le chemin d'acces au controller
+ * On controlle l'existence de la class et de la method requise
+ * On charge la classe et execute la method ou retourne une {exception}
+ */
+$nomController = 'grinoire\\src\\controller\\' . lcfirst($controller['c']) . 'Controller\\' . $controller['c'] . 'Controller';
+$nomAction = $controller['a'] . 'Action';
+
+try {
+    if (class_exists($nomController) AND method_exists($nomController, $nomAction)) {
+        $c = new $nomController($_GET, $_POST);
+        $c->$nomAction();
+    } else {
+        throw new Exception('Methode ou classe inaccessible !!');
     }
-} else {
-    require '../view/home.php';
 }
-?>
-
-
-<!--Import CDN Jquery.min.js-->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-</body>
-</html>
+catch (Exception $e)
+{
+    $error = $e->getMessage();
+}
