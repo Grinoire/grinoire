@@ -158,6 +158,24 @@ class CoreController
 
 
     /**
+     * Check if all fields needed exists and is not empty
+     * @param   array   $required   Fields needed
+     * @param   array   $fields     Super-global get or post
+     * @return  bool                If one is empty or not isset return false
+     */
+    public static function isRequiredPassed(array $required, array $fields ) :bool
+    {
+        foreach( $required as $item ) :
+            if( !( isset( $fields[$item] ) && !empty( $fields[$item] ) ) )
+                return FALSE;
+        endforeach;
+
+        return TRUE;
+    }
+
+
+
+    /**
     * Affiche la vue passer en paramètre
     * @param $view
     * @param bool $full  true = entoure la vue d'un header et un footer

@@ -14,7 +14,7 @@ function redirection( string $destination ) :void
 
 /**
  *  CATCH Exception : echo() AND die() ]
- *  @param   OBJ-new-Exception
+ *  @param   Exception  $e
  *  @return  void
  */
 function getErrorMessageDie( $e ) :void
@@ -35,6 +35,11 @@ function br( $msg ) :string
     return $msg.'<br>';
 }
 
+
+/**
+ * If isset return error in $_SESSION
+ * @return  [type]  [description]
+ */
 function errorMessage()
 {
     $msg = null;
