@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace grinoire\web;
 use Exception;
 
-session_start();
 
 require_once '../config/ini.php';
 require_once '../config/autoload.php';
 require_once '../src/common/commonFunction.php';
 
+session_start();
 
 
 

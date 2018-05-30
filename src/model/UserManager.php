@@ -1,12 +1,9 @@
 <?php
 declare(strict_types=1);
+
 namespace grinoire\src\model;
-
 use PDO;
-
 use grinoire\src\exception\UserException;
-
-use grinoire\src\controller\homeController\HomeController;
 use grinoire\src\model\entities\User;
 
 
@@ -23,6 +20,9 @@ class UserManager
      */
     private $pdo;
 
+    /**
+     * [__construct description]
+     */
     public function __construct()
     {
         $this->pdo = PdoManager::getInstance();
@@ -53,8 +53,12 @@ class UserManager
         $this->getPdo()->makeUpdate($requete, $param);
     }
 
+
     /**
-     *
+     * [getUserDataBase description]
+     * @param   string  $mail
+     * @param   string  $password
+     * @return
      */
     public function getUserDataBase($mail, $password)
     {
@@ -72,8 +76,11 @@ class UserManager
 
     }
 
+
     /**
-     *
+     * [getProfilById description]
+     * @param   [type]  $id  [description]
+     * @return  [type]  [description]
      */
     public function getProfilById($id)
     {
@@ -92,13 +99,13 @@ class UserManager
     }
 
     /**
-     * @param $lastName
-     * @param $firstName
-     * @param $mail
-     * @param $login
-     * @param $password
-     * @param $avatar
-     * @param $id
+     * @param  string   $lastName
+     * @param  string   $firstName
+     * @param  string   $mail
+     * @param  string   $login
+     * @param  string   $password
+     * @param  string   $avatar
+     * @param  int      $id
      */
     public function updateProfilUserById($lastName, $firstName, $mail, $login, $password, $avatar, $id)
     {
@@ -161,6 +168,38 @@ class UserManager
             }
         } else {
             throw new \Exception('La taille du fichier est trop volumineuse', 69);
+        }
+    }
+
+
+
+
+    /**
+     * Set Ready state ...
+     *
+     * Ready state define who have selected a deck and search for match
+     *
+     * @param  int  $id     User ID
+     * @param  int  $ready  0= not ready, 1=ready for fight , default value = 0
+     */
+    public function setReady(int $id, int $ready = 0) :void
+    {
+        if ($this->getProfilById($id)->getReady() !== $ready) {
+            $response = $this->getPdo()->makeUpdate(
+                'UPDATE `user` SET `user_ready` = :ready WHERE `user_id` = :id',
+                [
+                    ':ready' => [$ready, PDO::PARAM_INT],
+                    ':id'    => [$id, PDO::PARAM_INT]
+                ]
+            );
+
+            if ($response === 0) {
+                throw new UserException("Un probléme est survenu lors du match making, merci de contacter un administrateur");
+            } else {
+                throw new UserException("La recherche est en cours, merci de patienter.");
+            }
+        } else {
+            //ready already define, so we need to reset him sonewhere
         }
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace grinoire\src\controller\homeController;
 
+use grinoire\src\exception\UserException;
+
 use grinoire\src\controller\CoreController;
 use grinoire\src\model\UserManager;
 use Exception;
@@ -21,7 +23,7 @@ class HomeController extends CoreController
 
 
     /**
-     * Initialise la vue de la page d'acceul -> vue home.php
+     * display default home view
      */
     public function homeAction()
     {
@@ -30,11 +32,11 @@ class HomeController extends CoreController
     }
 
     /**
-     * affiche la vue de création de compte
-     * controlle si l'utilisateur a saisir les valeurs
-     * et redirige sur l'accueil si les posts sont corrects
+     * Display create account view & send data to sql if fields are valid
+     *
+     * Redirection to home if account created, else throw Exception
      */
-    public function createAccountAction()
+    public function createAccountAction() :void
     {
         $this->init(__FILE__, __FUNCTION__);
 
@@ -42,21 +44,24 @@ class HomeController extends CoreController
             if (array_key_exists('email', $this->getPost()) and array_key_exists('login', $this->getPost()) and array_key_exists('password', $this->getPost())) {
                 $userManager = new UserManager();
                 $userManager->setConnectionUser(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['login']), htmlspecialchars($this->post['password']));
-                $this->render(true, 'home'); //display home after create account
+                $this->render(true, 'home'); //Display home after create account
             } else {
-                $this->render(true); //show view createAccount
+                $this->render(true); //View createAccount
             }
-        } catch (Exception $e) {
-            $error = $e->getMessage();
+        } catch (UserException $e) {
+            $this->setSession('error', $e->getMessage());
+            $this->render(true); //View createAccount
+        } catch (\Exception $e) {
+            getErrorMessageDie();
+
         }
     }
 
 
     /**
-     *  affiche la page de connexion
-     *  Permet de se connecter au jeu
+     *  Display Login view & send data to sql if fields are valid
      */
-    public function loginAction()
+    public function loginAction() :void
     {
         $this->init(__FILE__, __FUNCTION__);
 
@@ -65,7 +70,7 @@ class HomeController extends CoreController
                 $user = new UserManager();
                 $arrayUser = $user->getUserDataBase(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['password']));
                 if (!$arrayUser) {
-                    throw new Exception('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">login ou password incorrect</span>');
+                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">login ou password incorrect</span>');
                 } else {
                     $this->session['grinoire']['userConnected'] = $arrayUser[0]['user_id']; //Je prefere passer par un getter de ma class UserManager pour récupérer mon object
                     redirection('?c=Home&a=grinoire');
@@ -73,16 +78,18 @@ class HomeController extends CoreController
             } else {
                 $this->render(true);
             }
-        } catch (Exception $e) {
+        } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
             $this->render(true);
+        } catch (\Exception $e) {
+            getErrorMessageDie($e);
         }
     }
 
     /**
-     * Affiche l'accueil du jeu grinoire une fois connecté
+     * Display home connected view
      */
-    public function grinoireAction()
+    public function grinoireAction() :void
     {
         $this->init(__FILE__, __FUNCTION__);
         $this->render(true);
@@ -95,9 +102,9 @@ class HomeController extends CoreController
     }
 
     /**
-     * @return  [type]  [description]
+     * Display view profil & send data to sql if fields are valid
      */
-    public function profilAction()
+    public function profilAction() :void
     {
         $this->init(__FILE__, __FUNCTION__);
 
@@ -117,15 +124,20 @@ class HomeController extends CoreController
                     htmlspecialchars($this->getSession('userConnected'))
                 );
                 $user = $profil->getProfilById(htmlspecialchars($this->getSession('userConnected')));
-                var_dump($user);
-                redirection('?c=Home&a=profil');
+
             } else {
                 $data = [];
                 $data['user'] = $user;
                 $this->render(true, 'profil', $data);
             }
-        } catch (Exception $e) {
+
+        } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
+            redirection('?c=Home&a=profil');
+        } catch (\Exception $e) {
+            getErrorMessageDie($e);
+
         }
     }
+
 }
