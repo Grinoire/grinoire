@@ -43,7 +43,7 @@ class PdoManager
                 'mysql:host=' . HOST_DB . ';dbname=' . NAME_DB . ';charset=utf8', 'root', '', array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION )
             );
         } catch (PdoException $e) {
-            getErrorMessage($e);
+            getErrorMessageDie($e);
         }
 
     }
@@ -131,7 +131,6 @@ class PdoManager
         } else {
             $data = $statement->fetch($fetchStyle);
         }
-
         $statement->closeCursor();
 
         return $data;
@@ -158,7 +157,7 @@ class PdoManager
      *  @param  string      $action   Request action
      *  @param  string      $sql      Query
      *  @param  array       $params   Query parameters
-     *  @throws PdoException           PDO -> FATAL_ERROR
+     *  @throws PdoException          PDO -> FATAL_ERROR
      *  @return void
      */
     protected function setErrorStatement(string $action, string $sql, array $params = []) :void

@@ -222,4 +222,27 @@ class UserManager
         }
     }
 
+
+    /**
+     * select a ready User as opponent in database
+     * @return  mixed  TRUE = User,  FALSE = boolean
+     */
+    public function getOpponent(int $idPlayer)
+    {
+        $opponent =null;
+        $response = $this->getPdo()->makeSelect(
+            'SELECT * FROM `user` WHERE `user_ready` = :int AND `user_id` != :idPlayer',
+            [
+                'int' => [1, PDO::PARAM_INT],
+                ':idPlayer' => $idPlayer
+            ]
+        );
+
+        if ($response) {
+            $rand = rand(0,count($response) - 1);
+            $opponent = $response[$rand];
+        }
+        return new User($opponent);
+    }
+
 }
