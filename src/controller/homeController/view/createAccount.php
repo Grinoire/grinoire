@@ -1,4 +1,6 @@
 <section id="create-account">
+
+    <?= errorMessage() ?>
     
 <h1>Creer un compte pour jouer</h1>
 
