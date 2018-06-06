@@ -163,7 +163,7 @@ class CoreController
      * @param   array   $fields     Super-global get or post
      * @return  bool                If one is empty or not isset return false
      */
-    public static function isRequiredPassed(array $required, array $fields ) :bool
+    public function isRequiredPassed(array $required, array $fields ) :bool
     {
         foreach( $required as $item ) :
             if( !( isset( $fields[$item] ) && !empty( $fields[$item] ) ) )
