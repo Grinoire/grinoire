@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace grinoire\src\controller\SelectionController;
-use grinoire\src\exception\UserException;
-
+namespace grinoire\src\controller\GameController;
 use grinoire\src\controller\CoreController;
+use grinoire\src\exception\UserException;
 use grinoire\src\model\DeckManager;
 use grinoire\src\model\UserManager;
+use grinoire\src\model\GameManager;
 
 
 /**
  * Handle view for select deck
  */
-class SelectionController extends CoreController
+class GameController extends CoreController
 {
 
     /**
@@ -49,10 +49,6 @@ class SelectionController extends CoreController
                     throw new UserException("Une erreur s'est produite lors de la séléction, merci de rééssayer.<br>Si le problème persiste, merci de contacter un administrateur");
                 }
 
-                //redirect to loading screen for match-making
-                $this->render(true, 'matchMaking');
-                // redirection('matchMaking.php');
-
             } else {
                 $this->render(true);
                 // throw new \Exception('Merci de séléctionner un deck !');
@@ -65,4 +61,39 @@ class SelectionController extends CoreController
             getErrorMessageDie($e);
         }
     }
+
+
+    /**
+     * Find a opponent, auto-retry if opponent not founded
+     */
+    public function matchMakingAction() :void
+    {
+        $this->init(__FILE__, __FUNCTION__);
+
+        try {
+
+            $userManager = new UserManager();
+
+            do { //get a opponent except own ID
+                $opponant = $userManager->getOpponent((int)$this->getSession('userConnected')); // TODO: build function getOpponent()
+            } while (is_null($opponant));
+
+            if ($opponant) { //set new game in session & display view default
+                $gameManager = new GameManager();
+                $gameId = $gameManager->newGame( (int)$this->getSession('userConnected'), $opponant->getId()); // TODO: build function newGame()
+                $this->setSession('game', $gameManager->getGame($gameId));
+
+                $this->render(true);
+            } else {
+                $this->render(true);
+            }
+
+        } catch (UserException $e) {
+            $this->setSession('error', $e->getMessage());
+            $this->render(true); //show view deck selection
+        } catch (\Exception $e) {
+            getErrorMessageDie($e);
+        }
+    }
+
 }

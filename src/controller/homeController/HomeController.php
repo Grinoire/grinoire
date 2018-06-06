@@ -52,7 +52,7 @@ class HomeController extends CoreController
             $this->setSession('error', $e->getMessage());
             $this->render(true); //View createAccount
         } catch (\Exception $e) {
-            getErrorMessageDie();
+            getErrorMessageDie($e);
 
         }
     }
