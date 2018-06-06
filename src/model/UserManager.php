@@ -61,11 +61,20 @@ class UserManager
      * @param $mail
      * @return bool
      */
-    public function checkUserInDataBase($login, $mail){
+    public function checkLoginInDataBase($login){
 
-        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login OR user_mail = :mail');
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login');
         $req->execute(array(
-            'login' => $login,
+            'login' => $login
+        ));
+        return (bool)$req->fetch(PDO::FETCH_ASSOC);
+
+    }
+
+    public function checkMailInDataBase($mail){
+
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_mail = :mail');
+        $req->execute(array(
             'mail'  => $mail
         ));
         return (bool)$req->fetch(PDO::FETCH_ASSOC);
@@ -89,9 +98,9 @@ class UserManager
             'password' => $password
         ];
 
-        $data = $this->getPdo()->makeSelect($requete, $param);
+        $data = $this->getPdo()->makeSelect($requete, $param, false);
 
-        return $data;
+        return new User($data);
 
     }
 

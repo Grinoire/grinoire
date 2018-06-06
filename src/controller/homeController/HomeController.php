@@ -42,11 +42,14 @@ class HomeController extends CoreController
         try {
             if (array_key_exists('email', $this->getPost()) and array_key_exists('login', $this->getPost()) and array_key_exists('password', $this->getPost())) {
                 $userManager = new UserManager();
-                if (!$userManager->checkUserInDataBase($_POST['login'], $_POST['email'])) {
+                if ($userManager->checkLoginInDataBase($_POST['login'])) {//on controlle si le pseudo existe deja en base de donnees
+                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;padding: 2rem;">Votre pseudo est déjà utilisé !</span>');
+                } elseif ($userManager->checkMailInDataBase($_POST['email'])) {//on controlle si le mail existe en data base
+                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;padding: 2rem;">L\'email est déjà utilisé !</span>');
+                    //si le login et le mail n'existe pas en base de données alors on set l'utilisateur en base de données
+                } elseif ((!$userManager->checkLoginInDataBase($_POST['login'])) AND (!$userManager->checkMailInDataBase($_POST['email']))) {
                     $userManager->setConnectionUser(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['login']), htmlspecialchars($this->post['password']));
                     $this->render(true, 'home'); //Display home after create account
-                } else {
-                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;padding: 2rem;">Votre email ou mot de passe existe déjà !</span>');
                 }
             } else {
                 $this->render(true); //View createAccount
@@ -56,7 +59,6 @@ class HomeController extends CoreController
             $this->render(true); //View createAccount
         } catch (\Exception $e) {
             getErrorMessageDie($e);
-
         }
     }
 
@@ -71,11 +73,12 @@ class HomeController extends CoreController
         try {
             if (array_key_exists('email', $this->getPost()) and array_key_exists('password', $this->getPost())) {
                 $user = new UserManager();
+                $userManager = new UserManager();
                 $arrayUser = $user->getUserDataBase(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['password']));
                 if (!$arrayUser) {
-                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">login ou password incorrect</span>');
+                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">Pseudo ou mot de passe incorrect !</span>');
                 } else {
-                    $this->session['grinoire']['userConnected'] = $arrayUser[0]['user_id']; //Je prefere passer par un getter de ma class UserManager pour récupérer mon object
+                    $this->session['grinoire']['userConnected'] = $arrayUser->getId(); //TODO : A TERMINER (Alex)
                     redirection('?c=Home&a=grinoire');
                 }
             } else {
