@@ -53,6 +53,25 @@ class UserManager
         $this->getPdo()->makeUpdate($requete, $param);
     }
 
+    /**
+     *      On n'utilise pas la methode makeselect du pdomanager
+     *      car on veux retourner un boolen et non et array
+     *      ( cela évite de modifier la methode makeselect )
+     * @param $login
+     * @param $mail
+     * @return bool
+     */
+    public function checkUserInDataBase($login, $mail){
+
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login OR user_mail = :mail');
+        $req->execute(array(
+            'login' => $login,
+            'mail'  => $mail
+        ));
+        return (bool)$req->fetch(PDO::FETCH_ASSOC);
+
+    }
+
 
     /**
      * [getUserDataBase description]

@@ -21,7 +21,6 @@ class HomeController extends CoreController
     }
 
 
-
     /**
      * display default home view
      */
@@ -36,15 +35,19 @@ class HomeController extends CoreController
      *
      * Redirection to home if account created, else throw Exception
      */
-    public function createAccountAction() :void
+    public function createAccountAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
 
         try {
             if (array_key_exists('email', $this->getPost()) and array_key_exists('login', $this->getPost()) and array_key_exists('password', $this->getPost())) {
                 $userManager = new UserManager();
-                $userManager->setConnectionUser(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['login']), htmlspecialchars($this->post['password']));
-                $this->render(true, 'home'); //Display home after create account
+                if (!$userManager->checkUserInDataBase($_POST['login'], $_POST['email'])) {
+                    $userManager->setConnectionUser(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['login']), htmlspecialchars($this->post['password']));
+                    $this->render(true, 'home'); //Display home after create account
+                } else {
+                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;padding: 2rem;">Votre email ou mot de passe existe déjà !</span>');
+                }
             } else {
                 $this->render(true); //View createAccount
             }
@@ -61,7 +64,7 @@ class HomeController extends CoreController
     /**
      *  Display Login view & send data to sql if fields are valid
      */
-    public function loginAction() :void
+    public function loginAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
 
@@ -89,7 +92,7 @@ class HomeController extends CoreController
     /**
      * Display home connected view
      */
-    public function grinoireAction() :void
+    public function grinoireAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
         $this->render(true);
@@ -104,7 +107,7 @@ class HomeController extends CoreController
     /**
      * Display view profil & send data to sql if fields are valid
      */
-    public function profilAction() :void
+    public function profilAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
 

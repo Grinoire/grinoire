@@ -1,0 +1,842 @@
+
+/*-------TEST--------*/
+/*  BACKGROUNG ZONE  */
+/*-------------------*/
+
+.grey {background-color: rgba(128, 128, 128, .5);}
+.red {background-color: rgba(255, 0, 0, .5);}
+.yellow {background-color: rgba(255, 255, 0, .5);}
+.purple {background-color: rgba(128, 0, 128, .5);color:white;}
+.brown {background-color: rgba(165, 42, 42, .5);}
+.blue {background-color: rgba(0, 0, 255, .5);color:white;}
+.cyan {background-color: rgba(0, 255, 255, .5);color:white;}
+
+
+
+
+/*-------------------*/
+/*   Global Style    */
+/*-------------------*/
+*
+{
+    box-sizing: border-box;
+}
+
+/* ATTENTION CONFLIT AVEC LE FICHIER MASTER CSS*/
+
+/*body*/
+/*{*/
+    /*background-color: #000;*/
+
+    /*margin: 0 auto;*/
+
+    /*text-align: center;*/
+    /*font-size: 67.5%;*/
+
+    /*overflow: hidden;*/
+
+    /*!* Empeche la selection du contenu via la souris *!*/
+    /*-webkit-user-select: none;*/
+    /*-moz-user-select: none;*/
+    /*-ms-user-select: none;*/
+    /*user-select: none;*/
+/*}*/
+
+
+
+
+
+/*-------------------*/
+/*  Init Container   */
+/*-------------------*/
+/*  Grid & Position  */
+/*-------------------*/
+
+
+/* Container & Grid principal */
+.gameContainer
+{
+    background-color: green;
+
+    position: relative;
+
+    margin: 1vh 1vw;
+    height: 97vh;
+    width: 97vw;
+    border: .2rem double gray;
+    border-radius: 1rem;
+}
+.gameWrapper
+{
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: repeat(20, 1fr);
+    grid-gap: .5rem;
+}
+
+
+/* Container & Grid secondaire */
+.leftContainer
+{
+    grid-column: 1 / span 3;
+    grid-row: 1;
+}
+.middleContainer
+{
+    grid-column: 4 / span 14;
+    grid-row: 1;
+}
+.rightContainer
+{
+    grid-column: 18 / span 3;
+    grid-row: 1;
+}
+
+.leftWrapper, .rightWrapper
+{
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: repeat(15, 1fr);
+    grid-template-columns: repeat(10, 1fr);
+    grid-gap: .5rem;
+}
+.middleWrapper
+{
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: repeat(15, 1fr);
+    grid-template-columns: repeat(20, 1fr);
+    grid-gap: .5rem;
+}
+
+
+/* container "zone de jeu" : pioche, defausse, deck, plateau */
+.firstDraw, .firstHeros
+{
+    grid-column: 3 / span 6;
+    grid-row: 3 / span 4;
+}
+.secondDraw, .secondHeros
+{
+    grid-column: 3 / span 6;
+    grid-row: 10 / span 4;
+}
+
+.firstPlayerDeck
+{
+    grid-column: 1 / span 20;
+    grid-row: 1 / span 3;
+}
+.boardGame
+{
+    grid-column: 1 / span 20;
+    grid-row: 4 / span 9;
+}
+.secondPlayerDeck
+{
+    grid-column: 1 / span 20;
+    grid-row: 13 / span 3;
+}
+.button-end-tour{
+    grid-column: 1 / span 4;
+    grid-row: 8 / span 1;
+    border: 1px solid black;
+    border-radius: 100px;
+    background-color: red;
+    line-height: 3rem;
+}
+.hero-opponent{
+    grid-column: 10 / span 3;
+    grid-row: 2 / span 3;
+    border: 1px solid black;
+    background-color: aliceblue;
+    border-radius: 50%;
+}
+.hero-player{
+    grid-column: 10 / span 3;
+    grid-row: 11 / span 3;
+    border: 1px solid black;
+    background-color: aliceblue;
+    border-radius: 50%;
+}
+
+
+/* defini le container de la pioche */
+.drawContainer, .discardedContainer
+{
+    position: relative;
+
+    perspective: 5000px;
+    perspective-origin: center;
+}
+
+
+
+
+
+
+
+
+/*-------------------*/
+/*  Init Card Class  */
+/*-------------------*/
+/* Global card Style */
+/*-------------------*/
+
+
+/* card = style general des cartes */
+.card
+{
+    border: .2rem solid lightgray;
+    padding: 3rem;
+    display: inline-block;
+    height: 10rem;
+    width: 5.5rem;
+    cursor: pointer;
+    border-radius: .8rem;
+    box-shadow: 0 .2rem .3rem rgba(0, 0, 0, .23);
+    /* transition: .1s ease-in-out; */
+    background-color: #6d695c;
+    text-align: left;
+}
+
+/* back = carte dans la pioche */
+.back
+{
+    color: white;
+
+    z-index: 1;
+    background-color: black;
+
+    /* decale les carte afin qu'elle se superpositionne */
+    margin: 1rem -3.8rem 0rem -2.65rem;
+
+    display: inline-block;
+
+    transform-origin: right;
+    transform: rotateY(60deg);
+}
+
+
+
+
+
+
+
+
+
+/*-------------------*/
+/*  Backgroung Card  */
+/*-------------------*/
+.bg-card-un
+{
+    background-image: url('../assets/img/GOT-Arya_HoundCard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: border-box;
+}
+.bg-card-deux
+{
+    background-image: url('../assets/img/GOT-CerseiCard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: border-box;
+}
+.bg-card-trois
+{
+    background-image: url('../assets/img/GOT-DaenerysCard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: border-box;
+}
+.bg-card-quatre
+{
+    background-image: url('../assets/img/GOT-JonCard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: border-box;
+}
+.bg-card-cinq
+{
+    background-image: url('../assets/img/GOT-Brienne_TormundCard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: border-box;
+}
+
+
+
+
+/*  ------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------- */
+
+
+.card.un:after {
+    background: rgba(30, 34, 33, 0.26);
+}
+.card.un:hover, .card.un:active {
+
+}
+.card:hover, .card:active {
+    box-shadow: 0 0px 18px rgba(0, 0, 0, .22);
+}
+.card:hover:before, .card:active:before {
+    box-shadow: 0 14px 45px rgba(0, 0, 0, .25);
+}
+
+
+
+
+
+
+
+.cardset.of-2 .card:nth-of-type(1) {
+    transform: rotate(-5deg);
+}
+.cardset.of-2 .card:nth-of-type(1):hover, .cardset.of-2 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-5deg) translateY(-45.71429px);
+}
+.cardset.of-2 .card:nth-of-type(2) {
+    transform: rotate(5deg);
+}
+.cardset.of-2 .card:nth-of-type(2):hover, .cardset.of-2 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(5deg) translateY(-45.71429px);
+}
+.cardset.of-3 .card:nth-of-type(1) {
+    transform: rotate(-7deg);
+}
+.cardset.of-3 .card:nth-of-type(1):hover, .cardset.of-3 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-7deg) translateY(-45.71429px);
+}
+.cardset.of-3 .card:nth-of-type(2) {
+    transform: rotate(0deg);
+}
+.cardset.of-3 .card:nth-of-type(2):hover, .cardset.of-3 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(0deg) translateY(-45.71429px);
+}
+.cardset.of-3 .card:nth-of-type(3) {
+    transform: rotate(7deg);
+}
+.cardset.of-3 .card:nth-of-type(3):hover, .cardset.of-3 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(7deg) translateY(-45.71429px);
+}
+.cardset.of-4 .card:nth-of-type(1) {
+    transform: rotate(-9deg);
+}
+.cardset.of-4 .card:nth-of-type(1):hover, .cardset.of-4 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-9deg) translateY(-45.71429px);
+}
+.cardset.of-4 .card:nth-of-type(2) {
+    transform: rotate(-3deg);
+}
+.cardset.of-4 .card:nth-of-type(2):hover, .cardset.of-4 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-3deg) translateY(-45.71429px);
+}
+.cardset.of-4 .card:nth-of-type(3) {
+    transform: rotate(3deg);
+}
+.cardset.of-4 .card:nth-of-type(3):hover, .cardset.of-4 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(3deg) translateY(-45.71429px);
+}
+.cardset.of-4 .card:nth-of-type(4) {
+    transform: rotate(9deg);
+}
+.cardset.of-4 .card:nth-of-type(4):hover, .cardset.of-4 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(9deg) translateY(-45.71429px);
+}
+.cardset.of-5 .card:nth-of-type(1) {
+    transform: rotate(-11deg);
+}
+.cardset.of-5 .card:nth-of-type(1):hover, .cardset.of-5 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-11deg) translateY(-45.71429px);
+}
+.cardset.of-5 .card:nth-of-type(2) {
+    transform: rotate(-5.5deg);
+}
+.cardset.of-5 .card:nth-of-type(2):hover, .cardset.of-5 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-5.5deg) translateY(-45.71429px);
+}
+.cardset.of-5 .card:nth-of-type(3) {
+    transform: rotate(0deg);
+}
+.cardset.of-5 .card:nth-of-type(3):hover, .cardset.of-5 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(0deg) translateY(-45.71429px);
+}
+.cardset.of-5 .card:nth-of-type(4) {
+    transform: rotate(5.5deg);
+}
+.cardset.of-5 .card:nth-of-type(4):hover, .cardset.of-5 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(5.5deg) translateY(-45.71429px);
+}
+.cardset.of-5 .card:nth-of-type(5) {
+    transform: rotate(11deg);
+}
+.cardset.of-5 .card:nth-of-type(5):hover, .cardset.of-5 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(11deg) translateY(-45.71429px);
+}
+.cardset.of-6 .card:nth-of-type(1) {
+    transform: rotate(-13deg);
+}
+.cardset.of-6 .card:nth-of-type(1):hover, .cardset.of-6 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-13deg) translateY(-45.71429px);
+}
+.cardset.of-6 .card:nth-of-type(2) {
+    transform: rotate(-7.8deg);
+}
+.cardset.of-6 .card:nth-of-type(2):hover, .cardset.of-6 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-7.8deg) translateY(-45.71429px);
+}
+.cardset.of-6 .card:nth-of-type(3) {
+    transform: rotate(-2.6deg);
+}
+.cardset.of-6 .card:nth-of-type(3):hover, .cardset.of-6 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(-2.6deg) translateY(-45.71429px);
+}
+.cardset.of-6 .card:nth-of-type(4) {
+    transform: rotate(2.6deg);
+}
+.cardset.of-6 .card:nth-of-type(4):hover, .cardset.of-6 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(2.6deg) translateY(-45.71429px);
+}
+.cardset.of-6 .card:nth-of-type(5) {
+    transform: rotate(7.8deg);
+}
+.cardset.of-6 .card:nth-of-type(5):hover, .cardset.of-6 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(7.8deg) translateY(-45.71429px);
+}
+.cardset.of-6 .card:nth-of-type(6) {
+    transform: rotate(13deg);
+}
+.cardset.of-6 .card:nth-of-type(6):hover, .cardset.of-6 .card:nth-of-type(6):active {
+    z-index: 1000;
+    transform: rotate(13deg) translateY(-45.71429px);
+}
+.cardset.of-7 .card:nth-of-type(1) {
+    transform: rotate(-15deg);
+}
+.cardset.of-7 .card:nth-of-type(1):hover, .cardset.of-7 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-15deg) translateY(-45.71429px);
+}
+.cardset.of-7 .card:nth-of-type(2) {
+    transform: rotate(-10deg);
+}
+.cardset.of-7 .card:nth-of-type(2):hover, .cardset.of-7 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-10deg) translateY(-45.71429px);
+}
+.cardset.of-7 .card:nth-of-type(3) {
+    transform: rotate(-5deg);
+}
+.cardset.of-7 .card:nth-of-type(3):hover, .cardset.of-7 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(-5deg) translateY(-45.71429px);
+}
+.cardset.of-7 .card:nth-of-type(4) {
+    transform: rotate(0deg);
+}
+.cardset.of-7 .card:nth-of-type(4):hover, .cardset.of-7 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(0deg) translateY(-45.71429px);
+}
+.cardset.of-7 .card:nth-of-type(5) {
+    transform: rotate(5deg);
+}
+.cardset.of-7 .card:nth-of-type(5):hover, .cardset.of-7 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(5deg) translateY(-45.71429px);
+}
+.cardset.of-7 .card:nth-of-type(6) {
+    transform: rotate(10deg);
+}
+.cardset.of-7 .card:nth-of-type(6):hover, .cardset.of-7 .card:nth-of-type(6):active {
+    z-index: 1000;
+    transform: rotate(10deg) translateY(-45.71429px);
+}
+.cardset.of-7 .card:nth-of-type(7) {
+    transform: rotate(15deg);
+}
+.cardset.of-7 .card:nth-of-type(7):hover, .cardset.of-7 .card:nth-of-type(7):active {
+    z-index: 1000;
+    transform: rotate(15deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(1) {
+    transform: rotate(-17deg);
+}
+.cardset.of-8 .card:nth-of-type(1):hover, .cardset.of-8 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-17deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(2) {
+    transform: rotate(-12.14286deg);
+}
+.cardset.of-8 .card:nth-of-type(2):hover, .cardset.of-8 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-12.14286deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(3) {
+    transform: rotate(-7.28571deg);
+}
+.cardset.of-8 .card:nth-of-type(3):hover, .cardset.of-8 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(-7.28571deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(4) {
+    transform: rotate(-2.42857deg);
+}
+.cardset.of-8 .card:nth-of-type(4):hover, .cardset.of-8 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(-2.42857deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(5) {
+    transform: rotate(2.42857deg);
+}
+.cardset.of-8 .card:nth-of-type(5):hover, .cardset.of-8 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(2.42857deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(6) {
+    transform: rotate(7.28571deg);
+}
+.cardset.of-8 .card:nth-of-type(6):hover, .cardset.of-8 .card:nth-of-type(6):active {
+    z-index: 1000;
+    transform: rotate(7.28571deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(7) {
+    transform: rotate(12.14286deg);
+}
+.cardset.of-8 .card:nth-of-type(7):hover, .cardset.of-8 .card:nth-of-type(7):active {
+    z-index: 1000;
+    transform: rotate(12.14286deg) translateY(-45.71429px);
+}
+.cardset.of-8 .card:nth-of-type(8) {
+    transform: rotate(17deg);
+}
+.cardset.of-8 .card:nth-of-type(8):hover, .cardset.of-8 .card:nth-of-type(8):active {
+    z-index: 1000;
+    transform: rotate(17deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(1) {
+    transform: rotate(-19deg);
+}
+.cardset.of-9 .card:nth-of-type(1):hover, .cardset.of-9 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-19deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(2) {
+    transform: rotate(-14.25deg);
+}
+.cardset.of-9 .card:nth-of-type(2):hover, .cardset.of-9 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-14.25deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(3) {
+    transform: rotate(-9.5deg);
+}
+.cardset.of-9 .card:nth-of-type(3):hover, .cardset.of-9 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(-9.5deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(4) {
+    transform: rotate(-4.75deg);
+}
+.cardset.of-9 .card:nth-of-type(4):hover, .cardset.of-9 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(-4.75deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(5) {
+    transform: rotate(0deg);
+}
+.cardset.of-9 .card:nth-of-type(5):hover, .cardset.of-9 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(0deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(6) {
+    transform: rotate(4.75deg);
+}
+.cardset.of-9 .card:nth-of-type(6):hover, .cardset.of-9 .card:nth-of-type(6):active {
+    z-index: 1000;
+    transform: rotate(4.75deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(7) {
+    transform: rotate(9.5deg);
+}
+.cardset.of-9 .card:nth-of-type(7):hover, .cardset.of-9 .card:nth-of-type(7):active {
+    z-index: 1000;
+    transform: rotate(9.5deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(8) {
+    transform: rotate(14.25deg);
+}
+.cardset.of-9 .card:nth-of-type(8):hover, .cardset.of-9 .card:nth-of-type(8):active {
+    z-index: 1000;
+    transform: rotate(14.25deg) translateY(-45.71429px);
+}
+.cardset.of-9 .card:nth-of-type(9) {
+    transform: rotate(19deg);
+}
+.cardset.of-9 .card:nth-of-type(9):hover, .cardset.of-9 .card:nth-of-type(9):active {
+    z-index: 1000;
+    transform: rotate(19deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(1) {
+    transform: rotate(-21deg);
+}
+.cardset.of-10 .card:nth-of-type(1):hover, .cardset.of-10 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-21deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(2) {
+    transform: rotate(-16.33333deg);
+}
+.cardset.of-10 .card:nth-of-type(2):hover, .cardset.of-10 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-16.33333deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(3) {
+    transform: rotate(-11.66667deg);
+}
+.cardset.of-10 .card:nth-of-type(3):hover, .cardset.of-10 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(-11.66667deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(4) {
+    transform: rotate(-7deg);
+}
+.cardset.of-10 .card:nth-of-type(4):hover, .cardset.of-10 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(-7deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(5) {
+    transform: rotate(-2.33333deg);
+}
+.cardset.of-10 .card:nth-of-type(5):hover, .cardset.of-10 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(-2.33333deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(6) {
+    transform: rotate(2.33333deg);
+}
+.cardset.of-10 .card:nth-of-type(6):hover, .cardset.of-10 .card:nth-of-type(6):active {
+    z-index: 1000;
+    transform: rotate(2.33333deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(7) {
+    transform: rotate(7deg);
+}
+.cardset.of-10 .card:nth-of-type(7):hover, .cardset.of-10 .card:nth-of-type(7):active {
+    z-index: 1000;
+    transform: rotate(7deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(8) {
+    transform: rotate(11.66667deg);
+}
+.cardset.of-10 .card:nth-of-type(8):hover, .cardset.of-10 .card:nth-of-type(8):active {
+    z-index: 1000;
+    transform: rotate(11.66667deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(9) {
+    transform: rotate(16.33333deg);
+}
+.cardset.of-10 .card:nth-of-type(9):hover, .cardset.of-10 .card:nth-of-type(9):active {
+    z-index: 1000;
+    transform: rotate(16.33333deg) translateY(-45.71429px);
+}
+.cardset.of-10 .card:nth-of-type(10) {
+    transform: rotate(21deg);
+}
+.cardset.of-10 .card:nth-of-type(10):hover, .cardset.of-10 .card:nth-of-type(10):active {
+    z-index: 1000;
+    transform: rotate(21deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(1) {
+    transform: rotate(-23deg);
+}
+.cardset.of-11 .card:nth-of-type(1):hover, .cardset.of-11 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-23deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(2) {
+    transform: rotate(-18.4deg);
+}
+.cardset.of-11 .card:nth-of-type(2):hover, .cardset.of-11 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-18.4deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(3) {
+    transform: rotate(-13.8deg);
+}
+.cardset.of-11 .card:nth-of-type(3):hover, .cardset.of-11 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(-13.8deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(4) {
+    transform: rotate(-9.2deg);
+}
+.cardset.of-11 .card:nth-of-type(4):hover, .cardset.of-11 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(-9.2deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(5) {
+    transform: rotate(-4.6deg);
+}
+.cardset.of-11 .card:nth-of-type(5):hover, .cardset.of-11 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(-4.6deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(6) {
+    transform: rotate(0deg);
+}
+.cardset.of-11 .card:nth-of-type(6):hover, .cardset.of-11 .card:nth-of-type(6):active {
+    z-index: 1000;
+    transform: rotate(0deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(7) {
+    transform: rotate(4.6deg);
+}
+.cardset.of-11 .card:nth-of-type(7):hover, .cardset.of-11 .card:nth-of-type(7):active {
+    z-index: 1000;
+    transform: rotate(4.6deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(8) {
+    transform: rotate(9.2deg);
+}
+.cardset.of-11 .card:nth-of-type(8):hover, .cardset.of-11 .card:nth-of-type(8):active {
+    z-index: 1000;
+    transform: rotate(9.2deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(9) {
+    transform: rotate(13.8deg);
+}
+.cardset.of-11 .card:nth-of-type(9):hover, .cardset.of-11 .card:nth-of-type(9):active {
+    z-index: 1000;
+    transform: rotate(13.8deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(10) {
+    transform: rotate(18.4deg);
+}
+.cardset.of-11 .card:nth-of-type(10):hover, .cardset.of-11 .card:nth-of-type(10):active {
+    z-index: 1000;
+    transform: rotate(18.4deg) translateY(-45.71429px);
+}
+.cardset.of-11 .card:nth-of-type(11) {
+    transform: rotate(23deg);
+}
+.cardset.of-11 .card:nth-of-type(11):hover, .cardset.of-11 .card:nth-of-type(11):active {
+    z-index: 1000;
+    transform: rotate(23deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(1) {
+    transform: rotate(-25deg);
+}
+.cardset.of-12 .card:nth-of-type(1):hover, .cardset.of-12 .card:nth-of-type(1):active {
+    z-index: 1000;
+    transform: rotate(-25deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(2) {
+    transform: rotate(-20.45455deg);
+}
+.cardset.of-12 .card:nth-of-type(2):hover, .cardset.of-12 .card:nth-of-type(2):active {
+    z-index: 1000;
+    transform: rotate(-20.45455deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(3) {
+    transform: rotate(-15.90909deg);
+}
+.cardset.of-12 .card:nth-of-type(3):hover, .cardset.of-12 .card:nth-of-type(3):active {
+    z-index: 1000;
+    transform: rotate(-15.90909deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(4) {
+    transform: rotate(-11.36364deg);
+}
+.cardset.of-12 .card:nth-of-type(4):hover, .cardset.of-12 .card:nth-of-type(4):active {
+    z-index: 1000;
+    transform: rotate(-11.36364deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(5) {
+    transform: rotate(-6.81818deg);
+}
+.cardset.of-12 .card:nth-of-type(5):hover, .cardset.of-12 .card:nth-of-type(5):active {
+    z-index: 1000;
+    transform: rotate(-6.81818deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(6) {
+    transform: rotate(-2.27273deg);
+}
+.cardset.of-12 .card:nth-of-type(6):hover, .cardset.of-12 .card:nth-of-type(6):active {
+    z-index: 1000;
+    transform: rotate(-2.27273deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(7) {
+    transform: rotate(2.27273deg);
+}
+.cardset.of-12 .card:nth-of-type(7):hover, .cardset.of-12 .card:nth-of-type(7):active {
+    z-index: 1000;
+    transform: rotate(2.27273deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(8) {
+    transform: rotate(6.81818deg);
+}
+.cardset.of-12 .card:nth-of-type(8):hover, .cardset.of-12 .card:nth-of-type(8):active {
+    z-index: 1000;
+    transform: rotate(6.81818deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(9) {
+    transform: rotate(11.36364deg);
+}
+.cardset.of-12 .card:nth-of-type(9):hover, .cardset.of-12 .card:nth-of-type(9):active {
+    z-index: 1000;
+    transform: rotate(11.36364deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(10) {
+    transform: rotate(15.90909deg);
+}
+.cardset.of-12 .card:nth-of-type(10):hover, .cardset.of-12 .card:nth-of-type(10):active {
+    z-index: 1000;
+    transform: rotate(15.90909deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(11) {
+    transform: rotate(20.45455deg);
+}
+.cardset.of-12 .card:nth-of-type(11):hover, .cardset.of-12 .card:nth-of-type(11):active {
+    z-index: 1000;
+    transform: rotate(20.45455deg) translateY(-45.71429px);
+}
+.cardset.of-12 .card:nth-of-type(12) {
+    transform: rotate(25deg);
+}
+.cardset.of-12 .card:nth-of-type(12):hover, .cardset.of-12 .card:nth-of-type(12):active {
+    z-index: 1000;
+    transform: rotate(25deg) translateY(-45.71429px);
+}
+

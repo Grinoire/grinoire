@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Import LOCAL master.css-->
     <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/game.css">
     <title>Grinoire</title>
 </head>
 <body>
