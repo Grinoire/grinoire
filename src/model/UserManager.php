@@ -53,10 +53,17 @@ class UserManager
         $this->getPdo()->makeUpdate($requete, $param);
     }
 
+
     /**
-     *      On n'utilise pas la methode makeselect du pdomanager
-     *      car on veux retourner un boolen et non et array
-     *      ( cela évite de modifier la methode makeselect )
+     *  --------------------------------------------------------------
+     *  METHODE QUI TESTE EN BASE DE DONNEES L UTILISATEUR
+     *  RENVOIS UN BOLLEEN
+     *  Contourne la methode "makeselect" déjà existente
+     *  --------------------------------------------------------------
+     */
+
+    /**
+     *  Vérifit si le login est déjà en base de données (renvoit un booleen)
      * @param $login
      * @param $mail
      * @return bool
@@ -71,6 +78,11 @@ class UserManager
 
     }
 
+    /**
+     * Vérifit si le mail est déjà en base de données (renvoit un booleen)
+     * @param $mail
+     * @return bool
+     */
     public function checkMailInDataBase($mail){
 
         $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_mail = :mail');
@@ -80,6 +92,45 @@ class UserManager
         return (bool)$req->fetch(PDO::FETCH_ASSOC);
 
     }
+
+    /**
+     *  Vérifit si le password est déjà en base de données (renvoit un booleen)
+     * @param $password
+     * @return bool
+     */
+    public function checkPasswordInDataBase($password){
+
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_password = :password');
+        $req->execute(array(
+            'password'  => $password
+        ));
+        return (bool)$req->fetch(PDO::FETCH_ASSOC);
+
+    }
+
+    public function isValidLoginProfil($login, $mylogin){
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login AND user_login != :mylogin');
+        $req->execute(array(
+            'login' => $login,
+            'mylogin' => $mylogin
+        ));
+        return (bool)$req->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function isValidMailProfil($mail, $myMail){
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_mail = :mail AND user_mail != :myMail');
+        $req->execute(array(
+            'mail' => $mail,
+            'myMail' => $myMail
+        ));
+        return (bool)$req->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     *  --------------------------------------------------------------
+     *      FIN DE METHODES TEST UTILISATEUR
+     *  --------------------------------------------------------------
+     */
 
 
     /**
@@ -91,14 +142,14 @@ class UserManager
     public function getUserDataBase($mail, $password)
     {
 
-        $requete = 'SELECT user_id FROM user WHERE user_mail = :mail AND user_password = :password';
-
-        $param = [
-            'mail' => $mail,
-            'password' => $password
-        ];
-
-        $data = $this->getPdo()->makeSelect($requete, $param, false);
+        $data = $this->getPdo()->makeSelect(
+            'SELECT user_id FROM user WHERE user_mail = :mail AND user_password = :password',
+            [
+                'mail' => $mail,
+                'password' => $password
+            ],
+            false
+        );
 
         return new User($data);
 
@@ -127,13 +178,14 @@ class UserManager
     }
 
     /**
-     * @param  string   $lastName
-     * @param  string   $firstName
-     * @param  string   $mail
-     * @param  string   $login
-     * @param  string   $password
-     * @param  string   $avatar
-     * @param  int      $id
+     * @param $lastName
+     * @param $firstName
+     * @param $mail
+     * @param $login
+     * @param $password
+     * @param $avatar
+     * @param $id
+     * @throws UserException
      */
     public function updateProfilUserById($lastName, $firstName, $mail, $login, $password, $avatar, $id)
     {
@@ -165,19 +217,15 @@ class UserManager
             ];
         }
 
-        $response = $this->getPdo()->makeUpdate($requete, $param);
+        $this->getPdo()->makeUpdate($requete, $param);
 
-        if ($response === 0) {
-            throw new UserException("Le profil n'a pu etre mis a jour, merci de contacter un administrateur !");
-        } else {
-            throw new UserException("Le profil a bien été mis a jour !", 1);
-        }
     }
 
 
     /**
-     * @param   [type]  $avatar  [description]
-     * @return  [type]  [description]
+     * @param $avatar
+     * @return mixed
+     * @throws \Exception
      */
     public function pictureProfilUser($avatar)
     {

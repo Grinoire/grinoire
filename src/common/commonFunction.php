@@ -50,3 +50,17 @@ function errorMessage()
     }
     return $msg;
 }
+
+/**
+ * @return null
+ */
+function validMessage()
+{
+    $msg = null;
+    if(isset($_SESSION['grinoire']['msgValid']) AND !empty($_SESSION['grinoire']['msgValid']))
+    {
+        $msg = $_SESSION['grinoire']['msgValid'];
+        unset($_SESSION['grinoire']['msgValid']);
+    }
+    return $msg;
+}

@@ -1,5 +1,5 @@
 <section id="log-in">
-
+    <?= errorMessage() ?>
 <h1>Vous connectez</h1>
 
 <form method="POST" action=''>
@@ -11,5 +11,4 @@
 </form>
 
 <a href='../web/index.php'>Retour à l'accueil</a>
-    <span class="error-message" style="text-align:center;color:white;background-color: red;font-size:30px;"><?= errorMessage() ?></span>
 </section>

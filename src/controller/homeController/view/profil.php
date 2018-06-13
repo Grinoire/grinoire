@@ -1,21 +1,13 @@
-<!--
-$user = extracted data from HomeController
--->
 <section id="profil">
+
+    <span style="text-align:center;color:white;background-color: red;font-size:30px;"><?= errorMessage() ?></span>
+    <span style="text-align:center;color:white;background-color: green;font-size:30px;"><?= validMessage() ?></span>
+
     <h1>PAGE PROFIL</h1>
     <a href="?c=Home&a=grinoire">HOME</a>
     <br>
-    <span style="text-align:center;color:white;background-color: red;font-size:30px;"><?= errorMessage() ?></span>
-    <br><br><br><br>
-    <?php
-    if (!$user->getAvatar()) {
-    } else {
-        ?>
-        <img id="profil-avatar" src="img/avatar/<?= $user->getAvatar() ?>"/>
-        <br>
-        <?php
-    }
-    ?>
+    <br><br>
+
 
     <span>Vous êtes inscrit depuis le <?= $user->getInscription() ?></span>
     <br>
@@ -28,12 +20,25 @@ $user = extracted data from HomeController
     <br>
     <br>
     <form action="" method="POST" enctype="multipart/form-data">
-        <label>Avatar</label>
-        <input type="file" name="avatar" value="">
+        <?php
+        if (!$user->getAvatar()) {
+            ?>
+            <label title="Modifier avatar" for="file" class="label-file"><img id="avatar-img"
+                                                      src="img/avatar/default/avatar-default.png"/></label>
+            <input id="file" class="input-file" type="file" name="avatar" value="">
+            <?php
+        } else {
+            ?>
+            <label title="Modifier avatar" for="file" class="label-file"><img id="avatar-img"
+                                                      src="img/avatar/<?= $user->getAvatar() ?>"/></label>
+            <input id="file" class="input-file" type="file" name="avatar" value="">
+            <?php
+        }
+        ?>
         <label>Pseudo</label>
         <input type="text" name="login" value="<?= $user->getLogin() ?>">
         <label>Mot de passe</label>
-        <input type="text" name="password" value="<?= $user->getPassword() ?>">
+        <input type="password" name="password" value="<?= $user->getPassword() ?>">
         <label>Nom</label>
         <input type="text" name="lastName" value="<?= $user->getLastName() ?>">
         <label>Prénom</label>

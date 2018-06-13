@@ -35,7 +35,7 @@ class HomeController extends CoreController
      *
      * Redirection to home if account created, else throw Exception
      */
-    public function createAccountAction(): void
+    public function createAccountAction()
     {
         $this->init(__FILE__, __FUNCTION__);
 
@@ -49,6 +49,7 @@ class HomeController extends CoreController
                     //si le login et le mail n'existe pas en base de données alors on set l'utilisateur en base de données
                 } elseif ((!$userManager->checkLoginInDataBase($_POST['login'])) AND (!$userManager->checkMailInDataBase($_POST['email']))) {
                     $userManager->setConnectionUser(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['login']), htmlspecialchars($this->post['password']));
+                    $this->setSession('msgValid', '<span style="justify-content: center;display: flex;color: green;padding: 2rem;font-size: 2rem">Votre compte a été créé avec succes</span>');
                     $this->render(true, 'home'); //Display home after create account
                 }
             } else {
@@ -64,21 +65,22 @@ class HomeController extends CoreController
 
 
     /**
-     *  Display Login view & send data to sql if fields are valid
+     * Display Login view & send data to sql if fields are valid
+     * @throws Exception
+     *
      */
-    public function loginAction(): void
+    public function loginAction()
     {
         $this->init(__FILE__, __FUNCTION__);
 
         try {
             if (array_key_exists('email', $this->getPost()) and array_key_exists('password', $this->getPost())) {
-                $user = new UserManager();
                 $userManager = new UserManager();
-                $arrayUser = $user->getUserDataBase(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['password']));
-                if (!$arrayUser) {
-                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">Pseudo ou mot de passe incorrect !</span>');
+                if (!$userManager->checkMailInDataBase($this->post['email']) || !$userManager->checkPasswordInDataBase($this->post['password'])) {
+                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">Votre email ou mot de passe est incorrect !</span>');
                 } else {
-                    $this->session['grinoire']['userConnected'] = $arrayUser->getId(); //TODO : A TERMINER (Alex)
+                    $user = $userManager->getUserDataBase(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['password']));
+                    $this->session['grinoire']['userConnected'] = $user->getId();
                     redirection('?c=Home&a=grinoire');
                 }
             } else {
@@ -98,51 +100,78 @@ class HomeController extends CoreController
     public function grinoireAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
-        $this->render(true);
 
         if (array_key_exists('deconnexion', $this->getGet())) {
             $this->setSession('userConnected', array());
             session_destroy();
             $this->homeAction();
+        } else {
+            $this->render(true);
         }
     }
 
     /**
      * Display view profil & send data to sql if fields are valid
      */
-    public function profilAction(): void
+    public function profilAction()
     {
         $this->init(__FILE__, __FUNCTION__);
 
-        $profil = new UserManager();
-        $user = $profil->getProfilById($this->getSession('userConnected'));
+        $profilManager = new UserManager();
+        $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
 
         try {
-            if ((isset($this->post['lastName']) and isset($this->post['firstName'])) and (isset($this->post['mail']) and isset($this->post['login'])) and (isset($this->post['password']) and isset($_FILES['avatar'])) and (isset($_FILES['avatar']) and $_FILES['avatar']['error'] == 0)) {
-                $avatar = $profil->pictureProfilUser($_FILES['avatar']);
-                $profil->updateProfilUserById(
-                    htmlspecialchars($this->post['lastName']),
-                    htmlspecialchars($this->post['firstName']),
-                    htmlspecialchars($this->post['mail']),
-                    htmlspecialchars($this->post['login']),
-                    htmlspecialchars($this->post['password']),
-                    $avatar,
-                    htmlspecialchars($this->getSession('userConnected'))
-                );
-                $user = $profil->getProfilById(htmlspecialchars($this->getSession('userConnected')));
-
-            } else {
+            if ((isset($this->post['lastName']) AND isset($this->post['firstName'])) AND (isset($this->post['mail']) AND isset($this->post['login'])) AND isset($this->post['password'])) {
+                if ((isset($_FILES['avatar']) AND $_FILES['avatar']['error'] == 0)) {                                   //on vérifit que l'avatar est en POST
+                    if($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())){                  //on vérifit que le login n'existe pas en base de données
+                        throw new UserException('Le pseudo est déjà utilisé');
+                        redirection('?c=Home&a=profil');
+                    }elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {              //vérif que le mail n'existe pas en base de données
+                        throw new UserException('Ce mail existe déjà, veuillez entrer un autre mail');
+                    }else{
+                    $avatar = $profilManager->pictureProfilUser($_FILES['avatar']);
+                    $profilManager->updateProfilUserById(
+                        htmlspecialchars($this->post['lastName']),
+                        htmlspecialchars($this->post['firstName']),
+                        htmlspecialchars($this->post['mail']),
+                        htmlspecialchars($this->post['login']),
+                        htmlspecialchars($this->post['password']),
+                        $avatar,
+                        $this->getSession('userConnected')
+                    );
+                    $this->setSession('msgValid', 'Le profil a bien été mis a jour');                                   ////message de validation pour l'update du profil
+                    redirection('?c=Home&a=profil');                                                         //Lors de la validation, on redirige vers la page profil,
+                    }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
+                } else {                                                                                                //Si l'avatar n'est pas en POST
+                    if($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())){                  //vérif login existe pas en bdd
+                        throw new UserException('Le pseudo est déjà utilisé');
+                        redirection('?c=Home&a=profil');
+                    }elseif($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {               //mail != en bdd
+                        throw new UserException('Ce mail existe déjà, veuillez entrer un autre mail');
+                    }else{
+                    $profilManager->updateProfilUserById(
+                        htmlspecialchars($this->post['lastName']),
+                        htmlspecialchars($this->post['firstName']),
+                        htmlspecialchars($this->post['mail']),
+                        htmlspecialchars($this->post['login']),
+                        htmlspecialchars($this->post['password']),
+                        $avatar = "",
+                        $this->getSession('userConnected')
+                    );
+                    $this->setSession('msgValid', 'Le profil a bien été mis a jour');                                   //message de validation pour l'update du profil
+                    redirection('?c=Home&a=profil');                                                         //Lors de la validation, on redirige vers la page profil,
+                    }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
+                }
+            } else {                                                                                                    //else de sortie, récupère l'utilisateur par l'id stocker en sesssion
                 $data = [];
-                $data['user'] = $user;
+                $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
                 $this->render(true, 'profil', $data);
             }
-
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
             redirection('?c=Home&a=profil');
         } catch (\Exception $e) {
             getErrorMessageDie($e);
-
         }
     }
 
