@@ -33,7 +33,7 @@ class Deck
     *  @var  Hero
     */
     protected $hero;
-    
+
     /**
      *  Instance des cartes du deck [COMPOSITION]
      *  @var  array
@@ -46,17 +46,19 @@ class Deck
     // ----------------------------- //
     // ------ METHOD MAGIQUE ------- //
     // ----------------------------- //
-    public function __construct( array $data, array $cardList, array $hero )
+
+    /**
+     * [__construct description]
+     * @param  array  $data      [description]
+     * @param  array  $cardList  [description]
+     * @param  Hero   $hero      [description]
+     */
+    public function __construct( array $data, array $cardList, Hero $hero )
     {
         $this->hydratation($data);
         $this->setCardList($cardList);
         $this->setHero($hero);
     }
-
-
-    // ------------------------- //
-    // ------ METHOD SQL ------- //
-    // ------------------------- //
 
     /**
     *  [ HYDRATATION ]
@@ -97,6 +99,17 @@ class Deck
     // ------ METHOD ------- //
     // --------------------- //
 
+    // public function shuffleCard(array $cards) :array
+    // {
+    //     shuffle($cards);
+    //     return $cards;
+    // }
+
+    // public function setDraw(array $cards) :void
+    // {
+    //
+    // }
+
 
 
     // --------------------- //
@@ -134,24 +147,22 @@ class Deck
     }
 
     /**
-    * Défini l'instance des cartes du deck [COMPOSITION]
-    * @param  array   instance de {card}
+    * Défini l'instance des cartes du deck
+    * @param  Card[]   $cardList  instance de {card}
     * @return self   ->FLUENT->
     */
     public function setCardList( array $cardList ) :self {
-        foreach ($cardList as $id => $data ) {
-            $this->cardList[] = new Card($data);
-        }
+        $this->cardList = $cardList;
         return $this;
     }
 
     /**
-    * Défini l'instance du hero lié au deck [COMPOSITION]
-    * @param  array $hero
+    * Défini l'instance du hero lié au deck
+    * @param  Hero  $hero
     * @return self  ->FLUENT->
     */
-    public function setHero( array $hero ) :self {
-        $this->hero = new Hero($hero);
+    public function setHero( Hero $hero ) :self {
+        $this->hero = $hero;
         return $this;
     }
 
@@ -185,7 +196,7 @@ class Deck
 	}
 
 	/**
-	 * Retourne les instances {card} du deck [COMPOSITION]
+	 * Retourne les instances {card} du deck
 	 * @return array
 	 */
 	public function getCardList() :array {
@@ -193,7 +204,7 @@ class Deck
 	}
 
 	/**
-	 * Retourne l'instance {hero} lié au deck [COMPOSITION]
+	 * Retourne l'instance {hero} lié au deck
 	 * @return Hero
 	 */
 	public function getHero() :Hero {
