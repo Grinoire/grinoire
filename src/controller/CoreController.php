@@ -174,28 +174,6 @@ class CoreController
     }
 
 
-
-    /**
-    * Affiche la vue passer en paramètre
-    * @param $view
-    * @param bool $full  true = entoure la vue d'un header et un footer
-    */
-    // public function showView(string $view, array $data = [], bool $full = true) : void
-    // {
-    //     if ($data) {
-    //         extract($data);
-    //     }
-    //
-    //     if ($full) {
-    //         require DIR_VIEW . 'header.php';
-    //         require DIR_VIEW . $view . '.php';
-    //         require DIR_VIEW . 'footer.php';
-    //     } else {
-    //         require DIR_VIEW . $view . '.php';
-    //     }
-    // }
-
-
     /**
      * --------------------------------------------------
      *     SETTERS

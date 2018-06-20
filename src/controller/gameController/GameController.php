@@ -31,8 +31,15 @@ class GameController extends CoreController
 
 
     /**
-     *  Display deck selection view, get selected deck(card & hero) in SQL
-     *  Redirect to Matchmaking view (loading)
+     *  Display deck selection view by default
+     *
+     *  Get selected deck(card & hero) if $_POST['value'] have been send
+     *
+     *  Build a copy of original card & deck in temporary table
+     *
+     *  Redirect to Matchmaking view
+     *
+     *  Show userException in selectionDeck view
      */
     public function selectDeckAction() : void
     {
@@ -52,14 +59,15 @@ class GameController extends CoreController
                         $selectedCardList[] = $deckManager->getCardById((int)$cardId);
                     }
 
-                    //build and get the selected deck with cards shuffled
+                    //build and get the selected deck whith original model
                     $deck = $deckManager->getDeckById((int)$this->getPost("selectedDeck"), $selectedCardList)->getDeck();
 
-                    if (is_object($deck)) { //define session for deck
-                        $this->setSession("deck", $deck);
+                    if (is_object($deck)) {
                         $userManager = new UserManager();
                         $userManager->setReady((int)$this->getSession('userConnected'), 1);
                         $userManager->setSelectedDeck((int)$this->getSession('userConnected'), $deck->getId());
+                        $deckManager->setTmpDeck($this->getSession('userConnected')); //ici on remplace les modele original par des copie généré dans tmp card et tmp hero
+                        $this->setSession("deck", $deckManager->getDeck()); //define session for deck
                     } else {
                         throw new UserException("Une erreur s'est produite lors de la séléction, merci de rééssayer.<br>Si le problème persiste, merci de contacter un administrateur");
                     }
@@ -88,7 +96,13 @@ class GameController extends CoreController
 
 
     /**
-     * Find a opponent, auto-retry if opponent not founded
+     *  Find a opponent, selected in BDD by ready value = 1 (deck selected, attempt to play)
+     *
+     *  Auto-retry to find if opponent not founded
+     *
+     *  Redirect to game view when opponent have been found
+     *
+     *  Show UserException in matchMaking view
      */
     public function matchMakingAction() :void
     {
@@ -121,31 +135,41 @@ class GameController extends CoreController
     }
 
 
+
     /**
      * init game, define default card status
+     *
+     *  Show UserException on game view
      */
     public function gameAction()
     {
         try {
             //define how much card give in main for each player at start
             $nbCardInMain = 3; //// TODO: constant for this ?!?
-            //get hero
-            $data['hero'] = $this->getSession('deck')->getHero();
 
-            //define card status for setting position on board
-            //3 on main, other in draw
-            for ( $i=0 ; $i < count($this->getSession('deck')->getCardList()) ; $i++ ) {
-                if ($i < $nbCardInMain) {
-                    $this->getSession('deck')->getCardList()[$i]->setStatus(1);
-                } else {
-                    $this->getSession('deck')->getCardList()[$i]->setStatus(0);
+            if (isset($player)) {
+                // code...
+            } else { //default view
+
+                //define card status for setting position on board
+                //3 on main, other in draw
+                for ( $i=0 ; $i < count($this->getSession('deck')->getCardList()) ; $i++ ) {
+                    if ($i < $nbCardInMain) {
+                        // $this->getSession('deck')->getCardList()[$i]->setStatus(1);
+                    } else {
+                        $this->getSession('deck')->getCardList()[$i]->setStatus(0);
+                    }
                 }
+
+                //get hero
+                $data['hero'] = $this->getSession('deck')->getHero();
+                //get all the card in selected deck shuffled with status defined for init game
+                $data['cardList'] = $this->getSession('deck')->getCardList();
+
+                $this->render(true, 'game', $data);
             }
 
-            //get all the card in selected deck shuffled with status defined for init game
-            $data['cardList'] = $this->getSession('deck')->getCardList();
 
-            $this->render(true, 'game', $data);
 
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());

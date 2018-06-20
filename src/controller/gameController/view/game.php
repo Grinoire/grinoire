@@ -1,3 +1,5 @@
+
+
     <div id="global-container" class="gameContainer"><!-- Container "plateau de jeu" -->
         <div class="gameWrapper"><!-- Wrapper "plateau de jeu" -->
 
@@ -56,7 +58,7 @@
 
                     <div class="discardedContainer firstHeros brown">HEROS player 1</div>
 
-                    <a class="button-end-tour" href="#">TOUR</a>
+                    <a class="button-end-tour" href="?c=game&a=game&nextTurn">TOUR</a>
 
                     <div class="discardedContainer secondHeros purple">HEROS player 2</div>
                 </div>

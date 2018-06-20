@@ -64,6 +64,12 @@ class Card
     */
     private $deckIdFk;
 
+    /**
+     * Identifiant du joueur lié au deck si exisant
+     * @var  int
+     */
+    private $userIdFk;
+
 
     /**
      * --------------------------------------------------
