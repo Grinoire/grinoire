@@ -1,5 +1,5 @@
 <section id="create-account">
-
+<!--TODO : faire une confirmation de mot de passe (2eme champ)-->
     <?= errorMessage() ?>
     
 <h1>Creer un compte pour jouer</h1>

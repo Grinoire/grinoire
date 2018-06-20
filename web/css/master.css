@@ -25,17 +25,19 @@ html {
     display: flex;
     flex-direction: column;
 }
-#home a{
+
+#home a {
     font-size: 2rem;
     margin: auto;
     text-decoration: none;
 }
-#profil{
+
+#profil {
     width: 1000px;
     margin: auto;
 }
 
-#profil-avatar{
+#profil-avatar {
     width: 150px;
     height: 150px;
     -webkit-border-radius: 100%;
@@ -43,7 +45,22 @@ html {
     border-radius: 100%;
 }
 
+#avatar-img{
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+}
+.label-file{
+    color: red;
+}
 
+.label-file:hover {
+    cursor: pointer;
+}
+
+.input-file {
+    display: none;
+}
 
 /*------------------------------------------------------------------------------------------------------
 *           GAME VIEW           |
