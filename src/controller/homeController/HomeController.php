@@ -102,8 +102,13 @@ class HomeController extends CoreController
         $this->init(__FILE__, __FUNCTION__);
 
         if (array_key_exists('deconnexion', $this->getGet())) {
-            $this->setSession('userConnected', array());
-            session_destroy();
+            //reboot the selected deck in BDD
+            $userManager = new UserManager();
+            $userManager->setSelectedDeck((int)$this->getSession('userConnected'));
+            //unset session
+            $this->setSession(APP_NAME, array());
+            session_unset(APP_NAME);
+
             $this->homeAction();
         } else {
             $this->render(true);
@@ -174,5 +179,6 @@ class HomeController extends CoreController
             getErrorMessageDie($e);
         }
     }
+
 
 }

@@ -7,8 +7,15 @@
                     <div class="drawContainer firstDraw grey">
 
                     </div>
+                    <!-- pioche joueur 2 -->
                     <div class="drawContainer secondDraw blue">
-
+                        <?php
+                        foreach ($cardList as $card) { //build card in draw
+                            if ($card->getStatus() === 0) {
+                                echo $card->getBg() . '<br>';
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -26,23 +33,18 @@
                         boardGame
                     </div>
 
-                    <div class="hero-player">Heros player</div>
+                    <div class="hero-player">
+                        <?=$hero->getBg()?>
+                    </div>
 
                     <div id="deck-2" class="deckContainer secondPlayerDeck cyan">
-
-                        <div id="deck-2" class="">
-                            <div class="card bg-card-un"></div>
-                            <div class="card bg-card-deux"></div>
-                            <div class="card bg-card-trois"></div>
-                            <div class="card bg-card-quatre"></div>
-<!--                            <div class="card bg-card-un"></div>-->
-<!--                            <div class="card bg-card-deux"></div>-->
-                            <div class="card bg-card-trois"></div>
-                            <div class="card bg-card-quatre"></div>
-                            <div class="card bg-card-cinq"></div>
-                            <div class="card bg-card-cinq"></div>
-                        </div>
-
+                        <?php
+                        foreach ($cardList as $card) { //build card in main
+                            if ($card->getStatus() === 1) {
+                                echo '<div class="card">' . $card->getBg() . '</div>';
+                            } // TODO: jen ete la
+                        }
+                        ?>
                     </div>
 
                 </div>
@@ -57,16 +59,15 @@
                     <a class="button-end-tour" href="#">TOUR</a>
 
                     <div class="discardedContainer secondHeros purple">HEROS player 2</div>
-
                 </div>
             </div>
-
-
 
 
         </div><!-- Fin Wrapper "plateau de jeu" -->
     </div><!-- Fin Container "plateau de jeu" -->
 
+<?php
 
-
-
+var_dump($_SESSION['grinoire']['deck']);
+var_dump($hero);
+ ?>

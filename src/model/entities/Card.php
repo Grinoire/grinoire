@@ -145,7 +145,7 @@ class Card
 
     /**
      * --------------------------------------------------
-     *     INTERFACE METHOD
+     *     METHOD
      * ------------------------------------------------------
      */
 
@@ -180,7 +180,6 @@ class Card
 
          return $state;
     }
-
 
 
     /**
@@ -297,8 +296,8 @@ class Card
 
     /**
     * Set the value of Id
-    * @param int $id
-    * @return self
+    * @param  int $id
+    * @return Card
     */
     public function setId(int $id) :Card
     {
@@ -308,8 +307,8 @@ class Card
 
     /**
     * Set the value of Name
-    * @param string $name
-    * @return self
+    * @param  string $name
+    * @return Card
     */
     public function setName(string $name) :Card
     {
@@ -319,8 +318,8 @@ class Card
 
     /**
     * Set the value of Description
-    * @param string $description
-    * @return self
+    * @param  string $description
+    * @return Card
     */
     public function setDescription(string $description) :Card
     {
@@ -330,8 +329,8 @@ class Card
 
     /**
     * Set the value of Background
-    * @param string $background
-    * @return self
+    * @param  string $bg bg card
+    * @return Card
     */
     public function setBg(string $bg) :Card
     {
@@ -341,8 +340,8 @@ class Card
 
     /**
     * Set the value of Mana
-    * @param int $mana
-    * @return self
+    * @param  int $mana
+    * @return Card
     */
     public function setMana(int $mana) :Card
     {
@@ -352,8 +351,8 @@ class Card
 
     /**
     * Set the value of Life
-    * @param int $life
-    * @return self
+    * @param  int|null $life
+    * @return Card
     */
     public function setLife(?int $life) :Card
     {
@@ -363,8 +362,8 @@ class Card
 
     /**
     * Set the value of Attack
-    * @param int $attack
-    * @return self
+    * @param  int $attack
+    * @return Card
     */
     public function setAttack(int $attack) :Card
     {
@@ -374,8 +373,8 @@ class Card
 
     /**
     * Set the value of Damage Received
-    * @param int $damage_received
-    * @return self
+    * @param  int|null $damageReceived
+    * @return Card
     */
     public function setDamageReceived(?int $damageReceived) :Card
     {
@@ -384,9 +383,9 @@ class Card
     }
 
     /**
-    * Set the value of Status
-    * @param int $status
-    * @return self
+    * Set the value of Status (0 = pioche, 1=main, 2= defausse, 3 = pose depuuis moin d'un tour , 4 = pose et peut jouer)
+    * @param  int|null $status
+    * @return Card
     */
     public function setStatus(?int $status) :Card
     {
@@ -396,8 +395,8 @@ class Card
 
     /**
     * Set the value of Type Id
-    * @param int $type_id
-    * @return self
+    * @param  int  $typeIdFk
+    * @return Card
     */
     public function setTypeIdFk(int $typeIdFk) :Card
     {
@@ -407,8 +406,8 @@ class Card
 
     /**
     * Set the value of Deck Id
-    * @param int $deck_id
-    * @return self
+    * @param  int  $deckIdFk
+    * @return Card
     */
     public function setDeckIdFk(int $deckIdFk) :Card
     {
