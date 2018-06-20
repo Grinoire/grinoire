@@ -225,6 +225,7 @@ class UserManager
 
     /**
      * select a ready User as opponent in database
+     * @param   int    $idPlayer
      * @return  mixed  TRUE = User,  FALSE = boolean
      */
     public function getOpponent(int $idPlayer)
@@ -241,8 +242,30 @@ class UserManager
         if ($response) {
             $rand = rand(0,count($response) - 1);
             $opponent = $response[$rand];
+            return new User($opponent);
+        } else {
+            // TODO: throw Exception if no opponent finded
         }
-        return new User($opponent);
+    }
+
+    /**
+     * Update SQL user->FK->deck used to know who has wich deck
+     * @param  int   $idPlayer   Id player
+     * @param  int   $idDeck     Id selected deck
+     */
+    public function setSelectedDeck(int $idPlayer, int $idDeck = NULL) :void
+    {
+        $response = $this->getPdo()->makeUpdate(
+            'UPDATE `user` SET `user_deck_id_fk` = :idDeck WHERE `user_id` = :idPlayer',
+            [
+                ':idDeck' => $idDeck,
+                ':idPlayer' => $idPlayer
+            ]
+        );
+
+        if ($response === 0) {
+            throw new \Exception("Aie, il semblerait que votre deck ne puisse etre mis a jour.<br>Contacter un administrateur", 1);
+        }
     }
 
 }

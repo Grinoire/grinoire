@@ -1,9 +1,22 @@
 *{
-    user-select:none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
+html {
+    font-size: 67.5%;
+    /* background-color: #000; */
+    /* text-align: center; */
+}
+
+/*------------------------------------------------------------------------------------------------------
+*          HOME VIEWS           |
+*-----------------------------*/
 #home div{
     border: 1px solid black;
     width: 500px;
@@ -28,4 +41,32 @@
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border-radius: 100%;
+}
+
+
+
+/*------------------------------------------------------------------------------------------------------
+*           GAME VIEW           |
+*-----------------------------*/
+
+/* Selection des cartes ,stylisation checkbox pour recouvrir les cartes tous en etant invisible*/
+form.deck-selection-card .selectCard
+{
+    position: absolute;
+    visibility: hidden;
+}
+
+form.deck-selection-card label
+{
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    cursor: pointer;
+}
+
+form.deck-selection-card .selectCard:checked + label
+{
+    border: 2px solid red;
+    border-radius: 5px;
 }

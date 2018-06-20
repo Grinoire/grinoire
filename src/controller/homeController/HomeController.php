@@ -95,12 +95,18 @@ class HomeController extends CoreController
     public function grinoireAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
-        $this->render(true);
 
         if (array_key_exists('deconnexion', $this->getGet())) {
-            $this->setSession('userConnected', array());
-            session_destroy();
+            //reboot the selected deck in BDD
+            $userManager = new UserManager();
+            $userManager->setSelectedDeck((int)$this->getSession('userConnected'));
+            //unset session
+            $this->setSession(APP_NAME, array());
+            session_unset(APP_NAME);
+
             $this->homeAction();
+        } else {
+            $this->render(true);
         }
     }
 
@@ -115,6 +121,7 @@ class HomeController extends CoreController
         $user = $profil->getProfilById($this->getSession('userConnected'));
 
         try {
+            
             if ((isset($this->post['lastName']) and isset($this->post['firstName'])) and (isset($this->post['mail']) and isset($this->post['login'])) and (isset($this->post['password']) and isset($_FILES['avatar'])) and (isset($_FILES['avatar']) and $_FILES['avatar']['error'] == 0)) {
                 $avatar = $profil->pictureProfilUser($_FILES['avatar']);
                 $profil->updateProfilUserById(
@@ -139,8 +146,8 @@ class HomeController extends CoreController
             redirection('?c=Home&a=profil');
         } catch (\Exception $e) {
             getErrorMessageDie($e);
-
         }
     }
+
 
 }

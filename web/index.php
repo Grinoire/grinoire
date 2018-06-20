@@ -12,7 +12,6 @@ require_once '../src/common/commonFunction.php';
 session_start();
 
 
-
 //Define controller -> merge default controller whith $_GET, so data are update if user need other view
 $controller = array_merge(['c' => "Home", "a" => "home"], $_GET);
 
