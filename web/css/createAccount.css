@@ -1,0 +1,96 @@
+span{
+    grid-column: 1 / span 20;
+    text-align: center;
+}
+#create-account-container{
+    background-image: url('../img/grinoire/bg-image-de-fond.png');
+    background-size: cover;
+}
+#create-account-container header{
+    height: 246px;
+    background-color: #430f10;
+    grid-column: 1 / span 20;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#create-account-container-wrapper{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+}
+
+#section-create-account{
+    height: 530px;
+    grid-column: 1 / span 20;
+    display: grid;
+}
+#section-create-account-wrapper{
+    display: grid;
+    /*grid-template-rows: repeat(10, 1fr);*/
+    width: 550px;
+    height: 380px;
+    text-align: center;
+    margin: auto;
+    /*background-color: #e1d7c5;*/
+    background: rgba(225, 215, 197, 0.6);
+    /*opacity: 0.6;*/
+    border-radius: 10px;
+}
+#form-create-account{
+    display: grid;
+    width: 429px;
+    height: 186px;
+    margin: auto;
+}
+#form-create-account label{
+    font-size: 13px;
+}
+#form-create-account div{
+    text-align: left;
+}
+#lien-vers-accueil{
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+}
+.create-account-input-form{
+    border: 0;
+    background: rgba(225, 215, 197, 0);
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+#submit-create-account{
+    text-align: center;
+    width: 110px;
+    border-radius: 20px;
+    background-color: #430f10;
+    color: #e1d7c5;
+}
+#submit-create-account-div{
+    text-align: right!important;
+}
+
+footer{
+    height: 59px;
+    grid-column: 1 / span 20;
+    background-color: #430f10;
+    bottom: -62px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer div{
+    display: flex;
+    width: 420px;
+    margin: auto;
+}
+footer p{
+    color: #f8e9c9;
+    font-size: 10px;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}

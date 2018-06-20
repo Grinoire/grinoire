@@ -14,24 +14,6 @@ html {
     /* text-align: center; */
 }
 
-/*------------------------------------------------------------------------------------------------------
-*          HOME VIEWS           |
-*-----------------------------*/
-#home div{
-    border: 1px solid black;
-    width: 500px;
-    height: 500px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-#home a {
-    font-size: 2rem;
-    margin: auto;
-    text-decoration: none;
-}
-
 #profil {
     width: 1000px;
     margin: auto;

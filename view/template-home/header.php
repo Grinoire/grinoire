@@ -14,3 +14,11 @@
     <title>Grinoire</title>
 </head>
 <body>
+<div id="create-account-container">
+
+    <div id="create-account-container-wrapper">
+        <?= errorMessage() ?>
+
+        <header>
+            <img src="img/grinoire/logo.png">
+        </header>

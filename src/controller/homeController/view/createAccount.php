@@ -1,19 +1,54 @@
-<section id="create-account">
-<!--TODO : faire une confirmation de mot de passe (2eme champ)-->
-    <?= errorMessage() ?>
-    
-<h1>Creer un compte pour jouer</h1>
+<div id="create-account-container">
 
-<form method="POST" action=''>
-    <label>Votre Pseudo : </label>
-    <input type='text' name='login' required value='<?php if (isset($_POST['login'])) echo htmlspecialchars($_POST['login']) ?>'>
-    <label>Votre email : </label>
-    <input type='email' name='email' required value='<?php if (isset($_POST['email'])) echo htmlspecialchars($_POST['email']) ?>'>
-    <label>Votre mot de passe :</label>
-    <input type="password" name='password' required>
-    <input type='submit' name='' value='Soumettre'>
-</form>
+    <div id="create-account-container-wrapper">
+        <?= errorMessage() ?>
 
-<a href="../web/index.php">Retour à l'accueil</a>
+        <header>
+            <img src="img/grinoire/logo.png">
+        </header>
 
-</section>
+        <section id="section-create-account">
+            <!--TODO : faire une confirmation de mot de passe (2eme champ)-->
+            <div id="section-create-account-wrapper">
+
+                <h1>CREER UN COMPTE</h1>
+
+                <form id="form-create-account" method="POST" action=''>
+                    <div>
+                    <label>PSEUDO : </label>
+                    <input class="create-account-input-form" type='text' name='login' required
+                           value='<?php if (isset($_POST['login'])) echo htmlspecialchars($_POST['login']) ?>'>
+                    </div>
+                    <div>
+                    <label>EMAIL : </label>
+                    <input class="create-account-input-form" type='email' name='email' required
+                           value='<?php if (isset($_POST['email'])) echo htmlspecialchars($_POST['email']) ?>'>
+                    </div>
+                    <div>
+                    <label>MOT DE PASSE :</label>
+                    <input class="create-account-input-form" type="password" name='password' required>
+                    </div>
+                    <div id="submit-create-account-div">
+                    <input id="submit-create-account" type='submit' name='' value='SOUMETTRE'>
+                    </div>
+                </form>
+
+                <a id="lien-vers-accueil" href="../web/index.php">Retour à l'accueil</a>
+
+            </div>
+        </section>
+        <footer>
+            <div id="div-footer">
+                <img src="img/grinoire/footer-logo.png"/>
+                <p>©2018 OBJECTIF 3W. TOUS DROITS RÉSERVÉS.<br>
+                    Toutes les marques citées appartiennent à leur propriétaire.
+                </p>
+                <img src="img/grinoire/footer-pegy.png"/>
+            </div>
+        </footer>
+
+    </div>
+
+
+</div>
+
