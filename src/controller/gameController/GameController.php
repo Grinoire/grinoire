@@ -59,18 +59,11 @@ class GameController extends CoreController
                         $selectedCardList[] = $deckManager->getCardById((int)$cardId);
                     }
 
-                    //build and get the selected deck whith original model
-                    $deck = $deckManager->getDeckById((int)$this->getPost("selectedDeck"), $selectedCardList)->getDeck();
-
-                    if (is_object($deck)) {
-                        $userManager = new UserManager();
-                        $userManager->setReady((int)$this->getSession('userConnected'), 1);
-                        $userManager->setSelectedDeck((int)$this->getSession('userConnected'), $deck->getId());
-                        $deckManager->setTmpDeck($this->getSession('userConnected')); //ici on remplace les modele original par des copie généré dans tmp card et tmp hero
-                        $this->setSession("deck", $deckManager->getDeck()); //define session for deck
-                    } else {
-                        throw new UserException("Une erreur s'est produite lors de la séléction, merci de rééssayer.<br>Si le problème persiste, merci de contacter un administrateur");
-                    }
+                    $userManager = new UserManager();
+                    $userManager->setReady((int)$this->getSession('userConnected'), 1); //set user ready in DB
+                    $userManager->setSelectedDeck((int)$this->getSession('userConnected'), (int) $this->getPost('selectedDeck')); //set user deck ID selected
+                    $deckManager->setTmpDeck($this->getSession('userConnected'), $selectedCardList, (int) $this->getPost('selectedDeck')); //insert in tmp_table selectedDeckwhith card and hero
+                    $this->setSession("deck", $deckManager->getDeck()); //define session for deck
 
                     //redirect to viex loading, time to find opponent
                     redirection('?c=game&a=matchMaking');
@@ -144,27 +137,33 @@ class GameController extends CoreController
     public function gameAction()
     {
         try {
-            //define how much card give in main for each player at start
-            $nbCardInMain = 3; //// TODO: constant for this ?!?
 
-            if (isset($player)) {
-                // code...
-            } else { //default view
+            $deckManager = new DeckManager();
+            $gameManager = new GameManager();
 
-                //define card status for setting position on board
-                //3 on main, other in draw
-                for ( $i=0 ; $i < count($this->getSession('deck')->getCardList()) ; $i++ ) {
-                    if ($i < $nbCardInMain) {
-                        // $this->getSession('deck')->getCardList()[$i]->setStatus(1);
-                    } else {
-                        $this->getSession('deck')->getCardList()[$i]->setStatus(0);
-                    }
-                }
+            if (array_key_exists('nextTurn', $this->getGet())) {
+                $gameManager->nextTurn((int) $this->getSession('game')->getId(), (int) $this->getSession('game')->getTurn());
+                $this->setSession('game', $gameManager->getGame((int) $this->getSession('game')->getId()));
+                $this->setSession('nextTurn');
+                redirection('?c=game&a=game');
 
-                //get hero
-                $data['hero'] = $this->getSession('deck')->getHero();
-                //get all the card in selected deck shuffled with status defined for init game
-                $data['cardList'] = $this->getSession('deck')->getCardList();
+            } elseif ((int) $this->getSession('game')->getTurn() === 0) {
+
+
+                $cardList = $deckManager->getTmpDeck((int) $this->getSession('userConnected'))->getCardList(); //get temporary deck
+                $deckManager->initCardStatus($cardList);//init card status, 0 = draw, 1 = hand
+
+                $data['user'] = $deckManager->getTmpDeck((int) $this->getSession('userConnected')); //get updated deck
+                $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer2Id());// TODO: maybe we need to control if is not her own id ...
+
+                $this->render(true, 'game', $data);
+
+
+
+            } else { //normal turn
+
+                $data['user'] = $deckManager->getTmpDeck((int) $this->getSession('userConnected'));
+                $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer2Id());// TODO: maybe we need to control if is not her own id ...
 
                 $this->render(true, 'game', $data);
             }

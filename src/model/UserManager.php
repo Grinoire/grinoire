@@ -320,9 +320,9 @@ class UserManager
             ]
         );
 
-        if ($response === 0) {
-            throw new \Exception("Aie, il semblerait que votre deck ne puisse etre mis a jour.<br>Contacter un administrateur", 1);
-        }
+        // if ($response === 0) {
+        //     throw new \Exception("Aie, il semblerait que votre deck ne puisse etre mis a jour.<br>Contacter un administrateur", 1);
+        // }
     }
 
 }

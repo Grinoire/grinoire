@@ -21,7 +21,7 @@ class DeckManager
      *  Instance representant le deck (AGREGATION)
      *  @var  array
      */
-    protected $deck = array();
+    protected $deck;
 
     /**
      *  Instance PdoManager
@@ -48,25 +48,9 @@ class DeckManager
     // ------ METHOD SQL ------- //
     // ------------------------- //
 
-    /**
-     *  Recupere et instancie un deck avec les valeur original ( cartes + hero ) selon son ID
-     *  @param    int     $deckId  Id du deck selectionné
-     *  @param    Card[]  $cardList objet carte genere selon le choix de carte de l'utilisateur
-     *  @return   self
-     */
-    public function getDeckById( int $deckId, array $cardList ) :self
-    {
-        $data = $this->getDataForDeck($deckId);
-        $hero = $this->getHeroForDeck((int)$deckId); //recupere le hero lié au deck
-        shuffle($cardList); // on melange les carte
-
-        $this->setDeck( new Deck( $data, $cardList, $hero));
-
-        return $this;
-    }
 
     /**
-     *  recupere les cartes original associé au deck, et les retourne en objet
+     *  recupere les cartes original associé au deck
      *
      *  @param    int      $deckId
      *  @return   Card[]   Carte instancié
@@ -89,7 +73,7 @@ class DeckManager
 
 
     /**
-     *  Recupère le heros original associé au deck séléctionné
+     *  Recupère le heros original associé au deck
      *  @param  int    $deckId
      *  @return Hero   Hero instance
      */
@@ -108,7 +92,7 @@ class DeckManager
 
 
     /**
-     * Recupere et retourne les données du deck
+     * Recupere et retourne les propriétés du deck
      * @param   int    $deckId   Selected deck ID
      * @return  array
      */
@@ -145,17 +129,19 @@ class DeckManager
     /**
      * Copy original value of card & Hero in database
      *
-     * And overwrite original value in deck property for work on them
+     * And set him as property
      *
-     * @param  int  $userId  User ID
+     * @param  int     $userId  User ID
+     * @param  Card[]  $cards   Array of Card
+     * @param  int     $deckId  selected Deck ID
      */
-    public function setTmpDeck(int $userId) :void
+    public function setTmpDeck(int $userId, array $cards, int $deckId) :void
     {
-        $this->setTmpHero($this->getDeck()->getHero(), $userId);
-        $this->setTmpCards($this->getDeck()->getCardList(), $userId);
+        $this->setTmpHero($this->getHeroForDeck($deckId), $userId);
+        $this->setTmpCards($cards, $userId);
 
         $this->setDeck(
-            new Deck($this->getDataForDeck($this->getDeck()->getId()), $this->getTmpCards($userId), $this->getTmpHero($userId))
+            new Deck($this->getDataForDeck($deckId), $this->getTmpCards($userId), $this->getTmpHero($userId))
         );
     }
 
@@ -193,12 +179,13 @@ class DeckManager
     public function setTmpCards(array $cards, int $userId) :array
     {
         $response = [];
+        shuffle($cards);
 
         foreach ($cards as $card) {
             $statement =
             'INSERT INTO tmp_card ( tmpcard_name, tmpcard_description, tmpcard_bg, tmpcard_life, tmpcard_attack, tmpcard_mana,
-                                    tmpcard_status, tmpcard_damage_received, tmpcard_type_id_fk, tmpcard_user_id_fk)
-            VALUES(:name, :description, :bg, :life, :attack, :mana, :status, :damageReceived, :type_id_fk, :user_id_fk)';
+                                    tmpcard_status, tmpcard_damage_received, tmpcard_type_id_fk, tmpcard_deck_id_fk, tmpcard_user_id_fk)
+            VALUES(:name, :description, :bg, :life, :attack, :mana, :status, :damageReceived, :type_id_fk, :deck_id_fk, :user_id_fk)';
 
             $params = [
                 ':name'           => $card->getName(),
@@ -210,6 +197,7 @@ class DeckManager
                 ':status'         => $card->getStatus(),
                 ':damageReceived' => [$card->getDamageReceived(), PDO::PARAM_INT],
                 ':type_id_fk'     => [$card->getTypeIdFk(),       PDO::PARAM_INT],
+                ':deck_id_fk'     => [$card->getDeckIdFk(),       PDO::PARAM_INT],
                 ':user_id_fk'     => $userId
             ];
 
@@ -227,12 +215,13 @@ class DeckManager
      */
     public function getTmpHero(int $userId) :Hero
     {
-        $statement = 'SELECT * FROM tmp_hero WHERE tmphero_user_id_fk = :userId';
+        $statement = 'SELECT * FROM tmp_hero WHERE tmphero_user_id_fk = :userId ORDER BY tmphero_id DESC';
         $params = [':userId' => [$userId, PDO::PARAM_INT]];
         $response = $this->getPdo()->makeSelect($statement, $params, false);
 
         return new Hero($response);
     }
+
 
     /**
      * Get all user copy for card in deck in DB -> tmp_card
@@ -241,7 +230,7 @@ class DeckManager
      */
     public function getTmpCards(int $userId) :array
     {
-        $statement = 'SELECT * FROM tmp_card WHERE tmpcard_user_id_fk = :userId';
+        $statement = 'SELECT * FROM tmp_card WHERE tmpcard_user_id_fk = :userId ORDER BY tmpcard_id DESC LIMIT 20';
         $params = [':userId' => [$userId, PDO::PARAM_INT]];
         $response = $this->getPdo()->makeSelect($statement, $params);
         $cards = [];
@@ -302,19 +291,22 @@ class DeckManager
         tmpcard_status          = :status,
         tmpcard_damage_received = :damageReceived,
         tmpcard_type_id_fk      = :type_id_fk,
+        tmpcard_deck_id_fk      = :deck_id_fk,
         tmpcard_user_id_fk      = :user_id_fk
         WHERE tmpcard_id        = :cardId';
 
         $params = [
-            ':name'           => $card->getName(),
-            ':description'    => $card->getDescription(),
-            ':bg'             => $card->getBg(),
+            ':name'           =>  $card->getName(),
+            ':description'    =>  $card->getDescription(),
+            ':bg'             =>  $card->getBg(),
             ':life'           => [$card->getLife(),             PDO::PARAM_INT],
-            ':attack'         => $card->getAttack(),
+            ':attack'         => [$card->getAttack(),           PDO::PARAM_INT],
             ':mana'           => [$card->getMana(),             PDO::PARAM_INT],
-            ':status'         => $card->getStatus(),
+            ':status'         => [$card->getStatus(),           PDO::PARAM_INT],
             ':damageReceived' => [$card->getDamageReceived(),   PDO::PARAM_INT],
             ':type_id_fk'     => [$card->getTypeIdFk(),         PDO::PARAM_INT],
+            ':deck_id_fk'     => [$card->getDeckIdFk(),         PDO::PARAM_INT],
+            ':user_id_fk'     => [$card->getUserIdFk(),         PDO::PARAM_INT],
             ':cardId'         => [$card->getId(),               PDO::PARAM_INT]
         ];
 
@@ -323,13 +315,65 @@ class DeckManager
 
 
 
+    /**
+     * Get deck ID for a user selected by ID
+     * @param   int     $userId  User ID
+     * @return  int
+    */
+    public function getDeckId(int $userId) {
+        return $this->getPdo()->makeSelect(
+            'SELECT user_deck_id_fk FROM user WHERE user_id = :userID',
+            [
+                ':userID' => [$userId, PDO::PARAM_INT]
+            ], false
+        );
+    }
+
+
+    /**
+     * Get the deck of user passed in parameters, {deck data} + {hero} + {cardList}
+     * @param   int     $userId  opponent ID
+     * @return  Deck
+     */
+    public function getTmpDeck(int $userId) :Deck {
+        $data     = $this->getDataForDeck((int)$this->getDeckId($userId));
+        $Hero     = $this->getTmpHero($userId);
+        $CardList = $this->getTmpCards($userId);
+
+        return new Deck($data, $CardList, $Hero);
+    }
+
+
+    /**
+     * Define card status, status define position on board
+     * @param   Card[]  $cardList    Array of Card
+     * @return  array                Array with initial status for each card
+     */
+    public function initCardStatus(array $cardList) :array {
+
+        $nbCardInMain = 3;
+
+        //define card status for setting position on board, card is already randomized
+        for ( $i=0 ; $i < count($cardList) ; $i++ ) {
+            if ($i < $nbCardInMain) {
+                $cardList[$i]->setStatus(1);//define status
+                $this->UpdateTmpCard($cardList[$i]);//push in bdd
+            } else {
+                $cardList[$i]->setStatus(0);//define status
+                $this->UpdateTmpCard($cardList[$i]);//push in bdd
+            }
+        }
+        return $cardList;
+    }
+
+
     // --------------------- //
     // ------ SETTERS ------ //
     // --------------------- //
 
     /**
-     *  Insere le tableau d'objet Card dans l'attribut deck
-     *  @param    Deck  $cardObj Instance representant le deck
+     *  Set deck attribut
+     *  @param    Deck  $cardObj   Deck instance
      *  @return   self
      */
     public function setDeck( Deck $cardObj ) :self
@@ -344,7 +388,7 @@ class DeckManager
     // --------------------- //
 
     /**
-     *  retourne l'attribut deck
+     *  Get deck attribut
      *  @return  Deck
      */
     public function getDeck() :Deck

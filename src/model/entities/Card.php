@@ -293,6 +293,14 @@ class Card
         return $this->deckIdFk;
     }
 
+    /**
+     * @return int
+     */
+    public function getUserIdFk(): int
+    {
+        return $this->userIdFk;
+    }
+
 
     /**
      * --------------------------------------------------
@@ -418,6 +426,17 @@ class Card
     public function setDeckIdFk(int $deckIdFk) :Card
     {
         $this->deckIdFk = $deckIdFk;
+        return $this;
+    }
+
+    /**
+     * @param int $userIdFk
+     *
+     * @return static
+     */
+    public function setUserIdFk(int $userIdFk)
+    {
+        $this->userIdFk = $userIdFk;
         return $this;
     }
 }
