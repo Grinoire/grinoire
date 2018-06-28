@@ -1,0 +1,43 @@
+#home-container{
+    background-image: url('../img/grinoire/bg-image-de-fond.png');
+    background-size: cover;
+    background-position-y: -72px;
+}
+#home-container header{
+    height: 175px;
+    background-color: #430f10;
+    grid-column: 1 / span 20;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#home-container-wrapper{
+    /*height: 100vh;*/
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+}
+
+
+footer{
+    height: 59px;
+    grid-column: 1 / span 20;
+    background-color: #430f10;
+    /*bottom: -62px;*/
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer div{
+    display: flex;
+    width: 420px;
+    margin: auto;
+}
+footer p{
+    color: #f8e9c9;
+    font-size: 10px;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}

@@ -1,0 +1,161 @@
+/*attention z-index sur le cadre de l'avatar*/
+#section-profil {
+    height: 713px;
+    grid-column: 1 / span 20;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+#section-profil-wrapper {
+    width: 600px;
+    height: 480px;
+    position: relative;
+    top: 74px;
+    background: rgba(225, 215, 197, 0.6);
+    border-radius: 10px;
+    display: grid;
+}
+#form-container{
+    width: 400px;
+    margin: auto;
+    top: -68px;
+    display: grid;
+    position: relative;
+}
+
+#form-profil {
+    position: relative;
+    top: -284px;
+    display: grid;
+}
+/*La div qui englobe le label + input de l'avatar*/
+.avatar-img {
+    margin: auto;
+    position: relative;
+    top: -90px;
+    z-index: 500;
+}
+/*l'image de l'avatar*/
+.avatar{
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    position: relative;
+    top: -247px;
+    left: 123px;
+    z-index: 0;
+}
+.avatar-img label {
+    width: 120px;
+    height: 170px;
+    display: block;
+}
+
+#contour-avatar {
+    margin: auto;
+    top: -161px;
+    position: relative;
+    z-index: 100;
+}
+
+#profil-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+}
+
+#avatar-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    /*position: relative;*/
+    /*top: -321px;*/
+    /*left: 227px;*/
+}
+
+.label-file {
+    color: red;
+}
+
+.label-file:hover {
+    cursor: pointer;
+}
+
+.input-file {
+    display: none;
+}
+.input-profil{
+    border: 0;
+    background: rgba(225, 215, 197, 0);
+    border-bottom: 1px solid black;
+}
+#submit-profil{
+    text-align: center;
+    width: 110px;
+    border-radius: 20px;
+    background-color: #430f10;
+    color: #e1d7c5;
+    margin: auto;
+    padding: 5px;
+    position: relative;
+    top: -56px;
+}
+#submit-profil:hover{
+    cursor: pointer;
+    background-color: #062213;
+    color: white;
+}
+
+#lien-vers-accueil-profil{
+    position: relative;
+    top: -280px;
+    margin: auto;
+    width: 140px;
+    text-align: center;
+    text-decoration: none;
+}
+#lien-vers-accueil-profil:hover{
+    border-bottom: 1px solid black;
+}
+#input-text-container{
+    position: relative;
+    top: -33px;
+}
+#input-text-container div{
+    padding-top: 7px;
+}
+
+#statistique-joueur{
+    display: grid;
+    position: relative;
+    top: -50px;
+}
+#statistique-joueur span{
+    padding-top: 7px;
+}
+#input-login{
+    width: 85%;
+}
+#input-nom{
+    width: 91%;
+}
+#input-prenom{
+    width: 86%;
+}
+#input-email{
+    width: 89%;
+}
+#input-password{
+    width: 77%;
+}
+#pseudo-baniere{
+    width: 96px;
+    /* height: 20px; */
+    text-align: center;
+    position: relative;
+    top: -115px;
+    left: 254px;
+    z-index: 500;
+}

@@ -1,11 +1,11 @@
-<div id="create-account-container">
-
-    <div id="create-account-container-wrapper">
-        <?= errorMessage() ?>
-
-        <header>
-            <img src="img/grinoire/logo.png">
-        </header>
+<!--<div id="create-account-container">-->
+<!---->
+<!--    <div id="create-account-container-wrapper">-->
+<!--        --><?//= errorMessage() ?>
+<!---->
+<!--        <header>-->
+<!--            <img src="img/grinoire/logo.png">-->
+<!--        </header>-->
 
         <section id="section-create-account">
             <!--TODO : faire une confirmation de mot de passe (2eme champ)-->
@@ -33,22 +33,22 @@
                     </div>
                 </form>
 
-                <a id="lien-vers-accueil" href="../web/index.php">Retour à l'accueil</a>
+                <a id="lien-vers-accueil-create-account" href="../web/index.php">Retour à l'accueil</a>
 
             </div>
         </section>
-        <footer>
-            <div id="div-footer">
-                <img src="img/grinoire/footer-logo.png"/>
-                <p>©2018 OBJECTIF 3W. TOUS DROITS RÉSERVÉS.<br>
-                    Toutes les marques citées appartiennent à leur propriétaire.
-                </p>
-                <img src="img/grinoire/footer-pegy.png"/>
-            </div>
-        </footer>
-
-    </div>
-
-
-</div>
+<!--        <footer>-->
+<!--            <div id="div-footer">-->
+<!--                <img src="img/grinoire/footer-logo.png"/>-->
+<!--                <p>©2018 OBJECTIF 3W. TOUS DROITS RÉSERVÉS.<br>-->
+<!--                    Toutes les marques citées appartiennent à leur propriétaire.-->
+<!--                </p>-->
+<!--                <img src="img/grinoire/footer-pegy.png"/>-->
+<!--            </div>-->
+<!--        </footer>-->
+<!---->
+<!--    </div>-->
+<!---->
+<!---->
+<!--</div>-->
 

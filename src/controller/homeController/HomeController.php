@@ -27,7 +27,9 @@ class HomeController extends CoreController
     public function homeAction()
     {
         $this->init(__FILE__, __FUNCTION__);
-        $this->render(true);
+        require '../view/template-home/header.php';
+        $this->render(false, 'home');
+        require '../view/template-home/footer.php';
     }
 
     /**
@@ -50,14 +52,23 @@ class HomeController extends CoreController
                 } elseif ((!$userManager->checkLoginInDataBase($_POST['login'])) AND (!$userManager->checkMailInDataBase($_POST['email']))) {
                     $userManager->setConnectionUser(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['login']), htmlspecialchars($this->post['password']));
                     $this->setSession('msgValid', '<span style="justify-content: center;display: flex;color: green;padding: 2rem;font-size: 2rem">Votre compte a été créé avec succes</span>');
-                    $this->render(true, 'home'); //Display home after create account
+//                    $this->render(true, 'home'); //Display home after create account
+                    require '../view/template-home/header.php';
+                    $this->render(false, 'home');
+                    require '../view/template-home/footer.php';
                 }
             } else {
-                $this->render(true); //View createAccount
+//                $this->render(true); //View createAccount
+                require '../view/template-home/header.php';
+                $this->render(false, 'createAccount');
+                require '../view/template-home/footer.php';
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
-            $this->render(true); //View createAccount
+//            $this->render(true); //View createAccount
+            require '../view/template-home/header.php';
+            $this->render(false, 'createAccount');
+            require '../view/template-home/footer.php';
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }
@@ -84,11 +95,17 @@ class HomeController extends CoreController
                     redirection('?c=Home&a=grinoire');
                 }
             } else {
-                $this->render(true);
+//                $this->render(true);
+                require '../view/template-home/header.php';
+                $this->render(false, 'login');
+                require '../view/template-home/footer.php';
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
-            $this->render(true);
+//            $this->render(true);
+            require '../view/template-home/header.php';
+            $this->render(false, 'login');
+            require '../view/template-home/footer.php';
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }
@@ -103,15 +120,18 @@ class HomeController extends CoreController
 
         if (array_key_exists('deconnexion', $this->getGet())) {
             //reboot the selected deck in BDD
-            $userManager = new UserManager();
-            $userManager->setSelectedDeck((int)$this->getSession('userConnected'));
+//            $userManager = new UserManager();
+//            $userManager->setSelectedDeck((int)$this->getSession('userConnected'));
             //unset session
             $this->setSession(APP_NAME, array());
             session_unset(APP_NAME);
 
             $this->homeAction();
         } else {
-            $this->render(true);
+//            $this->render(true);
+            require '../view/template-home/header.php';
+            $this->render(false, 'grinoire');
+            require '../view/template-home/footer.php';
         }
     }
 
@@ -170,7 +190,10 @@ class HomeController extends CoreController
             } else {                                                                                                    //else de sortie, récupère l'utilisateur par l'id stocker en sesssion
                 $data = [];
                 $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
-                $this->render(true, 'profil', $data);
+//                $this->render(true, 'profil', $data);
+                require '../view/template-home/header.php';
+                $this->render(false, 'profil', $data);
+                require '../view/template-home/footer.php';
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());

@@ -14,35 +14,32 @@ html {
     /* text-align: center; */
 }
 
-#profil {
-    width: 1000px;
-    margin: auto;
-}
 
-#profil-avatar {
-    width: 150px;
-    height: 150px;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
-}
 
-#avatar-img{
-    width: 150px;
-    height: 150px;
-    border-radius: 100%;
-}
-.label-file{
-    color: red;
-}
+/*#profil-avatar {*/
+    /*width: 150px;*/
+    /*height: 150px;*/
+    /*-webkit-border-radius: 100%;*/
+    /*-moz-border-radius: 100%;*/
+    /*border-radius: 100%;*/
+/*}*/
 
-.label-file:hover {
-    cursor: pointer;
-}
+/*#avatar-img{*/
+    /*width: 150px;*/
+    /*height: 150px;*/
+    /*border-radius: 100%;*/
+/*}*/
+/*.label-file{*/
+    /*color: red;*/
+/*}*/
 
-.input-file {
-    display: none;
-}
+/*.label-file:hover {*/
+    /*cursor: pointer;*/
+/*}*/
+
+/*.input-file {*/
+    /*display: none;*/
+/*}*/
 
 /*------------------------------------------------------------------------------------------------------
 *           GAME VIEW           |

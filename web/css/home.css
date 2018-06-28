@@ -1,28 +1,5 @@
-span{
-    grid-column: 1 / span 20;
-    text-align: center;
-}
-#home-container{
-    background-image: url('../img/grinoire/bg-image-de-fond.png');
-    background-size: cover;
-}
-#home-container header{
-    height: 246px;
-    background-color: #430f10;
-    grid-column: 1 / span 20;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#home-wrapper-container{
-    height: 100vh;
-    display: grid;
-    grid-template-columns: repeat(20, 1fr);
-}
-
 #home-section{
-    height: 530px;
+    height: 713px;
     grid-column: 1 / span 20;
 }
 #home-section-wrapper{
@@ -71,30 +48,25 @@ span{
     top: -119px;
 }
 
-footer{
-    height: 59px;
-    grid-column: 1 / span 20;
-    background-color: #430f10;
-    bottom: -62px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-footer div{
-    display: flex;
-    width: 420px;
-    margin: auto;
-}
-footer p{
-    color: #f8e9c9;
-    font-size: 10px;
-    text-align: center;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-#div-footer{
+/*footer{*/
+    /*height: 59px;*/
+    /*grid-column: 1 / span 20;*/
+    /*background-color: #430f10;*/
+    /*bottom: -62px;*/
     /*position: relative;*/
-    /*top: 9px;*/
-}
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+/*}*/
+/*footer div{*/
+    /*display: flex;*/
+    /*width: 420px;*/
+    /*margin: auto;*/
+/*}*/
+/*footer p{*/
+    /*color: #f8e9c9;*/
+    /*font-size: 10px;*/
+    /*text-align: center;*/
+    /*margin-left: 20px;*/
+    /*margin-right: 20px;*/
+/*}*/
