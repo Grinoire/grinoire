@@ -1,17 +1,8 @@
-<!--<div id="create-account-container">-->
-<!---->
-<!--    <div id="create-account-container-wrapper">-->
-<!--        --><?//= errorMessage() ?>
-<!---->
-<!--        <header>-->
-<!--            <img src="img/grinoire/logo.png">-->
-<!--        </header>-->
-
-        <section id="section-create-account">
+ <section id="section-create-account">
             <!--TODO : faire une confirmation de mot de passe (2eme champ)-->
             <div id="section-create-account-wrapper">
 
-                <h1>CREER UN COMPTE</h1>
+                <h1 id="titre-creer-compte" >CREER UN COMPTE</h1>
 
                 <form id="form-create-account" method="POST" action=''>
                     <div>

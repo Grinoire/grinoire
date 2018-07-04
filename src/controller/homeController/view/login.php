@@ -2,7 +2,7 @@
     <!--    --><? //= errorMessage() ?>
     <div id="section-login-wrapper">
 
-        <h1>SE CONNECTER</h1>
+        <h1 id="titre-se-connecter">SE CONNECTER</h1>
 <!--        todo: (ALEX) - faire l'autentification par pseudo -->
         <form id="form-login" method="POST" action=''>
             <div>

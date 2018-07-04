@@ -1,6 +1,4 @@
 #section-login {
-    height: 713px;
-    grid-column: 1 / span 20;
     display: grid;
 }
 
@@ -13,7 +11,9 @@
     background: rgba(225, 215, 197, 0.6);
     border-radius: 10px;
 }
-
+#titre-se-connecter{
+    font-family: 'EB Garamond Medium', Serif;
+}
 #form-login {
     display: grid;
     width: 429px;
@@ -23,6 +23,7 @@
 
 #form-login label {
     font-size: 13px;
+    font-family: 'Libre Baskerville regular', Serif;
 }
 
 #form-login div {
@@ -33,7 +34,7 @@
     border: 0;
     background: rgba(225, 215, 197, 0);
     border-bottom: 1px solid black;
-    width: 100%;
+    width: 70%;
 }
 
 #form-login-submit {
@@ -42,6 +43,7 @@
     border-radius: 20px;
     background-color: #430f10;
     color: #e1d7c5;
+    font-family: 'Libre Baskerville regular', Serif;
 }
 
 #form-login-div-submit {
@@ -50,11 +52,12 @@
 
 #lien-vers-accueil-login{
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
     color: black;
     margin: auto;
     width: 140px;
     text-align: center;
+    font-family: 'Libre Baskerville regular', Serif;
 }
 #lien-vers-accueil-login:hover{
     border-bottom: 1px solid black;

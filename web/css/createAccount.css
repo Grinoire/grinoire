@@ -1,6 +1,4 @@
 #section-create-account{
-    height: 713px;
-    grid-column: 1 / span 20;
     display: grid;
 }
 #section-create-account-wrapper{
@@ -15,6 +13,10 @@
     /*opacity: 0.6;*/
     border-radius: 10px;
 }
+#titre-creer-compte{
+    font-family: "EB Garamond Medium", Serif;
+    font-size: 20px;
+}
 #form-create-account{
     display: grid;
     width: 429px;
@@ -23,13 +25,15 @@
 }
 #form-create-account label{
     font-size: 13px;
+    font-family: "Libre Baskerville regular", Serif;
 }
 #form-create-account div{
     text-align: left;
 }
 #lien-vers-accueil-create-account{
+    font-family: "Libre Baskerville regular", Serif;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
     color: black;
     width: 140px;
     text-align: center;
@@ -43,9 +47,10 @@
     border: 0;
     background: rgba(225, 215, 197, 0);
     border-bottom: 1px solid black;
-    width: 100%;
+    width: 72%;
 }
 #submit-create-account{
+    font-family: "Libre Baskerville regular", Serif;
     text-align: center;
     width: 110px;
     border-radius: 20px;

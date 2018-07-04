@@ -1,7 +1,5 @@
 /*attention z-index sur le cadre de l'avatar*/
 #section-profil {
-    height: 713px;
-    grid-column: 1 / span 20;
     display: grid;
     justify-items: center;
     align-items: center;
@@ -19,6 +17,7 @@
 }
 #form-container{
     width: 400px;
+    height: 270px;
     margin: auto;
     top: -68px;
     display: grid;
@@ -29,6 +28,9 @@
     position: relative;
     top: -284px;
     display: grid;
+}
+#form-profil label{
+    font-family: "Libre Baskerville regular";
 }
 /*La div qui englobe le label + input de l'avatar*/
 .avatar-img {
@@ -60,21 +62,11 @@
     z-index: 100;
 }
 
-#profil-avatar {
+.profil-avatar {
     width: 150px;
     height: 150px;
     border-radius: 100%;
 }
-
-#avatar-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 100%;
-    /*position: relative;*/
-    /*top: -321px;*/
-    /*left: 227px;*/
-}
-
 .label-file {
     color: red;
 }
@@ -109,15 +101,19 @@
 }
 
 #lien-vers-accueil-profil{
+    font-family: "Libre Baskerville regular", Serif;
+    font-size: 15px;
     position: relative;
     top: -280px;
     margin: auto;
     width: 140px;
     text-align: center;
     text-decoration: none;
+    color: black;
 }
 #lien-vers-accueil-profil:hover{
     border-bottom: 1px solid black;
+    width: 135px;
 }
 #input-text-container{
     position: relative;
@@ -134,25 +130,26 @@
 }
 #statistique-joueur span{
     padding-top: 7px;
+    font-family: "Libre Baskerville regular", Serif;
 }
 #input-login{
-    width: 85%;
+    width: 80%;
 }
 #input-nom{
-    width: 91%;
+    width: 87%;
 }
 #input-prenom{
-    width: 86%;
+    width: 81%;
 }
 #input-email{
-    width: 89%;
+    width: 85%;
 }
 #input-password{
-    width: 77%;
+    width: 71%;
 }
 #pseudo-baniere{
     width: 96px;
-    /* height: 20px; */
+    font-family: "Libre Baskerville regular";
     text-align: center;
     position: relative;
     top: -115px;

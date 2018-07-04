@@ -1,8 +1,3 @@
-#section-grinoire {
-    height: 713px;
-    grid-column: 1 / span 20;
-}
-
 #section-grinoire-wrapper {
     display: grid;
     justify-content: center;
@@ -46,6 +41,7 @@
     position: relative;
 }
 #liens-grinoire-wrapper a {
+    font-family: "Libre Baskerville regular", Serif;
     text-decoration: none;
     color: black;
     font-size: 20px;
@@ -59,6 +55,8 @@
 }
 
 #texte {
+    font-family: "Libre Baskerville Italic", Serif;
+    font-weight: 200;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     text-align: center;
