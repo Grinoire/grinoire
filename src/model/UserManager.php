@@ -64,8 +64,7 @@ class UserManager
 
     /**
      *  Vérifit si le login est déjà en base de données (renvoit un booleen)
-     * @param $login
-     * @param $mail
+     * @param  string $login
      * @return bool
      */
     public function checkLoginInDataBase($login){
@@ -80,7 +79,7 @@ class UserManager
 
     /**
      * Vérifit si le mail est déjà en base de données (renvoit un booleen)
-     * @param $mail
+     * @param string  $mail
      * @return bool
      */
     public function checkMailInDataBase($mail){
@@ -95,7 +94,7 @@ class UserManager
 
     /**
      *  Vérifit si le password est déjà en base de données (renvoit un booleen)
-     * @param $password
+     * @param  string  $password
      * @return bool
      */
     public function checkPasswordInDataBase($password){
@@ -108,6 +107,12 @@ class UserManager
 
     }
 
+    /**
+     * [isValidLoginProfil description]
+     * @param   [type]  $login    [description]
+     * @param   [type]  $mylogin  [description]
+     * @return  bool
+     */
     public function isValidLoginProfil($login, $mylogin){
         $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login AND user_login != :mylogin');
         $req->execute(array(
@@ -117,6 +122,12 @@ class UserManager
         return (bool)$req->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * [isValidMailProfil description]
+     * @param   [type]  $mail    [description]
+     * @param   [type]  $myMail  [description]
+     * @return  bool
+     */
     public function isValidMailProfil($mail, $myMail){
         $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_mail = :mail AND user_mail != :myMail');
         $req->execute(array(
@@ -178,13 +189,13 @@ class UserManager
     }
 
     /**
-     * @param $lastName
-     * @param $firstName
-     * @param $mail
-     * @param $login
-     * @param $password
-     * @param $avatar
-     * @param $id
+     * @param  [type]    $lastName
+     * @param  [type]    $firstName
+     * @param  [type]    $mail
+     * @param  [type]    $login
+     * @param  [type]    $password
+     * @param  [type]    $avatar
+     * @param  [type]    $id
      * @throws UserException
      */
     public function updateProfilUserById($lastName, $firstName, $mail, $login, $password, $avatar, $id)
@@ -223,7 +234,7 @@ class UserManager
 
 
     /**
-     * @param $avatar
+     * @param  mixed $avatar
      * @return mixed
      * @throws \Exception
      */

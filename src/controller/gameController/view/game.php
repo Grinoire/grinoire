@@ -1,10 +1,3 @@
-
-
-<?php
-
-// var_dump($user);
-// var_dump($opponent);
-?>
     <div id="global-container" class="gameContainer"><!-- Container "plateau de jeu" -->
         <div class="gameWrapper"><!-- Wrapper "plateau de jeu" -->
 
@@ -13,9 +6,9 @@
                 <div class="leftWrapper">
                     <div class="drawContainer firstDraw grey">
                         <?php
-                        foreach ($opponent->getCardList()  as $card) { //build card in draw
+                        foreach ($opponent->getCardList()  as $card) { //pr chaque carte
                             if ($card->getStatus() === 0) {
-                                echo '<a href=""><div class="card back"></div></a>';
+                                echo '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card back"></div></a>';
                             }
                         }
                         ?>
@@ -23,9 +16,9 @@
                     <!-- pioche joueur 2 -->
                     <div class="drawContainer secondDraw blue">
                         <?php
-                        foreach ($user->getCardList()  as $card) { //build card in draw
+                        foreach ($user->getCardList()  as $card) { //pr chaque carte
                             if ($card->getStatus() === 0) {
-                                echo '<a href=""><div class="card back"></div></a>';
+                                echo '<a href="?c=game&a=game&id=' . $card->getId() . '&draw"><div class="card back"></div></a>';
                             }
                         }
                         ?>
@@ -39,34 +32,48 @@
             <div class="middleContainer">
                 <div class="middleWrapper">
 
+                    <!-- generation des cartes de l'adversaire tenu en main-->
                     <div id="deck-1" class="deckContainer firstPlayerDeck red">
                         <?php
-                        foreach ($opponent->getCardList() as $card) { //build card in main
+                        foreach ($opponent->getCardList() as $card) {//pr chaque carte
                             if ($card->getStatus() === 1) {
-                                echo '<a href=""><div class="card">' . $card->getBg() . '</div></a>';
-                            } // TODO: jen ete la
+                                    echo '<div class="card">' . $card->getBg() . '</div>';
+                            }
                         }
                         ?>
                     </div>
 
                     <div class="hero-opponent">
-                        <?=$opponent->getHero()->getName()?>
+                        <?php if (isset($_GET["id"])): ?>
+                            <a href="?c=game&a=game&id=<?=$_GET["id"] . '&target=' . $opponent->getHero()->getId()?>&hero">
+                                <?=$opponent->getHero()->getName()  . ' ' . $opponent->getHero()->getDamageReceived()?>
+                            </a>
+                        <?php else: ?>
+                            <?=$opponent->getHero()->getName()?>
+                        <?php endif; ?>
                     </div>
 
-                    <div class="boardGame yellow">
-                        boardGame
-                    </div>
+                    <?php //on affiche le plateau par default, si une carte est selectionné on genere un lien
+                    if (isset($_GET["id"])) {
+                        echo '<div class="boardGame yellow"><a href="?c=game&a=game&id=' . $card->getId() . '&zone=board">boardGame</a></div>';
+                    } else {
+                        echo '<div class="boardGame yellow">boardGame</div>';
+                    }
+
+
+                    ?>
 
                     <div class="hero-player">
                         <?=$user->getHero()->getName()?>
                     </div>
 
+                    <!-- generation des carte du joueur tenu en main-->
                     <div id="deck-2" class="deckContainer secondPlayerDeck cyan">
                         <?php
-                        foreach ($user->getCardList() as $card) { //build card in main
+                        foreach ($user->getCardList() as $card) { //pr chaque carte
                             if ($card->getStatus() === 1) {
-                                echo '<a href=""><div class="card">' . $card->getBg() . '</div></a>';
-                            } // TODO: jen ete la
+                                    echo '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card">' . $card->getBg() . '</div></a>';
+                            }
                         }
                         ?>
                     </div>
@@ -90,4 +97,12 @@
 
 
         </div><!-- Fin Wrapper "plateau de jeu" -->
+        <a href="?c=home&a=grinoire&deconnexion">deconnection</a>
     </div><!-- Fin Container "plateau de jeu" -->
+
+
+    <?php
+
+    var_dump($_SESSION);
+    var_dump($opponent);
+    ?>

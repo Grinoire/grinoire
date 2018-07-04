@@ -20,7 +20,7 @@ class GameController extends CoreController
 {
 
     /**
-     * SelectionController Construct
+     * GameController Construct
      * @param  array  $get   Global $_GET
      * @param  array  $post  Global $_POST
      */
@@ -105,11 +105,11 @@ class GameController extends CoreController
 
             $userManager = new UserManager();
 
-            do { //get a opponent except own ID
+            do { //recupere un adversaire prêt en BDD autre que nous
                 $opponant = $userManager->getOpponent((int)$this->getSession('userConnected'));
             } while (is_null($opponant));
 
-            if ($opponant) { //set new game in session & display view default
+            if ($opponant) { //construit une nouvelle partie et l'ajoute en bdd
                 $gameManager = new GameManager();
                 $gameId = $gameManager->newGame( (int)$this->getSession('userConnected'), $opponant->getId());
                 $this->setSession('game', $gameManager->getGame($gameId));
@@ -121,7 +121,7 @@ class GameController extends CoreController
 
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
-            $this->render(true); //show view deck selection
+            $this->render(true); //affiche la vue par default de selection du deck
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }
@@ -141,33 +141,67 @@ class GameController extends CoreController
             $deckManager = new DeckManager();
             $gameManager = new GameManager();
 
+            //si le button prochain tour est cliqué, on ajoute 1 au tour et save en BDD et session
             if (array_key_exists('nextTurn', $this->getGet())) {
                 $gameManager->nextTurn((int) $this->getSession('game')->getId(), (int) $this->getSession('game')->getTurn());
                 $this->setSession('game', $gameManager->getGame((int) $this->getSession('game')->getId()));
-                $this->setSession('nextTurn');
                 redirection('?c=game&a=game');
 
+            } elseif (array_key_exists('id', $this->getGet()) && array_key_exists('draw', $this->getGet())) {
+                $card = $deckManager->getTmpCardByID((int) $this->getGet('id'));
+                $card->setStatus(1);
+                $deckManager->UpdateTmpCard($card);
+            //Sinon si c'est le premier tour de jeu, on initialise le plateau
             } elseif ((int) $this->getSession('game')->getTurn() === 0) {
 
+                //recupere le deck du joueur et initialise en BDD le status des cartes [pioche, en main]
+                $cardList = $deckManager->getTmpDeck((int) $this->getSession('userConnected'))->getCardList();
+                $deckManager->initCardStatus($cardList);
 
-                $cardList = $deckManager->getTmpDeck((int) $this->getSession('userConnected'))->getCardList(); //get temporary deck
-                $deckManager->initCardStatus($cardList);//init card status, 0 = draw, 1 = hand
-
-                $data['user'] = $deckManager->getTmpDeck((int) $this->getSession('userConnected')); //get updated deck
-                $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer2Id());// TODO: maybe we need to control if is not her own id ...
-
-                $this->render(true, 'game', $data);
-
+                //on incremente le tour de 1
+                $gameManager->nextTurn((int) $this->getSession('game')->getId(), (int) $this->getSession('game')->getTurn());
+                $this->setSession('game', $gameManager->getGame((int) $this->getSession('game')->getId()));
 
 
-            } else { //normal turn
+            //si une carte et une cible on ete selectionné
+            } elseif (array_key_exists('id', $this->getGet()) && array_key_exists('target', $this->getGet())) {
 
-                $data['user'] = $deckManager->getTmpDeck((int) $this->getSession('userConnected'));
-                $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer2Id());// TODO: maybe we need to control if is not her own id ...
+                //on recupere la carte et sa cible
+                $cardPlayer = $deckManager->getTmpCardByID( (int) $this->getGet('id'));
+                if (array_key_exists('hero', $this->getGet())) {
+                    $target = $deckManager->getTmpHero((int) $this->getSession('game')->getPlayer2Id());
+                } else {
+                    $target = $deckManager->getTmpCardByID( (int) $this->getGet('target'));
+                }
 
-                $this->render(true, 'game', $data);
+                //si la cible est valide (Hero ou target instance)
+                if ($cardPlayer->isValidTarget($target)) {
+                    $dead = $cardPlayer->giveDamage($target); //on attaque la cible et retourne une valeur mort ou pas
+                    if (get_class($target) == 'grinoire\src\model\entities\Hero') { //si hero
+                        $deckManager->UpdateTmpHero($target); //on met a jour la table en BDD
+                        // TODO: end of game if king die
+
+                    } else { //sinon on met a jour la table card en BDD
+                        if ($dead === 2) {
+                            $target->setStatus(2); //carte defausser
+                        }
+                        $deckManager->UpdateTmpCard($target);
+                    }
+
+                } else {
+                    // TODO: message cible invalide
+                }
+
+                //on incremente le tour de 1
+                $gameManager->nextTurn((int) $this->getSession('game')->getId(), (int) $this->getSession('game')->getTurn());
+                $this->setSession('game', $gameManager->getGame((int) $this->getSession('game')->getId()));
             }
 
+            //on affiche le plateau de jeu
+            $data['user']     = $deckManager->getTmpDeck((int) $this->getSession('userConnected'));//recupere le deck du joueur
+            $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer2Id());//recupere le deck de l'adversaire
+
+            $this->render(true, 'game', $data);
 
 
         } catch (UserException $e) {

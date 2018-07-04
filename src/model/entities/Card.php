@@ -13,6 +13,8 @@ use grinoire\src\model\entitiesInterface\DealDamage;
 class Card
 {
 
+    use DealDamage;
+
     /**
      * --------------------------------------------------
      *     PROPERTIES
@@ -155,37 +157,8 @@ class Card
      * ------------------------------------------------------
      */
 
-// TODO: INTERFACE
-
-    /**
-     * Deal dammage to a target
-     * @param  DealDamage  $target  Interface handle damage
-     * @return int         $state   1 = HIT TARGET ,2 = DEAD TARGET
-     */
-    public function giveDamage(DealDamage $target) :int
-    {
-        return $target->receiveDamage($this->getAttack());
-    }
 
 
-    /**
-     * Add damage & check if entity is dead
-     * @param  int   $damage   Damage value
-     * @return int
-     */
-    public function receiveDamage(int $damage) :int
-    {
-        //add damage to entity
-        $this->setDamageReceived($this->getDamageReceived() + $damage);
-        //if damage > life return DEAD else return HIT
-        if ($this->getDamageReceived() >= $this->getLife()) {
-            $state = self::DEAD;
-        } else {
-            $state = self::HIT;
-        }
-
-         return $state;
-    }
 
 
     /**

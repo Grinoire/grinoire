@@ -2,12 +2,15 @@
 declare(strict_types= 1);
 
 namespace grinoire\src\model\entities;
+use grinoire\src\model\entitiesInterface\DealDamage;
 
 /**
  *  Represente le Hero
  */
 class Hero
 {
+
+    use DealDamage;
 
     /**
      * Identifiant du heros

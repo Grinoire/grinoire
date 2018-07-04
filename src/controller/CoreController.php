@@ -326,11 +326,20 @@ class CoreController
     }
 
     /**
-     * @return array
+     * Retourne la super-global get si la key n'est pas defini
+     *
+     * Sinon la valeur de la key si defini
+     *
+     * @param   string|null   $key    Clé a retourné
+     * @return  mixed
      */
-    public function getGet() : array
+    public function getGet(string $key = null)
     {
-        return $this->get;
+        if (isset($key)) {
+            return $this->get[$key];
+        } else {
+            return $this->get;
+        }
     }
 
     /**
@@ -355,6 +364,34 @@ class CoreController
             return $this->session['grinoire'][$key];
         } else {
             return $this->session['grinoire'];
+        }
+    }
+
+
+    /**
+     * --------------------------------------------------
+     *     DEBUG WiTH SCRIPT
+     * ------------------------------------------------------
+     */
+
+     /**
+      * Affiche la valeur en parametre dans la console du navigateur
+      * @param   mixed  $value   string ou array
+      * @return  void
+      */
+    public function debugScript($value) {
+        if (gettype($value) == 'string') {
+            echo '<script>console.log("' . $value . '")</script>';
+        } elseif (gettype($value) == 'array') {
+            foreach ($value as $key => $val) {
+                if (gettype($val) == 'array') {
+                    foreach ($val as $key => $v) {
+                        echo '<script>console.log("' . $v . '")</script>';
+                    }
+                } elseif (gettype($val) == 'string') {
+                    echo '<script>console.log("' . $val . '")</script>';
+                }
+            }
         }
     }
 

@@ -48,6 +48,11 @@ class DeckManager
     // ------ METHOD SQL ------- //
     // ------------------------- //
 
+    /**
+     * --------------------------------------------------
+     *     ORIGINAL CARD METHOD
+     * ------------------------------------------------------
+     */
 
     /**
      *  recupere les cartes original associé au deck
@@ -125,6 +130,12 @@ class DeckManager
         return new Card($data);
     }
 
+
+    /**
+     * --------------------------------------------------
+     *    METHOD FOR TEMPORARY CARD IN TMP_CARD
+     * ------------------------------------------------------
+     */
 
     /**
      * Copy original value of card & Hero in database
@@ -243,6 +254,23 @@ class DeckManager
 
 
     /**
+     * Get a tmp-card selected by id
+     * @param   int     $cardId  Tmp-Card ID
+     * @return  Card             Requested card
+     */
+    public function getTmpCardByID(int $cardId) :Card
+    {
+        $statement = 'SELECT * FROM tmp_card WHERE tmpcard_id = :cardId';
+        $params = [':cardId' => [$cardId, PDO::PARAM_INT]];
+        $response = $this->getPdo()->makeSelect($statement, $params, false);
+
+        return new Card($response);;
+    }
+
+
+
+
+    /**
      * Update a hero in tmp_hero table
      * @param   Hero  $hero  Hero instance
      * @return  int
@@ -347,23 +375,19 @@ class DeckManager
     /**
      * Define card status, status define position on board
      * @param   Card[]  $cardList    Array of Card
-     * @return  array                Array with initial status for each card
+     * @return  void
      */
-    public function initCardStatus(array $cardList) :array {
-
-        $nbCardInMain = 3;
-
+    public function initCardStatus(array $cardList) :void {
+        
         //define card status for setting position on board, card is already randomized
         for ( $i=0 ; $i < count($cardList) ; $i++ ) {
-            if ($i < $nbCardInMain) {
+            if ($i < HAND_NBR_CARD) {
                 $cardList[$i]->setStatus(1);//define status
-                $this->UpdateTmpCard($cardList[$i]);//push in bdd
             } else {
                 $cardList[$i]->setStatus(0);//define status
-                $this->UpdateTmpCard($cardList[$i]);//push in bdd
             }
+            $this->UpdateTmpCard($cardList[$i]);//push in bdd
         }
-        return $cardList;
     }
 
 

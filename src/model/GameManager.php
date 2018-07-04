@@ -14,7 +14,6 @@ use grinoire\src\model\entities\Game;
 class GameManager
 {
 
-
     /**
      * Singleton DbManager
      * @var  PdoManager
@@ -28,6 +27,8 @@ class GameManager
      *     MAGIC METHOD
      * ------------------------------------------------------
      */
+
+
 
     /**
      *  GameManager construct
@@ -85,6 +86,7 @@ class GameManager
      }
 
 
+
      /**
       * Get all defined properties for a game selected by ID
       * @param   int  $id  Game ID
@@ -131,13 +133,13 @@ class GameManager
 
 
 
-
-
     /**
      * --------------------------------------------------
      *     GETTERS
      * ------------------------------------------------------
      */
+
+
 
     /**
      * Get property value
