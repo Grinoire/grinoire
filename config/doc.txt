@@ -1,0 +1,2 @@
+remove game session if disconnected or game ended
+clear bdd after match end or deconnexion or time out?

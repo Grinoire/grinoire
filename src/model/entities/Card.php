@@ -13,6 +13,8 @@ use grinoire\src\model\entitiesInterface\DealDamage;
 class Card
 {
 
+    use DealDamage;
+
     /**
      * --------------------------------------------------
      *     PROPERTIES
@@ -63,6 +65,12 @@ class Card
     *  @var  int
     */
     private $deckIdFk;
+
+    /**
+     * Identifiant du joueur lié au deck si exisant
+     * @var  int
+     */
+    private $userIdFk;
 
 
     /**
@@ -149,37 +157,8 @@ class Card
      * ------------------------------------------------------
      */
 
-// TODO: INTERFACE
-
-    /**
-     * Deal dammage to a target
-     * @param  DealDamage  $target  Interface handle damage
-     * @return int         $state   1 = HIT TARGET ,2 = DEAD TARGET
-     */
-    public function giveDamage(DealDamage $target) :int
-    {
-        return $target->receiveDamage($this->getAttack());
-    }
 
 
-    /**
-     * Add damage & check if entity is dead
-     * @param  int   $damage   Damage value
-     * @return int
-     */
-    public function receiveDamage(int $damage) :int
-    {
-        //add damage to entity
-        $this->setDamageReceived($this->getDamageReceived() + $damage);
-        //if damage > life return DEAD else return HIT
-        if ($this->getDamageReceived() >= $this->getLife()) {
-            $state = self::DEAD;
-        } else {
-            $state = self::HIT;
-        }
-
-         return $state;
-    }
 
 
     /**
@@ -285,6 +264,14 @@ class Card
     public function getDeckIdFk() :int
     {
         return $this->deckIdFk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserIdFk(): int
+    {
+        return $this->userIdFk;
     }
 
 
@@ -412,6 +399,17 @@ class Card
     public function setDeckIdFk(int $deckIdFk) :Card
     {
         $this->deckIdFk = $deckIdFk;
+        return $this;
+    }
+
+    /**
+     * @param int $userIdFk
+     *
+     * @return static
+     */
+    public function setUserIdFk(int $userIdFk)
+    {
+        $this->userIdFk = $userIdFk;
         return $this;
     }
 }
