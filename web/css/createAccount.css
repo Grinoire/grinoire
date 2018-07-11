@@ -1,0 +1,62 @@
+#section-create-account{
+    display: grid;
+}
+#section-create-account-wrapper{
+    display: grid;
+    /*grid-template-rows: repeat(10, 1fr);*/
+    width: 550px;
+    height: 380px;
+    text-align: center;
+    margin: auto;
+    /*background-color: #e1d7c5;*/
+    background: rgba(225, 215, 197, 0.6);
+    /*opacity: 0.6;*/
+    border-radius: 10px;
+}
+#titre-creer-compte{
+    font-family: "EB Garamond Medium", Serif;
+    font-size: 20px;
+}
+#form-create-account{
+    display: grid;
+    width: 429px;
+    height: 186px;
+    margin: auto;
+}
+#form-create-account label{
+    font-size: 13px;
+    font-family: "Libre Baskerville regular", Serif;
+}
+#form-create-account div{
+    text-align: left;
+}
+#lien-vers-accueil-create-account{
+    font-family: "Libre Baskerville regular", Serif;
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+    width: 140px;
+    text-align: center;
+    margin: auto;
+}
+#lien-vers-accueil-create-account:hover{
+    border-bottom: 1px solid black;
+}
+
+.create-account-input-form{
+    border: 0;
+    background: rgba(225, 215, 197, 0);
+    border-bottom: 1px solid black;
+    width: 72%;
+}
+#submit-create-account{
+    font-family: "Libre Baskerville regular", Serif;
+    text-align: center;
+    width: 110px;
+    border-radius: 20px;
+    background-color: #430f10;
+    color: #e1d7c5;
+}
+#submit-create-account-div{
+    text-align: right!important;
+}

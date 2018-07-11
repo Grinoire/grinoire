@@ -18,53 +18,30 @@ body {
     font-size: 1.4rem;
 }
 
-/*------------------------------------------------------------------------------------------------------
-*          HOME VIEWS           |
-*-----------------------------*/
-#home div{
-    border: 1px solid black;
-    width: 500px;
-    height: 500px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-}
+/*#profil-avatar {*/
+    /*width: 150px;*/
+    /*height: 150px;*/
+    /*-webkit-border-radius: 100%;*/
+    /*-moz-border-radius: 100%;*/
+    /*border-radius: 100%;*/
+/*}*/
 
-#home a {
-    font-size: 2rem;
-    margin: auto;
-    text-decoration: none;
-}
+/*#avatar-img{*/
+    /*width: 150px;*/
+    /*height: 150px;*/
+    /*border-radius: 100%;*/
+/*}*/
+/*.label-file{*/
+    /*color: red;*/
+/*}*/
 
-#profil {
-    width: 1000px;
-    margin: auto;
-}
+/*.label-file:hover {*/
+    /*cursor: pointer;*/
+/*}*/
 
-#profil-avatar {
-    width: 150px;
-    height: 150px;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
-}
-
-#avatar-img{
-    width: 150px;
-    height: 150px;
-    border-radius: 100%;
-}
-.label-file{
-    color: red;
-}
-
-.label-file:hover {
-    cursor: pointer;
-}
-
-.input-file {
-    display: none;
-}
+/*.input-file {*/
+    /*display: none;*/
+/*}*/
 
 /*------------------------------------------------------------------------------------------------------
 *           GAME VIEW           |

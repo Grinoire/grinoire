@@ -71,17 +71,26 @@ class GameController extends CoreController
                 } else {
                     //get all card and display them, player can choose 20 of them
                     $data['cardList'] = $deckManager->getAllCardByDeck((int) $this->getPost("selectedDeck"));
-                    $this->render(true, 'selectDeck', $data);
+//                    $this->render(true, 'selectDeck', $data);
+                    require '../view/template-home/header.php';
+                    $this->render(false, 'selectDeck', $data);
+                    require '../view/template-home/footer.php';
                 }
 
 
             } else { //default view
-                $this->render(true);
+//                $this->render(true);
+                require '../view/template-home/header.php';
+                $this->render(false, 'selectDeck');
+                require '../view/template-home/footer.php';
             }
 
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
-            $this->render(true); //show view deck selection
+//            $this->render(true); //show view deck selection
+            require '../view/template-home/header.php';
+            $this->render(false, 'selectDeck');
+            require '../view/template-home/footer.php';
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }

@@ -1,0 +1,77 @@
+#section-selectDeck-wrapper {
+    height: 100%;
+}
+
+#section-selectDeck-wrapper h1 {
+    text-align: center;
+    font-family: "Libre Baskerville regular", Serif;
+    font-weight: 200;
+    font-size: 24px;
+    position: relative;
+    top: 100px;
+}
+
+#section-selectDeck-wrapper h1 span {
+    font-size: 34px;
+}
+
+#selectDeck-img-hero {
+    position: relative;
+    top: -43px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+/*Div qui permet d'espacer les images des héros*/
+#selectDeck-div-bateau {
+    width: 180px;
+}
+#selectDeck-chapelier{
+    position: relative;
+    width: 192px;
+    height: 167px;
+    border-radius: 100%;
+    top: -217px;
+    left: 8px;
+    opacity: 0;
+}
+#selectDeck-chapelier:hover{
+    cursor: pointer;
+}
+#selectDeck-gandalf{
+    position: relative;
+    width: 192px;
+    height: 167px;
+    border-radius: 100%;
+    top: -217px;
+    left: 8px;
+    opacity: 0;
+}
+#selectDeck-gandalf:hover{
+    cursor: pointer;
+ }
+#selectDeck-nom-chapelier{
+    position: relative;
+    top: 67px;
+    width: 141px;
+    height: 30px;
+    text-align: center;
+    margin: auto;
+    line-height: 30px;
+    font-family: "Libre Baskerville regular", Serif;
+    font-size: 20px;
+    font-weight: 800;
+}
+#selectDeck-nom-gandalf{
+    position: relative;
+    top: 67px;
+    width: 141px;
+    height: 30px;
+    text-align: center;
+    margin: auto;
+    line-height: 30px;
+    font-family: "Libre Baskerville regular", Serif;
+    font-size: 20px;
+    font-weight: 800;
+}

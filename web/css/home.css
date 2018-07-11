@@ -1,0 +1,58 @@
+/*#home-section {*/
+    /*height: 713px;*/
+    /*grid-column: 1 / span 20;*/
+/*}*/
+
+#home-section-wrapper {
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    height: 100%;
+    text-align: center;
+}
+
+#container-home-form { /*le papa a grid-template-row c donc ici que je manipule les grid-row*/
+    text-align: center;
+    grid-row: 5;
+}
+
+#container-home-form img {
+    position: relative;
+    top: 40px;
+}
+
+#container-home-form p {
+    font-size: 35px;
+    font-family: 'Libre Baskerville Italic', serif;
+}
+
+#home-form {
+    display: grid;
+    position: relative;
+}
+
+#home-form a {
+    font-family: 'EB Garamond Medium', serif;
+    font-size: 17px;
+    text-decoration: none;
+    margin: auto;
+    position: relative;
+    background-color: #430f10;
+    border-radius: 5px;
+    color: #f8e9c9;
+}
+
+#home-form a:nth-child(1) {
+    font-size: 17px;
+    text-decoration: none;
+    border: 1px solid #430f10;
+    width: 170px;
+    top: -172px;
+}
+
+#home-form a:nth-child(2) {
+    font-size: 17px;
+    text-decoration: none;
+    border: 1px solid #430f10;
+    width: 155px;
+    top: -119px;
+}

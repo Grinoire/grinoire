@@ -1,0 +1,68 @@
+#section-grinoire-wrapper {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+}
+
+#section-grinoire-wrapper img {
+    z-index: 100;
+}
+
+#liens-grinoire {
+    border: 1px solid black;
+    border-radius: 10px;
+    display: grid;
+    background: rgba(240, 226, 207, 0.6);
+    position: relative;
+    top: -215px;
+    height: 82px;
+    text-align: center;
+    left: 8px;
+    width: 98%;
+}
+
+#liens-grinoire-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#img-cerlce-deco{
+    left: -113px;
+    position: relative;
+}
+#img-cercle-jouer{
+    left: -100px;
+    position: relative;
+}
+#img-cercle-profil{
+    left: -95px;
+    position: relative;
+}
+#liens-grinoire-wrapper a {
+    font-family: "Libre Baskerville regular", Serif;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    z-index: 150;
+}
+
+#liens-grinoire-wrapper a:nth-child(2) {
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+}
+
+#texte {
+    font-family: "Libre Baskerville Italic", Serif;
+    font-weight: 200;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    position: relative;
+    top: -125px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-size: 25px;
+}
