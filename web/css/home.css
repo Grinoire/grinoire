@@ -1,58 +1,52 @@
-/*#home-section {*/
-    /*height: 713px;*/
-    /*grid-column: 1 / span 20;*/
-/*}*/
-
 #home-section-wrapper {
     display: grid;
-    grid-template-rows: repeat(10, 1fr);
-    height: 100%;
     text-align: center;
 }
 
-#container-home-form { /*le papa a grid-template-row c donc ici que je manipule les grid-row*/
+#home-div-container { /*le papa a grid-template-row c donc ici que je manipule les grid-row*/
     text-align: center;
-    grid-row: 5;
+    width: 40rem;
+    margin: auto;
+    margin-top: 6rem;
 }
 
-#container-home-form img {
-    position: relative;
-    top: 40px;
+#home-div-container img {
+    margin-top: 5rem;
 }
 
-#container-home-form p {
-    font-size: 35px;
-    font-family: 'Libre Baskerville Italic', serif;
+#home-div-container p {
+    font-size: 3.5rem;
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
 }
 
-#home-form {
+#home-lien {
     display: grid;
     position: relative;
 }
 
-#home-form a {
-    font-family: 'EB Garamond Medium', serif;
-    font-size: 17px;
+#home-lien a {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.7rem;
     text-decoration: none;
     margin: auto;
     position: relative;
     background-color: #430f10;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     color: #f8e9c9;
 }
-
-#home-form a:nth-child(1) {
-    font-size: 17px;
-    text-decoration: none;
-    border: 1px solid #430f10;
-    width: 170px;
-    top: -172px;
+#home-lien a:hover{
+    background-color: #062213;
 }
 
-#home-form a:nth-child(2) {
-    font-size: 17px;
-    text-decoration: none;
-    border: 1px solid #430f10;
-    width: 155px;
-    top: -119px;
+#home-lien a:nth-child(1) {
+    width: 18rem;
+    margin-top: -20.5rem;
+    padding: 0.3rem;
+}
+
+#home-lien a:nth-child(2) {
+    width: 15.5rem;
+    margin-top: -14rem;
+    padding: 0.3rem;
 }

@@ -1,15 +1,14 @@
 <!--<span style="text-align:center;color:white;background-color: red;font-size:30px;">--><? //= errorMessage() ?><!--</span>-->
 <!--<span style="text-align:center;color:white;background-color: green;font-size:30px;">--><? //= validMessage() ?><!--</span>-->
-<section id="section-profil">
-    <div id="section-profil-wrapper">
+<section id="profil-section">
+    <div id="profil-section-wrapper">
 
-        <span id="pseudo-baniere"><?= $user->getLogin() ?></span>
+        <span id="profil-pseudo-baniere"><?= $user->getLogin() ?></span>
+        <img id="profil-contour-avatar" src="img/grinoire/profil/contour-avatar.png"/>
 
-        <img id="contour-avatar" src="img/grinoire/profil/contour-avatar.png"/>
 
-
-        <div id="form-container">
-            <div id="statistique-joueur">
+        <div id="profil-form-container">
+            <div id="profil-statistique-joueur">
                 <span>Inscrit depuis le : <?= $user->getInscription() ?></span>
 
                 <span>Parties gagnées : <?= $user->getWinnedGame() ?></span>
@@ -19,7 +18,7 @@
                 <span>Nombre de parties jouées: <?= $user->getPlayedGame() ?></span>
             </div>
 
-            <form id="form-profil" action="" method="POST" enctype="multipart/form-data">
+            <form id="profil-form" action="" method="POST" enctype="multipart/form-data">
                 <?php
                 if (!$user->getAvatar()) {
                     ?>
@@ -41,35 +40,35 @@
                     <?php
                 }
                 ?>
-                <input id="submit-profil" type="submit" value="MODIFIER">
-                <div id="input-text-container">
+                <input id="profil-submit" type="submit" value="MODIFIER">
+                <div id="profil-input-text-container">
 
                     <div>
                         <label>Pseudo :</label>
-                        <input id="input-login" class="input-profil" type="text" name="login" value="<?= $user->getLogin() ?>">
+                        <input id="profil-input-login" class="input-profil" type="text" name="login" value="<?= $user->getLogin() ?>">
                     </div>
                     <div>
-                        <label>Nom</label>
-                        <input id="input-nom" class="input-profil" type="text" name="lastName" value="<?= $user->getLastName() ?>">
+                        <label>Nom :</label>
+                        <input id="profil-input-nom" class="input-profil" type="text" name="lastName" value="<?= $user->getLastName() ?>">
                     </div>
                     <div>
-                        <label>Prénom</label>
-                        <input id="input-prenom" class="input-profil" type="text" name="firstName" value="<?= $user->getFirstName() ?>">
+                        <label>Prénom :</label>
+                        <input id="profil-input-prenom" class="input-profil" type="text" name="firstName" value="<?= $user->getFirstName() ?>">
                     </div>
                     <div>
-                        <label>Email</label>
-                        <input id="input-email" class="input-profil" type="text" name="mail" value="<?= $user->getMail() ?>">
+                        <label>Email :</label>
+                        <input id="profil-input-email" class="input-profil" type="text" name="mail" value="<?= $user->getMail() ?>">
                     </div>
                     <div>
-                        <label>Mot de passe</label>
-                        <input id="input-password" class="input-profil" type="password" name="password" value="<?= $user->getPassword() ?>">
+                        <label>Mot de passe :</label>
+                        <input id="profil-input-password" class="input-profil" type="password" name="password" value="<?= $user->getPassword() ?>">
                     </div>
 
                 </div>
 
             </form>
 
-            <a id="lien-vers-accueil-profil" href="?c=Home&a=grinoire">Retour à l'accueil</a>
+            <a id="profil-lien-vers-accueil" href="?c=Home&a=grinoire">Retour à l'accueil</a>
 
         </div>
 

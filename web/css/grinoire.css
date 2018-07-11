@@ -1,68 +1,75 @@
-#section-grinoire-wrapper {
+#grinoire-section-wrapper {
     display: grid;
     justify-content: center;
-    align-content: center;
-    height: 100%;
+    margin: auto;
+    width: 67rem;
+    margin-top: 14rem;
 }
 
-#section-grinoire-wrapper img {
+#grinoire-section-wrapper img {
     z-index: 100;
 }
 
-#liens-grinoire {
+#grinoire-liens {
     border: 1px solid black;
-    border-radius: 10px;
     display: grid;
     background: rgba(240, 226, 207, 0.6);
     position: relative;
-    top: -215px;
-    height: 82px;
-    text-align: center;
-    left: 8px;
-    width: 98%;
+    top: -21.5rem;
+    height: 8.2rem;
+    width: 95%;
+    margin: auto;
 }
 
-#liens-grinoire-wrapper {
+#grinoire-liens-wrapper{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
 
 #img-cerlce-deco{
-    left: -113px;
+    left: -11.3rem;
     position: relative;
 }
 #img-cercle-jouer{
-    left: -100px;
+    left: -11rem;
     position: relative;
 }
 #img-cercle-profil{
-    left: -95px;
+    left: -7rem;
     position: relative;
 }
-#liens-grinoire-wrapper a {
+#grinoire-liens-wrapper a {
     font-family: "Libre Baskerville regular", Serif;
     text-decoration: none;
     color: black;
-    font-size: 20px;
     z-index: 150;
+    font-family: "Libre Baskerville", serif;
+    font-weight: bold;
 }
 
-#liens-grinoire-wrapper a:nth-child(2) {
-    text-decoration: none;
-    color: black;
-    font-size: 30px;
-}
 
-#texte {
-    font-family: "Libre Baskerville Italic", Serif;
+#grinoire-texte {
+    font-family: "Libre Baskerville", Serif;
+    font-style: italic;
     font-weight: 200;
-    border-top: 1px solid black;
+    border-top: 0.1rem solid black;
     border-bottom: 1px solid black;
     text-align: center;
     position: relative;
-    top: -125px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    font-size: 25px;
+    top: -12.5rem;
+    width: 41rem;
+    margin: auto;
+    line-height: 4rem;
+    font-size: 2.5rem;
+}
+
+#grinoire-jouer{
+    font-size: 3rem;
+}
+#grinoire-deconnexion{
+    font-size: 1.8rem;
+}
+#grinoire-profil{
+    font-size: 1.8rem;
 }

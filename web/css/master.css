@@ -1,3 +1,4 @@
+/*media query sur body*/
 *{
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -6,43 +7,31 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
 }
 html {
-    font-size: 67.5%;
-    /* background-color: #000; */
-    /* text-align: center; */
+    font-size: 62.5%;
 }
 
 body {
-    font-size: 1.4rem;
+    /*font-size: 1.4rem;*/
+    height: 100vh;
+    background-image: url(../img/grinoire/bg-image-de-fond.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-y: -102px;
 }
-
-/*#profil-avatar {*/
-    /*width: 150px;*/
-    /*height: 150px;*/
-    /*-webkit-border-radius: 100%;*/
-    /*-moz-border-radius: 100%;*/
-    /*border-radius: 100%;*/
-/*}*/
-
-/*#avatar-img{*/
-    /*width: 150px;*/
-    /*height: 150px;*/
-    /*border-radius: 100%;*/
-/*}*/
-/*.label-file{*/
-    /*color: red;*/
-/*}*/
-
-/*.label-file:hover {*/
-    /*cursor: pointer;*/
-/*}*/
-
-/*.input-file {*/
-    /*display: none;*/
-/*}*/
-
+/*
+MEDIA QUERY A PARTIR DE 1700 SUR LE BACKGROUND IMGAGE DE BODY
+*/
+@media screen and (max-width: 1700px) {
+    body {
+        font-size: 1.4rem;
+        background-image: url(../img/grinoire/bg-image-de-fond.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-y: 2rem;
+    }
+}
 /*------------------------------------------------------------------------------------------------------
 *           GAME VIEW           |
 *-----------------------------*/

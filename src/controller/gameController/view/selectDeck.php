@@ -1,9 +1,9 @@
 <?php
 if (!isset($cardList)) { //si on n'a pas selectionne de hero
 ?>
-<section id="section-selectDeck">
+<section id="selectDeck-section">
 
-    <div id="section-selectDeck-wrapper">
+    <div id="selectDeck-section-wrapper">
 
         <h1><span>C</span>HOIX DU HÉRO</h1>
 
@@ -66,6 +66,9 @@ if (!isset($cardList)) { //si on n'a pas selectionne de hero
         isset($_POST['selectedDeck']) ? var_dump($_POST['selectedDeck']) : null;
 
         ?>
+
+        <a id="selectDeck-lien-vers-accueil" href="?c=Home&a=grinoire">Retour à l'accueil</a>
+
     </div>
 
 

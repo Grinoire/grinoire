@@ -1,0 +1,73 @@
+@font-face {
+    /*medium*/
+    font-family: "EB Garamond";
+    src: url("../fonts/EB_Garamond/EBGaramond-Medium.ttf");
+}
+@font-face {
+    /*italic*/
+    font-family: "Libre Baskerville";
+    src: url("../fonts/Libre_Baskerville/LibreBaskerville-Italic.ttf");
+    font-style: italic;
+}
+@font-face {
+    /*medium*/
+    font-family: "Libre Baskerville";
+    src: url("../fonts/Libre_Baskerville/LibreBaskerville-Regular.ttf");
+}
+@font-face {
+    /*bold*/
+    font-family: "Libre Baskerville";
+    src: url("../fonts/Libre_Baskerville/LibreBaskerville-Bold.ttf");
+    font-weight: bold;
+}
+
+#general-container {
+    height: 100%;
+}
+
+#general-container-wrapper header {
+    height: 15rem;
+    background-color: #430f10;
+    grid-column: 1 / span 20;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#general-container-wrapper {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+}
+
+section {
+    grid-column: 1 / span 20;
+}
+
+footer {
+    height: 6rem;
+    grid-column: 1 / span 20;
+    background-color: #430f10;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer div {
+    display: flex;
+    margin: auto;
+    align-items: center;
+}
+
+footer p {
+    font-family: 'Libre Baskerville regular', serif;
+    color: #f8e9c9;
+    font-size: 1rem;
+    text-align: center;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}

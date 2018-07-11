@@ -1,20 +1,20 @@
-<section id="section-grinoire">
-    <div id="section-grinoire-wrapper">
+<section id="grinoire-section">
+    <div id="grinoire-section-wrapper">
 
         <img src="img/grinoire/contour-grinoire.png"/>
 
-        <div id="liens-grinoire">
-            <div id="liens-grinoire-wrapper">
-                <a href="?c=Home&a=grinoire&deconnexion">Deconnexion</a>
+        <div id="grinoire-liens">
+            <div id="grinoire-liens-wrapper">
+                <a id="grinoire-deconnexion" href="?c=Home&a=grinoire&deconnexion">Déconnexion</a>
                 <img id="img-cerlce-deco" src="img/grinoire/cercle.png"/>
-                <a href="?c=Game&a=selectDeck">JOUER</a>
+                <a id="grinoire-jouer" href="?c=Game&a=selectDeck">JOUER</a>
                 <img id="img-cercle-jouer" src="img/grinoire/cercle-jouer.png"/>
-                <a href="?c=Home&a=profil">PROFIL</a>
+                <a id="grinoire-profil" href="?c=Home&a=profil">Profil</a>
                 <img id="img-cercle-profil" src="img/grinoire/cercle.png"/>
             </div>
         </div>
 
-        <h1 id="texte">Entrez dans l'histoire...</h1>
+        <p id="grinoire-texte">Entrez dans l'histoire...</p>
 
     </div>
 </section>
