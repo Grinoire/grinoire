@@ -11,6 +11,15 @@ require_once '../src/common/commonFunction.php';
 
 session_start();
 
+if (isset($_GET["deconnexion"])) {
+    //reboot the selected deck in BDD
+//            $userManager = new UserManager();
+//            $userManager->setSelectedDeck((int)$this->getSession('userConnected'));
+    //unset session
+    $_SESSION["APP_NAME"] = array();
+    session_unset(APP_NAME);
+    redirection('?ctrl=Home&a=home');
+}
 
 //Define controller -> merge default controller whith $_GET, so data are update if user need other view
 $controller = array_merge(['c' => "Home", "a" => "home"], $_GET);

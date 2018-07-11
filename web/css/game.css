@@ -105,11 +105,6 @@
     grid-column: 1 / span 20;
     grid-row: 1 / span 3;
 }
-.boardGame
-{
-    grid-column: 1 / span 20;
-    grid-row: 4 / span 9;
-}
 .secondPlayerDeck
 {
     grid-column: 1 / span 20;
@@ -117,8 +112,40 @@
 
     /* placement des carte en main */
     display: flex;
-
 }
+
+/* Plateau de jeu */
+.board-container
+{
+    grid-column: 1 / span 20;
+    grid-row: 4 / span 9;
+
+    display: grid;
+    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: repeat(20, 1fr);
+    grid-gap: .5rem;
+}
+.board-top, .board-bottom
+{
+    display: flex;
+}
+.board-top
+{
+    grid-column: 1 / span 20;
+    grid-row: 1 / span 4;
+}
+.board-bottom
+{
+    grid-column: 1 / span 20;
+    grid-row: 6 / span 4;
+}
+.boardGame-link
+{
+    grid-column: 1 / span 20;
+    grid-row: 4 / span 9;
+}
+
+
 .button-end-tour{
     grid-column: 1 / span 4;
     grid-row: 8 / span 1;
@@ -252,4 +279,24 @@
     background-repeat: no-repeat;
     background-position: center;
     background-clip: border-box;
+}
+
+
+
+/**
+ * --------------------------------------------------
+ *     Deck selectCard view
+ * ------------------------------------------------------
+ */
+
+
+form.deck-selection-card {
+    grid-column: 7 / span 8;
+    text-align: center;
+    margin-top: 5rem;
+}
+
+form input.deck-select-card-submit {
+    display: block;
+    margin: 5rem auto;
 }

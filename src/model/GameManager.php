@@ -52,17 +52,15 @@ class GameManager
      /**
      * Insert a new game in database, auto generate game_FK in user
      * @param  int  $player1Id  Player ID
-     * @param  int  $player2Id  Player ID
      * @return int  GameId
      */
-     public function newGame(int $player1Id, int $player2Id) :int
+     public function newGame(int $player1Id) :int
      {
          $response = $this->getPdo()->makeUpdate( //generate a new game
-             'INSERT INTO `game` (`game_player_1_id`, `game_player_2_id`, `game_turn`)
-             VALUES (:player1, :player2, 0)',
+             'INSERT INTO `game` (`game_player_1_id`)
+             VALUES (:player1)',
              [
                  ':player1' => $player1Id,
-                 ':player2' => $player2Id
              ]
          );
 
@@ -70,11 +68,10 @@ class GameManager
          $this->session['grinoire']['activeGame'] = $lastInsertId;
 
          $response2 = $this->getPdo()->makeUpdate( //update both user to set active game id and remove ready state
-             'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :player1 OR `user_id` = :player2',
+             'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :player1',
              [
                  ':gameId'  => [$lastInsertId, PDO::PARAM_INT],
-                 ':player1' => [$player1Id, PDO::PARAM_INT],
-                 ':player2' => [$player2Id, PDO::PARAM_INT]
+                 ':player1' => [$player1Id, PDO::PARAM_INT]
              ]
          );
 
@@ -85,7 +82,20 @@ class GameManager
          }
      }
 
-
+     /**
+      *
+      * @param  int  $userId
+      * @param  int  $gameId
+      */
+    public function attributeGame(int $userId, int $gameId) :void {
+        $response = $this->getPdo()->makeUpdate( //update user to set active game id and remove ready state
+            'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :userId',
+            [
+                ':gameId'  => [$gameId, PDO::PARAM_INT],
+                ':userId' => [$userId, PDO::PARAM_INT]
+            ]
+        );
+    }
 
      /**
       * Get all defined properties for a game selected by ID
@@ -105,6 +115,27 @@ class GameManager
         } else {
             return new Game($response);
         }
+    }
+
+
+
+     /**
+      * Get all defined properties for a game selected by ID
+      * @return  Game[]
+      */
+    public function getActiveGame() :array
+    {
+        $response = $this->getPdo()->makeSelect(
+            'SELECT * FROM `game`
+            WHERE `game_status` = 1
+            AND game_player_2_id IS NULL'
+        );
+
+        $games = [];
+        foreach ($response as $game) {
+            $games[] = new Game($game);
+        }
+        return $games;
     }
 
 

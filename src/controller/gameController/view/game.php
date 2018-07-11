@@ -6,9 +6,11 @@
                 <div class="leftWrapper">
                     <div class="drawContainer firstDraw grey">
                         <?php
-                        foreach ($opponent->getCardList()  as $card) { //pr chaque carte
-                            if ($card->getStatus() === 0) {
-                                echo '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card back"></div></a>';
+                        if (isset($opponent)) {
+                            foreach ($opponent->getCardList()  as $card) { //pr chaque carte
+                                if ($card->getStatus() === 0) {
+                                    echo '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card back"></div></a>';
+                                }
                             }
                         }
                         ?>
@@ -27,7 +29,9 @@
             </div>
 
 
-
+            <!------------------------------->
+            <!-- PARTIE ENNEMI DU PLATEAU --->
+            <!------------------------------->
             <!-- Centre du plateau: Deck joueur1 & joueur2 + zone de combat -->
             <div class="middleContainer">
                 <div class="middleWrapper">
@@ -35,34 +39,97 @@
                     <!-- generation des cartes de l'adversaire tenu en main-->
                     <div id="deck-1" class="deckContainer firstPlayerDeck red">
                         <?php
-                        foreach ($opponent->getCardList() as $card) {//pr chaque carte
-                            if ($card->getStatus() === 1) {
+                        if (isset($opponent)) {
+                            foreach ($opponent->getCardList() as $card) {//pr chaque carte
+                                if ($card->getStatus() === 1) {
                                     echo '<div class="card">' . $card->getBg() . '</div>';
+                                }
                             }
                         }
                         ?>
                     </div>
 
                     <div class="hero-opponent">
-                        <?php if (isset($_GET["id"])): ?>
+                        <?php if (isset($_GET["id"]) && isset($opponent)): ?>
                             <a href="?c=game&a=game&id=<?=$_GET["id"] . '&target=' . $opponent->getHero()->getId()?>&hero">
                                 <?=$opponent->getHero()->getName()  . ' ' . $opponent->getHero()->getDamageReceived()?>
                             </a>
-                        <?php else: ?>
+                        <?php elseif (isset($opponent)): ?>
                             <?=$opponent->getHero()->getName()?>
                         <?php endif; ?>
                     </div>
 
-                    <?php //on affiche le plateau par default, si une carte est selectionné on genere un lien
-                    if (isset($_GET["id"])) {
-                        echo '<div class="boardGame yellow"><a href="?c=game&a=game&id=' . $card->getId() . '&zone=board">boardGame</a></div>';
-                    } else {
-                        echo '<div class="boardGame yellow">boardGame</div>';
-                    }
+                    <!------------------------------->
+                    <!-- PARTIE CENTRAL DU PLATEAU -->
+                    <!------------------------------->
+                    <div class="boardGame yellow board-container">
+
+                            <div class="board-top">
+                                <?php //on affiche les carte de l'ennemi avec lin de selection si une carte a deja ete selectionne
+                                if (isset($_GET["id"]) && isset($opponent)) {
+                                    $content = '';
+                                    foreach ($opponent->getCardList() as $card) { //pr chaque carte
+                                        if ($card->getStatus() === 3 || $card->getStatus() === 4) {
+                                            $content .= '<a href="?c=game&a=game&id=' . $_GET["id"] . '&target=' . $card->getId() . '"><div class="card">'
+                                            . $card->getBg()
+                                            . '<br>' . $card->getStatus()
+                                            . '<br>' . $card->getDamageReceived()
+                                            . '</div></a>';
+                                        }
+                                    }
+                                } elseif (isset($opponent)) {
+                                    $content = '';
+                                    foreach ($opponent->getCardList() as $card) { //pr chaque carte
+                                        if ($card->getStatus() === 3 || $card->getStatus() === 4) {
+                                            $content .= '<div class="card">' . $card->getBg()
+                                            . '<br>' . $card->getStatus()
+                                            . '<br>' . $card->getDamageReceived()
+                                            . '</div></a>';
+                                        }
+                                    }
+                                }
+
+                                echo isset($content) ? $content :null;
+                                ?>
+                            </div>
+
+                            <div class="board-bottom">
+                                <?php //on affiche le plateau par default, si une carte est selectionné on genere un lien
+                                if (isset($_GET["id"])) {
+                                    $content = '<a class="boardGame-link" href="?c=game&a=game&id=' . $_GET['id'] . '&zone=board">Board';
+                                    foreach ($user->getCardList() as $card) { //pr chaque carte
+                                        if ($card->getStatus() === 3 || $card->getStatus() === 4) {
+                                            $content .= '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card">'
+                                            . $card->getBg()
+                                            . '<br>' . $card->getStatus()
+                                            . '<br>' . $card->getDamageReceived()
+                                            . '</div></a>';
+                                        }
+                                    }
+                                    $content .= '</a>';
+                                } else {
+                                    $content = '';
+                                    foreach ($user->getCardList() as $card) { //pr chaque carte
+                                        if ($card->getStatus() === 3 || $card->getStatus() === 4) {
+                                            $content .= '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card">'
+                                            . $card->getBg()
+                                            . '<br>' . $card->getStatus()
+                                            . '<br>' . $card->getDamageReceived()
+                                            . '</div></a>';
+                                        }
+                                    }
+                                }
+
+                                echo isset($content) ? $content :null;
+                                ?>
+                        </div>
+
+                    </div>
 
 
-                    ?>
-
+                    <!------------------------------->
+                    <!-- PARTIE JOUEUR DU PLATEAU --->
+                    <!------------------------------->
                     <div class="hero-player">
                         <?=$user->getHero()->getName()?>
                     </div>
@@ -103,6 +170,6 @@
 
     <?php
 
-    var_dump($_SESSION);
-    var_dump($opponent);
+    // var_dump($_SESSION);
+    // var_dump($opponent);
     ?>

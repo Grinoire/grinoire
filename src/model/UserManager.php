@@ -37,6 +37,21 @@ class UserManager
         return $this->pdo;
     }
 
+
+    /**
+     * Get user in database selected by ID
+     * @param   int     $id  userID
+     * @return  User
+     */
+    public function getUserById(int $id) :User {
+        $response = $this->getPdo()->makeSelect(
+            'SELECT * FROM user WHERE user_id = :id',
+            [':id' => [$id, PDO::PARAM_INT]],
+            false
+        );
+        return new User($response);
+    }
+
     /**
      * @param  [type]  $mail  [description]
      * @param  [type]  $login  [description]
