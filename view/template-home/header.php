@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="css/grinoire.css">
     <link rel="stylesheet" href="css/profil.css">
     <link rel="stylesheet" href="css/selectDeck.css">
-    <link rel="stylesheet" href="css/test.scss">
 
     <title>Grinoire</title>
 </head>
