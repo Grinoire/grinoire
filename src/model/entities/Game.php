@@ -41,6 +41,12 @@ class Game
      */
     private $turn;
 
+    /**
+     * Game turn
+     * @var  int
+     */
+    private $nextTurn;
+
 
 
     /**
@@ -107,7 +113,6 @@ class Game
 
 
 
-
     /**
      * --------------------------------------------------
      *     SETTERS
@@ -159,6 +164,16 @@ class Game
         return $this;
     }
 
+    /**
+     * Define property value
+     * @param    int        $nextTurn
+     * @return   self       ->FLUENT->
+     */
+    public function setNextTurn(int $nextTurn) :self
+    {
+        $this->nextTurn = $nextTurn;
+        return $this;
+    }
 
     /**
      * --------------------------------------------------
@@ -200,6 +215,15 @@ class Game
     public function getTurn() :int
     {
         return $this->turn;
+    }
+
+    /**
+     * Get property value
+     * @return int
+     */
+    public function getNextTurn(): int
+    {
+        return $this->nextTurn;
     }
 
 }

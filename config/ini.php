@@ -60,3 +60,14 @@ if (!defined('DOMAIN'))     {define('DOMAIN', (dirname(__FILE__)));}
 if (!defined('DIR_VIEW'))   {define('DIR_VIEW', dirname(dirname(__FILE__)) . '\view\\');}
 if (!defined('DIR_CTRL'))   {define('DIR_CTRL', dirname(dirname(__FILE__)) . '\src\controller\\');}
 if (!defined('DIR_IMG'))    {define('DIR_IMG', dirname(dirname(__FILE__)) . '\web\img\avatar\\');}
+
+
+
+/**
+ * --------------------------------------------------
+ *     Defines value used in game
+ * ------------------------------------------------------
+ */
+if (!defined('HIT'))    {define('HIT', 1);}
+if (!defined('DEAD'))    {define('DEAD', 2);}
+if (!defined('HAND_NBR_CARD'))    {define('HAND_NBR_CARD', 3);}

@@ -14,7 +14,9 @@ html {
     /* text-align: center; */
 }
 
-
+body {
+    font-size: 1.4rem;
+}
 
 /*#profil-avatar {*/
     /*width: 150px;*/
