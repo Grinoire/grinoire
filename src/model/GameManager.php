@@ -52,17 +52,15 @@ class GameManager
      /**
      * Insert a new game in database, auto generate game_FK in user
      * @param  int  $player1Id  Player ID
-     * @param  int  $player2Id  Player ID
      * @return int  GameId
      */
-     public function newGame(int $player1Id, int $player2Id) :int
+     public function newGame(int $player1Id) :int
      {
          $response = $this->getPdo()->makeUpdate( //generate a new game
-             'INSERT INTO `game` (`game_player_1_id`, `game_player_2_id`, `game_turn`)
-             VALUES (:player1, :player2, 0)',
+             'INSERT INTO `game` (`game_player_1_id`)
+             VALUES (:player1)',
              [
                  ':player1' => $player1Id,
-                 ':player2' => $player2Id
              ]
          );
 
@@ -70,11 +68,10 @@ class GameManager
          $this->session['grinoire']['activeGame'] = $lastInsertId;
 
          $response2 = $this->getPdo()->makeUpdate( //update both user to set active game id and remove ready state
-             'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :player1 OR `user_id` = :player2',
+             'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :player1',
              [
                  ':gameId'  => [$lastInsertId, PDO::PARAM_INT],
-                 ':player1' => [$player1Id, PDO::PARAM_INT],
-                 ':player2' => [$player2Id, PDO::PARAM_INT]
+                 ':player1' => [$player1Id, PDO::PARAM_INT]
              ]
          );
 
@@ -85,6 +82,34 @@ class GameManager
          }
      }
 
+
+     /**
+      * Attribue une instance game a un joueur, update user gameFK & game player 2 id
+      * @param  int  $userId
+      * @param  int  $gameId
+      */
+    public function attributeGame(int $userId, int $gameId) :void {
+
+        $response = $this->getPdo()->makeUpdate( //attribue la game dans userFK
+            'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :userId',
+            [
+                ':gameId'  => [$gameId, PDO::PARAM_INT],
+                ':userId' => [$userId, PDO::PARAM_INT]
+            ]
+        );
+
+        // TODO: exception if no data changed, player dont have game so redirect to home or other
+        $response2 = $this->getPdo()->makeUpdate( //Attribue l'user dans game userFK
+            'UPDATE `game` SET
+            `game_player_2_id` = :userId,
+            `game_status`      = 1
+            WHERE `game_id` = :gameId',
+            [
+                ':gameId'  => [$gameId, PDO::PARAM_INT],
+                ':userId' => [$userId, PDO::PARAM_INT]
+            ]
+        );
+    }
 
 
      /**
@@ -109,6 +134,27 @@ class GameManager
 
 
 
+     /**
+      * Get all defined properties for a game selected by ID
+      * @return  Game[]
+      */
+    public function getActiveGame() :array
+    {
+        $response = $this->getPdo()->makeSelect(
+            'SELECT * FROM `game`
+            WHERE `game_status` = 0
+            AND game_player_2_id IS NULL'
+        );
+
+        $games = [];
+        foreach ($response as $game) {
+            $games[] = new Game($game);
+        }
+        return $games;
+    }
+
+
+
     /**
      * Set turn property +=1 in Bdd
      * @param   int     $id          Game ID
@@ -126,11 +172,22 @@ class GameManager
             ]
         );
 
-        if ($response === 0) {
-            throw new \Exception("Merci de contacter un administrateur, le passage au tour suivant n'a pas fonctionner !");
-        }
+        //bug si lutilisateur recharge la page
+        // if ($response === 0) {
+        //     throw new \Exception("Merci de contacter un administrateur, le passage au tour suivant n'a pas fonctionner !");
+        // }
     }
 
+
+
+    public function resetData($gameId) {
+        $response = $this->getPdo()->makeUpdate(
+            'UPDATE `game` SET
+            `game_status` = 2
+            WHERE `game_id` = :gameId',
+            [':gameId' => $gameId]
+        );
+    }
 
 
     /**

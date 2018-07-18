@@ -31,7 +31,7 @@ class Game
 
     /**
      * Second player ID
-     * @var  int
+     * @var  int|null
      */
     private $player2Id;
 
@@ -45,7 +45,19 @@ class Game
      * Game turn
      * @var  int
      */
-    private $nextTurn;
+    // private $nextTurn;
+
+    /**
+     * Game on(1) or off(0)
+     * @var  int
+     */
+    private $status;
+
+    /**
+     * Date creation game
+     * @var string
+     */
+    private $createDate;
 
 
 
@@ -144,10 +156,10 @@ class Game
 
     /**
      * Define property value
-     * @param  int      $player2Id
-     * @return self     ->FLUENT->
+     * @param  int|null  $player2Id
+     * @return self      ->FLUENT->
      */
-    public function setPlayer2Id(int $player2Id) :self
+    public function setPlayer2Id(?int $player2Id) :self
     {
         $this->player2Id = $player2Id;
         return $this;
@@ -172,6 +184,28 @@ class Game
     public function setNextTurn(int $nextTurn) :self
     {
         $this->nextTurn = $nextTurn;
+        return $this;
+    }
+
+    /**
+     * Define property value
+     * @param   int      $status
+     * @return  self
+     */
+    public function setStatus(int $status) :self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Define property value
+     * @param   string  $date
+     * @return  self
+     */
+    public function setCreateDate(string $date) :self
+    {
+        $this->createDate = $date;
         return $this;
     }
 
@@ -201,9 +235,9 @@ class Game
 
     /**
      * Get property value
-     * @return int
+     * @return int|null
      */
-    public function getPlayer2Id() :int
+    public function getPlayer2Id() :?int
     {
         return $this->player2Id;
     }
@@ -224,6 +258,24 @@ class Game
     public function getNextTurn(): int
     {
         return $this->nextTurn;
+    }
+
+    /**
+     * Get property value
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * Get property value
+     * @return string
+     */
+    public function getDate(): string
+    {
+        return $this->createDate;
     }
 
 }

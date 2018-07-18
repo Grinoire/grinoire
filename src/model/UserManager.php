@@ -37,6 +37,21 @@ class UserManager
         return $this->pdo;
     }
 
+
+    /**
+     * Get user in database selected by ID
+     * @param   int     $id  userID
+     * @return  User
+     */
+    public function getUserById(int $id) :User {
+        $response = $this->getPdo()->makeSelect(
+            'SELECT * FROM user WHERE user_id = :id',
+            [':id' => [$id, PDO::PARAM_INT]],
+            false
+        );
+        return new User($response);
+    }
+
     /**
      * @param  [type]  $mail  [description]
      * @param  [type]  $login  [description]
@@ -333,6 +348,21 @@ class UserManager
         // if ($response === 0) {
         //     throw new \Exception("Aie, il semblerait que votre deck ne puisse etre mis a jour.<br>Contacter un administrateur", 1);
         // }
+    }
+
+
+
+    /**
+     *   Reinitialise les FK user deck & game
+     */
+    public function resetData($userId) {
+        $response = $this->getPdo()->makeUpdate(
+            'UPDATE `user` SET
+            `user_deck_id_fk` = NULL,
+            `user_game_id_fk` = NULL
+            WHERE `user_id` = :userId',
+            [':userId' => $userId]
+        );
     }
 
 }

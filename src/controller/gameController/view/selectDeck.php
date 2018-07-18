@@ -55,13 +55,13 @@ if (!isset($cardList)) { //si on n'a pas selectionne de hero
                         <label for="checkboxSelectCard<?= $counter ?>"></label>
                     </div>
                 <?php endforeach; ?>
-                <input type="submit" name="submit" value="Commencer a jouer !">
+                <input class='deck-select-card-submit' type="submit" name="submit" value="Commencer a jouer !">
             </form>
             <?php
         }
 
-        isset($_POST['selectedCard']) ? var_dump($_POST['selectedCard']) : null;
-        isset($_POST['selectedDeck']) ? var_dump($_POST['selectedDeck']) : null;
+        // isset($_POST['selectedCard']) ? var_dump($_POST['selectedCard']) : null;
+        // isset($_POST['selectedDeck']) ? var_dump($_POST['selectedDeck']) : null;
 
         ?>
 
