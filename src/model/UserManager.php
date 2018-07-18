@@ -351,4 +351,19 @@ class UserManager
         // }
     }
 
+
+
+    /**
+     *   Reinitialise les FK user deck & game
+     */
+    public function resetData($userId) {
+        $response = $this->getPdo()->makeUpdate(
+            'UPDATE `user` SET
+            `user_deck_id_fk` = NULL,
+            `user_game_id_fk` = NULL
+            WHERE `user_id` = :userId',
+            [':userId' => $userId]
+        );
+    }
+
 }

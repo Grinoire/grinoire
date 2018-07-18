@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace grinoire\src\controller\homeController;
 
-use grinoire\src\exception\UserException;
+use grinoire\src\model\GameManager;
 
+use grinoire\src\exception\UserException;
 use grinoire\src\controller\CoreController;
 use grinoire\src\model\UserManager;
+use grinoire\src\model\DeckManager;
 use Exception;
 
 /**
@@ -111,6 +113,7 @@ class HomeController extends CoreController
         }
     }
 
+
     /**
      * Display home connected view
      */
@@ -119,14 +122,24 @@ class HomeController extends CoreController
         $this->init(__FILE__, __FUNCTION__);
 
         if (array_key_exists('deconnexion', $this->getGet())) {
-            //reboot the selected deck in BDD
-//            $userManager = new UserManager();
-//            $userManager->setSelectedDeck((int)$this->getSession('userConnected'));
-            //unset session
+            echo '<script>console.log("dsddfsdfdsf")</script>';
+            //si une partie a ete jouer
+            if (array_key_exists('game', $this->getSession())) {
+                //reinitialise les valeurs de user, (gameFk, deckFk)
+                $userManager = new UserManager();
+                $userManager->resetData((int) $this->getSession('userConnected'));
+                //reinitialise les données liés a la game (status)
+                $gameManager = new GameManager();
+                $gameManager->resetData((int) $this->getSession('game')->getId());
+            }
+
+            //reinitialise les données liés au deck (carte, hero)
+            $deckManager = new DeckManager();
+            $deckManager->resetData((int) $this->getSession('userConnected'));
+
             $this->setSession(APP_NAME, array());
             session_unset(APP_NAME);
-
-            $this->homeAction();
+            redirection('?c=Home&a=home');
         } else {
 //            $this->render(true);
             require '../view/template-home/header.php';

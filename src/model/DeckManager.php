@@ -378,7 +378,7 @@ class DeckManager
      * @return  void
      */
     public function initCardStatus(array $cardList) :void {
-        
+
         //define card status for setting position on board, card is already randomized
         for ( $i=0 ; $i < count($cardList) ; $i++ ) {
             if ($i < HAND_NBR_CARD) {
@@ -428,6 +428,28 @@ class DeckManager
     public function getPdo(): PdoManager
     {
         return $this->pdo;
+    }
+
+
+    /**
+     *   [resetData description]
+     *
+     *   @param [type] $userId [description]
+     */
+    public function resetData($userId) {
+        //on efface les cartes attribué au joueur
+        $response = $this->getPdo()->makeUpdate(
+            'DELETE FROM `tmp_card`
+            WHERE `tmpcard_user_id_fk` = :userId',
+            [':userId' => $userId]
+        );
+
+        //on efface le hero attribué au joueur
+        $response2 = $this->getPdo()->makeUpdate(
+            'DELETE FROM `tmp_hero`
+            WHERE `tmphero_user_id_fk` = :userId',
+            [':userId' => $userId]
+        );
     }
 
 }

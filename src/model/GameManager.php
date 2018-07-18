@@ -82,20 +82,35 @@ class GameManager
          }
      }
 
+
      /**
-      *
+      * Attribue une instance game a un joueur, update user gameFK & game player 2 id
       * @param  int  $userId
       * @param  int  $gameId
       */
     public function attributeGame(int $userId, int $gameId) :void {
-        $response = $this->getPdo()->makeUpdate( //update user to set active game id and remove ready state
+
+        $response = $this->getPdo()->makeUpdate( //attribue la game dans userFK
             'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :userId',
             [
                 ':gameId'  => [$gameId, PDO::PARAM_INT],
                 ':userId' => [$userId, PDO::PARAM_INT]
             ]
         );
+
+        // TODO: exception if no data changed, player dont have game so redirect to home or other
+        $response2 = $this->getPdo()->makeUpdate( //Attribue l'user dans game userFK
+            'UPDATE `game` SET
+            `game_player_2_id` = :userId,
+            `game_status`      = 1
+            WHERE `game_id` = :gameId',
+            [
+                ':gameId'  => [$gameId, PDO::PARAM_INT],
+                ':userId' => [$userId, PDO::PARAM_INT]
+            ]
+        );
     }
+
 
      /**
       * Get all defined properties for a game selected by ID
@@ -127,7 +142,7 @@ class GameManager
     {
         $response = $this->getPdo()->makeSelect(
             'SELECT * FROM `game`
-            WHERE `game_status` = 1
+            WHERE `game_status` = 0
             AND game_player_2_id IS NULL'
         );
 
@@ -157,11 +172,22 @@ class GameManager
             ]
         );
 
-        if ($response === 0) {
-            throw new \Exception("Merci de contacter un administrateur, le passage au tour suivant n'a pas fonctionner !");
-        }
+        //bug si lutilisateur recharge la page
+        // if ($response === 0) {
+        //     throw new \Exception("Merci de contacter un administrateur, le passage au tour suivant n'a pas fonctionner !");
+        // }
     }
 
+
+
+    public function resetData($gameId) {
+        $response = $this->getPdo()->makeUpdate(
+            'UPDATE `game` SET
+            `game_status` = 2
+            WHERE `game_id` = :gameId',
+            [':gameId' => $gameId]
+        );
+    }
 
 
     /**
