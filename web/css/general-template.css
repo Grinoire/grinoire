@@ -20,6 +20,11 @@
     src: url("../fonts/Libre_Baskerville/LibreBaskerville-Bold.ttf");
     font-weight: bold;
 }
+@font-face {
+    font-family: "Nueva";
+    src: url("../fonts/nueva/Nueva-Std-Bold-Extended_33269.ttf");
+    font-weight: bold;
+}
 
 #general-container {
     height: 100%;
@@ -40,8 +45,25 @@
     grid-template-columns: repeat(20, 1fr);
 }
 
+#message-info{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    font-family: "Libre Baskerville", Serif;
+    font-size: 1.5rem;
+    background-color: #b49c83;
+    color: #ff000d;
+    text-align: center;
+    line-height: 5rem;
+    font-weight: bold;
+}
+
 section {
     grid-column: 1 / span 20;
+    height: 80vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
 }
 
 footer {

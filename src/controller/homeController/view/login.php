@@ -6,7 +6,7 @@
         <form id="login-form" method="POST" action=''>
             <div>
                 <label>PSEUDO/EMAIL : </label>
-                <input id="login-form-email" class="login-form-input" type='text' required="required" name='email'
+                <input id="login-form-email" class="login-form-input" type='text' required="required" name='email/pseudo'
                        value='<?php if (isset($_POST['email'])) echo htmlspecialchars($_POST['email']) ?>'>
             </div>
             <div>

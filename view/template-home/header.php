@@ -22,7 +22,7 @@
 <div id="general-container">
 
     <div id="general-container-wrapper">
-        <?= errorMessage() ?>
+        <p id="message-info"><?= errorMessage() ?></p>
 
         <header>
             <img src="img/grinoire/logo.png">

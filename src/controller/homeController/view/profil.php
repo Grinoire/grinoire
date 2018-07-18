@@ -4,7 +4,8 @@
     <div id="profil-section-wrapper">
 
         <span id="profil-pseudo-baniere"><?= $user->getLogin() ?></span>
-        <img id="profil-contour-avatar" src="img/grinoire/profil/contour-avatar.png"/>
+<!--        <img id="profil-contour-avatar" src="img/grinoire/profil/contour-avatar.png"/>-->
+        <img id="profil-contour-avatar" src="img/grinoire/profil/bandeau.png"/>
 
 
         <div id="profil-form-container">

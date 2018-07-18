@@ -71,7 +71,10 @@ class CoreController
      */
     private $layout = '';
 
-
+    /**
+     * @var string
+     */
+    private $newLayout = '';
     /**
      * --------------------------------------------------
      *     MAGIC METHOD
@@ -139,8 +142,8 @@ class CoreController
             $nameRender = $this->getView();
         }
 
-        if ($layout && file_exists(DIR_VIEW . $this->getLayout() . 'header.php')) {
-            require(DIR_VIEW . $this->getLayout() . 'header.php');
+        if ($layout && file_exists(DIR_VIEW . $this->getNewLayout() . $this->getLayout() . 'header.php')) {
+            require(DIR_VIEW . $this->getNewLayout() . $this->getLayout() . 'header.php');
         }
 
         if (file_exists(stream_resolve_include_path($this->classNameDirectory . '/view/' . $nameRender . '.php'))) {
@@ -151,8 +154,8 @@ class CoreController
             throw new Exception('Vue : (' . $nameRender . ') non trouvé');
         }
 
-        if ($layout && file_exists(DIR_VIEW . $this->getLayout() . 'footer.php')) {
-            require(DIR_VIEW . $this->getLayout() . 'footer.php');
+        if ($layout && file_exists(DIR_VIEW . $this->getNewLayout() . $this->getLayout() . 'footer.php')) {
+            require(DIR_VIEW . $this->getNewLayout() . $this->getLayout() . 'footer.php');
         }
     }
 
@@ -258,6 +261,14 @@ class CoreController
     public function setSession(string $key, $value) : void
     {
         $this->session['grinoire'][$key] = $value;
+    }
+
+    /**
+     * @param string $newLayout
+     */
+    public function setNewLayout(string $newLayout): void
+    {
+        $this->newLayout = $newLayout;
     }
 
 
@@ -366,6 +377,15 @@ class CoreController
             return $this->session['grinoire'];
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getNewLayout(): string
+    {
+        return $this->newLayout;
+    }
+
 
 
     /**

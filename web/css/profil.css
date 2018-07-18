@@ -1,8 +1,6 @@
 #profil-section-wrapper {
     width: 60rem;
-    height: 49rem;
-    margin: auto;
-    margin-top: 18rem;
+    height: 50rem;
     font-family: "Libre Baskerville", Serif;
     background: rgba(225, 215, 197, 0.6);
     border-radius: 1rem;
@@ -55,7 +53,7 @@
 
 #profil-contour-avatar {
     margin: auto;
-    top: -16.1rem;
+    top: -22.5rem;
     position: relative;
     z-index: 100;
 }

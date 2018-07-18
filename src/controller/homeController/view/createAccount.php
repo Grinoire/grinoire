@@ -29,18 +29,3 @@
 
             </div>
         </section>
-<!--        <footer>-->
-<!--            <div id="div-footer">-->
-<!--                <img src="img/grinoire/footer-logo.png"/>-->
-<!--                <p>©2018 OBJECTIF 3W. TOUS DROITS RÉSERVÉS.<br>-->
-<!--                    Toutes les marques citées appartiennent à leur propriétaire.-->
-<!--                </p>-->
-<!--                <img src="img/grinoire/footer-pegy.png"/>-->
-<!--            </div>-->
-<!--        </footer>-->
-<!---->
-<!--    </div>-->
-<!---->
-<!---->
-<!--</div>-->
-

@@ -3,10 +3,8 @@
     width: 55rem;
     height: 35rem;
     text-align: center;
-    margin: auto;
     background: rgba(225, 215, 197, 0.6);
     border-radius: 1rem;
-    margin-top: 14rem;
 }
 #titre-se-connecter{
     font-family: 'EB Garamond', Serif;

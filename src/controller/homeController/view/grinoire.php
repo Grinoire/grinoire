@@ -1,7 +1,7 @@
 <section id="grinoire-section">
     <div id="grinoire-section-wrapper">
 
-        <img src="img/grinoire/contour-grinoire.png"/>
+        <img id="box-contour" src="img/grinoire/contour-grinoire.png"/>
 
         <div id="grinoire-liens">
             <div id="grinoire-liens-wrapper">

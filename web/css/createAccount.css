@@ -1,12 +1,11 @@
 #create-account-section-wrapper {
     display: grid;
-    width: 550px;
-    height: 380px;
+    width: 55rem;
+    height: 38rem;
     text-align: center;
-    margin: auto;
     background: rgba(225, 215, 197, 0.6);
-    border-radius: 10px;
-    margin-top: 13.5rem;
+    border-radius: 1rem;
+    /*margin-top: 13.5rem;*/
 }
 
 #titre-creer-compte {
@@ -39,22 +38,22 @@
 #lien-vers-accueil-create-account {
     font-family: "Libre Baskerville", Serif;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 1.5rem;
     color: black;
-    width: 140px;
+    width: 14rem;
     text-align: center;
     margin: auto;
     height: 2rem;
 }
 
 #lien-vers-accueil-create-account:hover {
-    border-bottom: 1px solid black;
+    border-bottom: 0.1rem solid black;
 }
 
 .create-account-input-form {
     border: 0;
     background: rgba(225, 215, 197, 0);
-    border-bottom: 1px solid black;
+    border-bottom: 0.1rem solid black;
 }
 
 #create-account-pseudo {
@@ -75,7 +74,7 @@
     width: 13rem;
     padding: 0.6rem;
     font-size: 1.3rem;
-    border-radius: 20px;
+    border-radius: 2rem;
     background-color: #430f10;
     color: #e1d7c5;
     cursor: pointer;

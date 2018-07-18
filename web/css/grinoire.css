@@ -1,17 +1,11 @@
 #grinoire-section-wrapper {
-    display: grid;
-    justify-content: center;
-    margin: auto;
-    width: 67rem;
-    margin-top: 14rem;
 }
 
-#grinoire-section-wrapper img {
+#box-contour{
     z-index: 100;
 }
 
 #grinoire-liens {
-    border: 1px solid black;
     display: grid;
     background: rgba(240, 226, 207, 0.6);
     position: relative;
@@ -57,7 +51,7 @@
     border-bottom: 1px solid black;
     text-align: center;
     position: relative;
-    top: -12.5rem;
+    top: -12.9rem;
     width: 41rem;
     margin: auto;
     line-height: 4rem;

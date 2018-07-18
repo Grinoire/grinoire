@@ -1,13 +1,8 @@
 #home-section-wrapper {
-    display: grid;
-    text-align: center;
 }
 
 #home-div-container { /*le papa a grid-template-row c donc ici que je manipule les grid-row*/
     text-align: center;
-    width: 40rem;
-    margin: auto;
-    margin-top: 6rem;
 }
 
 #home-div-container img {
