@@ -29,9 +29,8 @@ class HomeController extends CoreController
     public function homeAction()
     {
         $this->init(__FILE__, __FUNCTION__);
-        require '../view/template-home/header.php';
-        $this->render(false, 'home');
-        require '../view/template-home/footer.php';
+        $this->setNewLayout('template-home\\');
+        $this->render(true, 'home');
     }
 
     /**
@@ -47,30 +46,25 @@ class HomeController extends CoreController
             if (array_key_exists('email', $this->getPost()) and array_key_exists('login', $this->getPost()) and array_key_exists('password', $this->getPost())) {
                 $userManager = new UserManager();
                 if ($userManager->checkLoginInDataBase($_POST['login'])) {//on controlle si le pseudo existe deja en base de donnees
-                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;padding: 2rem;">Votre pseudo est déjà utilisé !</span>');
+                    throw new UserException('Votre pseudo est déjà utilisé !');
                 } elseif ($userManager->checkMailInDataBase($_POST['email'])) {//on controlle si le mail existe en data base
-                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;padding: 2rem;">L\'email est déjà utilisé !</span>');
+                    throw new UserException('L\'email est déjà utilisé !');
                     //si le login et le mail n'existe pas en base de données alors on set l'utilisateur en base de données
                 } elseif ((!$userManager->checkLoginInDataBase($_POST['login'])) AND (!$userManager->checkMailInDataBase($_POST['email']))) {
                     $userManager->setConnectionUser(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['login']), htmlspecialchars($this->post['password']));
-                    $this->setSession('msgValid', '<span style="justify-content: center;display: flex;color: green;padding: 2rem;font-size: 2rem">Votre compte a été créé avec succes</span>');
-//                    $this->render(true, 'home'); //Display home after create account
-                    require '../view/template-home/header.php';
-                    $this->render(false, 'home');
-                    require '../view/template-home/footer.php';
+                    $this->setSession('msgValid', 'Votre compte a été créé avec succes');
+
+                    $this->setNewLayout('template-home\\');
+                    $this->render(true, 'home');
                 }
             } else {
-//                $this->render(true); //View createAccount
-                require '../view/template-home/header.php';
-                $this->render(false, 'createAccount');
-                require '../view/template-home/footer.php';
+                $this->setNewLayout('template-home\\');
+                $this->render(true, 'createAccount');
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
-//            $this->render(true); //View createAccount
-            require '../view/template-home/header.php';
-            $this->render(false, 'createAccount');
-            require '../view/template-home/footer.php';
+            $this->setNewLayout('template-home\\');
+            $this->render(true, 'createAccount');
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }
@@ -87,27 +81,23 @@ class HomeController extends CoreController
         $this->init(__FILE__, __FUNCTION__);
 
         try {
-            if (array_key_exists('email', $this->getPost()) and array_key_exists('password', $this->getPost())) {
+            if (array_key_exists('email/pseudo', $this->getPost()) and array_key_exists('password', $this->getPost())) {
                 $userManager = new UserManager();
-                if (!$userManager->checkMailInDataBase($this->post['email']) || !$userManager->checkPasswordInDataBase($this->post['password'])) {
-                    throw new UserException('<span style="justify-content: center;background-color: lightcoral;display: flex;color: white;">Votre email ou mot de passe est incorrect !</span>');
+                if (!$userManager->checkMailInDataBase($this->post['email/pseudo']) AND !$userManager->checkLoginInDataBase($this->post['email/pseudo']) || !$userManager->checkPasswordInDataBase($this->post['password'])) {
+                    throw new UserException('Votre email ou mot de passe est incorrect !');
                 } else {
-                    $user = $userManager->getUserDataBase(htmlspecialchars($this->post['email']), htmlspecialchars($this->post['password']));
+                    $user = $userManager->getUserDataBase(htmlspecialchars($this->post['email/pseudo']), htmlspecialchars($this->post['password']));
                     $this->session['grinoire']['userConnected'] = $user->getId();
                     redirection('?c=Home&a=grinoire');
                 }
             } else {
-//                $this->render(true);
-                require '../view/template-home/header.php';
-                $this->render(false, 'login');
-                require '../view/template-home/footer.php';
+                $this->setNewLayout('template-home\\');
+                $this->render(true, 'login');
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
-//            $this->render(true);
-            require '../view/template-home/header.php';
-            $this->render(false, 'login');
-            require '../view/template-home/footer.php';
+            $this->setNewLayout('template-home\\');
+            $this->render(true, 'login');
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }
@@ -122,6 +112,7 @@ class HomeController extends CoreController
         $this->init(__FILE__, __FUNCTION__);
 
         if (array_key_exists('deconnexion', $this->getGet())) {
+
             echo '<script>console.log("dsddfsdfdsf")</script>';
             //si une partie a ete jouer
             if (array_key_exists('game', $this->getSession())) {
@@ -141,10 +132,8 @@ class HomeController extends CoreController
             session_unset(APP_NAME);
             redirection('?c=Home&a=home');
         } else {
-//            $this->render(true);
-            require '../view/template-home/header.php';
-            $this->render(false, 'grinoire');
-            require '../view/template-home/footer.php';
+            $this->setNewLayout('template-home\\');
+            $this->render(true, 'grinoire');
         }
     }
 
@@ -203,10 +192,8 @@ class HomeController extends CoreController
             } else {                                                                                                    //else de sortie, récupère l'utilisateur par l'id stocker en sesssion
                 $data = [];
                 $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
-//                $this->render(true, 'profil', $data);
-                require '../view/template-home/header.php';
-                $this->render(false, 'profil', $data);
-                require '../view/template-home/footer.php';
+                $this->setNewLayout('template-home\\');
+                $this->render(true, 'profil', $data);
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());

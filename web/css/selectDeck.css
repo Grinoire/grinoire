@@ -1,77 +1,76 @@
-#section-selectDeck-wrapper {
-    height: 100%;
-}
-
-#section-selectDeck-wrapper h1 {
+#selectDeck-section-wrapper h1 {
     text-align: center;
-    font-family: "Libre Baskerville regular", Serif;
+    font-family: "Libre Baskerville", Serif;
     font-weight: 200;
-    font-size: 24px;
+    font-size: 2.4rem;
     position: relative;
-    top: 100px;
+    top: 5rem;
 }
 
-#section-selectDeck-wrapper h1 span {
-    font-size: 34px;
+#selectDeck-section-wrapper h1 span {
+    font-size: 3.4rem;
 }
-
+#selectDeck-section-wrapper img{
+    transition: all ease 2s;
+}
+#selectDeck-section-wrapper img:hover{
+    /*transform: scale(2);*/
+    width: 30rem;
+}
 #selectDeck-img-hero {
     position: relative;
-    top: -43px;
-    height: 100%;
+    top: 18rem;
     display: flex;
     justify-content: center;
     align-items: flex-end;
 }
+
 /*Div qui permet d'espacer les images des héros*/
 #selectDeck-div-bateau {
-    width: 180px;
+    width: 18rem;
 }
-#selectDeck-chapelier{
+
+#selectDeck-chapelier {
     position: relative;
-    width: 192px;
-    height: 167px;
+    width: 19.2rem;
+    height: 16.7rem;
     border-radius: 100%;
-    top: -217px;
-    left: 8px;
+    top: -21.7rem;
+    left: 0.8rem;
     opacity: 0;
 }
-#selectDeck-chapelier:hover{
+
+#selectDeck-chapelier:hover {
     cursor: pointer;
 }
-#selectDeck-gandalf{
+
+#selectDeck-gandalf {
     position: relative;
-    width: 192px;
-    height: 167px;
+    width: 19.2rem;
+    height: 16.7rem;
     border-radius: 100%;
-    top: -217px;
-    left: 8px;
+    top: -21.7rem;
+    left: 0.8rem;
     opacity: 0;
 }
-#selectDeck-gandalf:hover{
+
+#selectDeck-gandalf:hover {
     cursor: pointer;
- }
-#selectDeck-nom-chapelier{
-    position: relative;
-    top: 67px;
-    width: 141px;
-    height: 30px;
-    text-align: center;
-    margin: auto;
-    line-height: 30px;
-    font-family: "Libre Baskerville regular", Serif;
-    font-size: 20px;
-    font-weight: 800;
 }
-#selectDeck-nom-gandalf{
-    position: relative;
-    top: 67px;
-    width: 141px;
-    height: 30px;
-    text-align: center;
+
+#selectDeck-lien-vers-accueil {
+    display: grid;
+    width: 15rem;
+    height: 2rem;
     margin: auto;
-    line-height: 30px;
-    font-family: "Libre Baskerville regular", Serif;
-    font-size: 20px;
-    font-weight: 800;
+    text-align: center;
+    color: black;
+    font-size: 1.8rem;
+    position: relative;
+    text-decoration: none;
+}
+
+#selectDeck-lien-vers-accueil:hover {
+    border-bottom: 1px solid black;
+    width: 13rem;
 }

@@ -1,70 +1,66 @@
-/*attention z-index sur le cadre de l'avatar*/
-#section-profil {
-    display: grid;
-    justify-items: center;
-    align-items: center;
-    font-size: 16px;
-}
-
-#section-profil-wrapper {
-    width: 600px;
-    height: 480px;
-    position: relative;
-    top: 74px;
+#profil-section-wrapper {
+    width: 60rem;
+    height: 50rem;
+    font-family: "Libre Baskerville", Serif;
     background: rgba(225, 215, 197, 0.6);
-    border-radius: 10px;
+    border-radius: 1rem;
     display: grid;
 }
-#form-container{
-    width: 400px;
-    height: 270px;
+#profil-form-container{
+    width: 40rem;
+    height: 27rem;
     margin: auto;
-    top: -68px;
+    top: -6.8rem;
     display: grid;
     position: relative;
 }
 
-#form-profil {
+#profil-form {
     position: relative;
-    top: -284px;
+    top: -28.4rem;
     display: grid;
+    font-size: 1.6rem;
 }
-#form-profil label{
-    font-family: "Libre Baskerville regular";
+#profil-form label{
+}
+#profil-form input{
+    font-family: "Libre Baskerville", Serif;
+    font-weight: bold;
+    font-size: 1.6rem;
 }
 /*La div qui englobe le label + input de l'avatar*/
 .avatar-img {
     margin: auto;
     position: relative;
-    top: -90px;
+    top: -9rem;
     z-index: 500;
 }
 /*l'image de l'avatar*/
 .avatar{
-    width: 150px;
-    height: 150px;
+    width: 15rem;
+    height: 15rem;
     border-radius: 100%;
     position: relative;
-    top: -247px;
-    left: 123px;
+    top: -24.7rem;
+    left: 12.3rem;
     z-index: 0;
 }
 .avatar-img label {
-    width: 120px;
-    height: 170px;
+    width: 12rem;
+    height: 17rem;
     display: block;
 }
 
-#contour-avatar {
+#profil-contour-avatar {
     margin: auto;
-    top: -161px;
+    top: -22.5rem;
     position: relative;
     z-index: 100;
 }
 
 .profil-avatar {
-    width: 150px;
-    height: 150px;
+    width: 15rem;
+    height: 15rem;
     border-radius: 100%;
 }
 .label-file {
@@ -81,78 +77,83 @@
 .input-profil{
     border: 0;
     background: rgba(225, 215, 197, 0);
-    border-bottom: 1px solid black;
+    border-bottom: 0.1rem solid black;
 }
-#submit-profil{
+#profil-submit{
     text-align: center;
-    width: 110px;
-    border-radius: 20px;
+    width: 13rem;
+    border-radius: 2rem;
     background-color: #430f10;
     color: #e1d7c5;
     margin: auto;
-    padding: 5px;
+    padding: 0.2rem;
     position: relative;
-    top: -56px;
-}
-#submit-profil:hover{
+    top: -8.4rem;
+    font-size: 1.6rem;
     cursor: pointer;
+    font-family: "Libre Baskerville", Serif;
+}
+#profil-submit:hover{
     background-color: #062213;
     color: white;
 }
 
-#lien-vers-accueil-profil{
-    font-family: "Libre Baskerville regular", Serif;
-    font-size: 15px;
+#profil-lien-vers-accueil{
+    font-size: 1.6rem;
     position: relative;
-    top: -280px;
+    top: -30rem;
     margin: auto;
-    width: 140px;
+    width: 14rem;
+    height: 2rem;
     text-align: center;
     text-decoration: none;
     color: black;
 }
-#lien-vers-accueil-profil:hover{
+#profil-lien-vers-accueil:hover{
     border-bottom: 1px solid black;
-    width: 135px;
+    width: 14rem;
 }
-#input-text-container{
+#profil-input-text-container{
     position: relative;
-    top: -33px;
+    top: -6.1rem;
 }
-#input-text-container div{
-    padding-top: 7px;
+#profil-input-text-container div{
+    padding-top: 0.7rem;
 }
 
-#statistique-joueur{
+#profil-statistique-joueur{
     display: grid;
     position: relative;
-    top: -50px;
+    top: -8rem;
+    font-size: 1.6rem;
 }
-#statistique-joueur span{
-    padding-top: 7px;
-    font-family: "Libre Baskerville regular", Serif;
+#profil-statistique-joueur span{
+    padding-top: 0.7rem;
 }
-#input-login{
+#profil-input-login{
+    width: 76%;
+}
+#profil-input-nom{
     width: 80%;
 }
-#input-nom{
-    width: 87%;
+#profil-input-prenom{
+    width: 74%;
 }
-#input-prenom{
-    width: 81%;
+#profil-input-email{
+    width: 78%;
 }
-#input-email{
-    width: 85%;
+#profil-input-password{
+    width: 64%;
 }
-#input-password{
-    width: 71%;
-}
-#pseudo-baniere{
-    width: 96px;
-    font-family: "Libre Baskerville regular";
+#profil-pseudo-baniere{
+    width: 9.6rem;
+    font-size: 1.7rem;
+    font-family: "Libre Baskerville", Serif;
+    font-weight: bold;
+    line-height: 2rem;
     text-align: center;
     position: relative;
-    top: -115px;
-    left: 254px;
+    top: -11.2rem;
+    left: 25.4rem;
     z-index: 500;
 }

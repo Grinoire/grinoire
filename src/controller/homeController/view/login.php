@@ -1,25 +1,24 @@
-<section id="section-login">
-    <!--    --><? //= errorMessage() ?>
-    <div id="section-login-wrapper">
+<section id="login-section">
+    <div id="login-section-wrapper">
 
         <h1 id="titre-se-connecter">SE CONNECTER</h1>
-<!--        todo: (ALEX) - faire l'autentification par pseudo -->
-        <form id="form-login" method="POST" action=''>
+
+        <form id="login-form" method="POST" action=''>
             <div>
                 <label>PSEUDO/EMAIL : </label>
-                <input class="form-login-input" type='text' required="required" name='email'
+                <input id="login-form-email" class="login-form-input" type='text' required="required" name='email/pseudo'
                        value='<?php if (isset($_POST['email'])) echo htmlspecialchars($_POST['email']) ?>'>
             </div>
             <div>
                 <label>MOT DE PASSE :</label>
-                <input class="form-login-input" type="password" required="required" name='password'>
+                <input id="login-form-password" class="login-form-input" type="password" required="required" name='password'>
             </div>
-            <div id="form-login-div-submit">
-                <input id="form-login-submit" type='submit' name='' value='Soumettre'>
+            <div id="login-form-div-submit">
+                <input id="login-form-submit" type='submit' name='' value='SOUMETTRE'>
             </div>
         </form>
 
-        <a id="lien-vers-accueil-login" href='../web/index.php'>Retour à l'accueil</a>
+        <a id="login-lien-vers-accueil" href='../web/index.php'>Retour à l'accueil</a>
 
     </div>
 </section>

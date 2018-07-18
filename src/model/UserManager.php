@@ -160,18 +160,17 @@ class UserManager
 
 
     /**
-     * [getUserDataBase description]
-     * @param   string  $mail
-     * @param   string  $password
-     * @return
+     * @param $login
+     * @param $password
+     * @return User
      */
-    public function getUserDataBase($mail, $password)
+    public function getUserDataBase($login, $password)
     {
 
         $data = $this->getPdo()->makeSelect(
-            'SELECT user_id FROM user WHERE user_mail = :mail AND user_password = :password',
+            'SELECT user_id FROM user WHERE user_mail = :login OR user_login = :login AND user_password = :password',
             [
-                'mail' => $mail,
+                'login' => $login,
                 'password' => $password
             ],
             false
