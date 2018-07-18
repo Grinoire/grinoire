@@ -1,16 +1,15 @@
 <?php
 if (!isset($cardList)) { //si on n'a pas selectionne de hero
 ?>
-<section id="section-selectDeck">
+<section id="selectDeck-section">
 
-    <div id="section-selectDeck-wrapper">
+    <div id="selectDeck-section-wrapper">
 
         <h1><span>C</span>HOIX DU HÉRO</h1>
 
         <div id="selectDeck-img-hero">
 
-            <div>
-                <p id="selectDeck-nom-chapelier">CHAPELIER</p>
+            <div id="selectDeck-container-chapelier">
 
                 <img src="img/grinoire/selectDeck/chapelier.png"/>
 
@@ -27,8 +26,7 @@ if (!isset($cardList)) { //si on n'a pas selectionne de hero
             </div>
 <!---->
             <div>
-                <p id="selectDeck-nom-gandalf">GANDALF</p>
-                <img src="img/grinoire/selectDeck/gandalf.png"/>
+                <img id="gandalf" src="img/grinoire/selectDeck/gandalf.png"/>
 
                 <form class="select-deck" action="" method="post">
 <!--                    <img src="img/grinoire/selectDeck/gandalf.png" alt="Heroic-Fantasy">-->
@@ -66,6 +64,9 @@ if (!isset($cardList)) { //si on n'a pas selectionne de hero
         isset($_POST['selectedDeck']) ? var_dump($_POST['selectedDeck']) : null;
 
         ?>
+
+        <a id="selectDeck-lien-vers-accueil" href="?c=Home&a=grinoire">Retour à l'accueil</a>
+
     </div>
 
 

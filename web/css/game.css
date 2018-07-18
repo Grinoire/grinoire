@@ -43,7 +43,6 @@
 .gameWrapper
 {
     height: 100%;
-
     display: grid;
     grid-template-rows: 100%;
     grid-template-columns: repeat(20, 1fr);
