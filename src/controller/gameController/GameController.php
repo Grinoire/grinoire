@@ -9,14 +9,7 @@ use grinoire\src\model\DeckManager;
 use grinoire\src\model\UserManager;
 use grinoire\src\model\GameManager;
 
-// TODO: remove status ready when game is launched
-// TODO:
 
-
-
-/**
- * Handle view for select deck
- */
 class GameController extends CoreController
 {
 
@@ -32,45 +25,39 @@ class GameController extends CoreController
 
 
     /**
-     *  Display deck selection view by default
+     * Affiche la selection du deck par default
      *
-     *  Get selected deck(card & hero) if $_POST['value'] have been send
+     * Sinon si un deck est selectionne, on affiche les cartes du deck pr que le joueur selectionne 20 cartes
      *
-     *  Build a copy of original card & deck in temporary table
-     *
-     *  Redirect to Matchmaking view
-     *
-     *  Show userException in selectionDeck view
+     * Sinon si un deck et 20 cartes sont deja selectionnés, on genere une copie
+     * des carte et du heros selectionné en bdd et redirige l'utilisateurs afin de trouver une partie
      */
     public function selectDeckAction() : void
     {
         $this->init(__FILE__, __FUNCTION__);
 
-        try { //if player select a deck
+        try {
+            //Si l'utilisateur a selectionné un deck, et que la valeur est valide // TODO: method pr verifier si deeck id est valide
             if (array_key_exists('selectedDeck', $this->getPost()) && ($this->getPost("selectedDeck") == 1 || $this->getPost("selectedDeck") == 2)) {
-
                 $deckManager = new DeckManager();
 
-                // if player have selected all 20 card
+                //Si l'utilisateur a selectionné 20 cartes dans le deck
                 if (array_key_exists('selectedCard', $this->getPost()) && count($this->getPost('selectedCard')) === 20) {
 
-                    //on recupere chaque carte selectionne en objet
-                    $selectedCardList = [];
+                    $selectedCardList = []; //on recupere les originaux chaque carte selectionne en objet
                     foreach ($this->getPost('selectedCard') as $key => $cardId) {
                         $selectedCardList[] = $deckManager->getCardById((int)$cardId);
                     }
 
+                    //On insere en bdd l'id du deck choisi, on genere des copie pour les carte et le hero
+                    //On genere une session pr le deck entier et redirige l'utilisateur vers matchMakingAction() pr y trouver une partie
                     $userManager = new UserManager();
-                    // $userManager->setReady((int)$this->getSession('userConnected'), 1); //set user ready in DB
-                    $userManager->setSelectedDeck((int)$this->getSession('userConnected'), (int) $this->getPost('selectedDeck')); //set user deck ID selected
-                    $deckManager->setTmpDeck($this->getSession('userConnected'), $selectedCardList, (int) $this->getPost('selectedDeck')); //insert in tmp_table selectedDeckwhith card and hero
-                    $this->setSession("deck", $deckManager->getDeck()); //define session for deck
-
-                    //redirect to viex loading, time to find opponent
+                    $userManager->setSelectedDeck((int)$this->getSession('userConnected'), (int) $this->getPost('selectedDeck'));
+                    $deckManager->setTmpDeck($this->getSession('userConnected'), $selectedCardList, (int) $this->getPost('selectedDeck'));
+                    $this->setSession("deck", $deckManager->getDeck());
                     redirection('?c=game&a=matchMaking');
 
-                } else {
-                    //get all card and display them, player can choose 20 of them
+                } else { //Sinon aucune carte n'a encore ete selectioner, on recupere toutes les cartes originales et on redirige sur la vue de selection des cartes
                     $data['cardList'] = $deckManager->getAllCardByDeck((int) $this->getPost("selectedDeck"));
 //                    $this->render(true, 'selectDeck', $data);
                     require '../view/template-home/header.php';
@@ -78,8 +65,8 @@ class GameController extends CoreController
                     require '../view/template-home/footer.php';
                 }
 
-
-            } else { //default view
+            //Sinon l'utilisateur n'a pas de deck selectionné, on affiche la vue de selection du deck
+            } else {
 //                $this->render(true);
                 require '../view/template-home/header.php';
                 $this->render(false, 'selectDeck');
@@ -161,35 +148,27 @@ class GameController extends CoreController
             $userManager = new UserManager();
             $id = (int) $this->getSession('userConnected');
 
-            //on recupere notre deck a jour
-            $cardList = $deckManager->getTmpDeck($id)->getCardList();
-
-            //si une carte est pose sur le plateau depuis moins d'un tour, on lui permet d'attaquer au prochain tour
-            foreach ($cardList as $card) {
-                if ($card->getStatus() === 3) {
-                    $card->setStatus(4);
-                    $deckManager->UpdateTmpCard($card);
-                }
-            }
             echo $id;
-
             // var_dump($this->getSession());
+
             //on controle si le joueur n'est pas seul dans la partie
             if ($gameManager->getGame($userManager->getUserById($id)->getGameIdFk())->getPlayer2Id() != null ) {
 
                 //si le button prochain tour est cliqué, on ajoute 1 au tour et save en BDD et session
                 if (array_key_exists('nextTurn', $this->getGet())) {
+                    $deckManager->UpdateStatusOnBoard($id);
                     $gameManager->nextTurn((int) $this->getSession('game')->getId(), (int) $this->getSession('game')->getTurn());
                     $this->setSession('game', $gameManager->getGame((int) $this->getSession('game')->getId()));
                     redirection('?c=game&a=game');
 
+                //Sinon si une carte de la pioche est cliqué
                 } elseif (array_key_exists('id', $this->getGet()) && array_key_exists('draw', $this->getGet())) {
                     $card = $deckManager->getTmpCardByID((int) $this->getGet('id'));
                     $card->setStatus(1);
                     $deckManager->UpdateTmpCard($card);
                     redirection('?c=game&a=game');
 
-                    //Sinon si c'est le premier tour de jeu, on initialise le plateau
+                //Sinon si c'est le premier tour de jeu, on initialise le plateau
                 } elseif ((int) $this->getSession('game')->getTurn() === 0) {
 
                     //recupere le deck du joueur et initialise en BDD le status des cartes [pioche, en main]
@@ -200,8 +179,7 @@ class GameController extends CoreController
                     $gameManager->nextTurn((int) $this->getSession('game')->getId(), (int) $this->getSession('game')->getTurn());
                     $this->setSession('game', $gameManager->getGame((int) $this->getSession('game')->getId()));
 
-
-                    //si une carte et une cible on ete selectionné
+                //si une carte et une cible on ete selectionné
                 } elseif (array_key_exists('id', $this->getGet()) && array_key_exists('target', $this->getGet())) {
 
                     //on recupere la carte et sa cible
@@ -234,9 +212,6 @@ class GameController extends CoreController
                         // TODO: message cible invalide
                     }
 
-                    //on incremente le tour de 1 a voir si necessaire
-                    // $gameManager->nextTurn((int) $this->getSession('game')->getId(), (int) $this->getSession('game')->getTurn());
-                    // $this->setSession('game', $gameManager->getGame((int) $this->getSession('game')->getId()));
                     redirection('?c=game&a=game');
 
                     //sinon si une carte est une zone sont selectionne on essaye de deplace la carte
@@ -264,19 +239,18 @@ class GameController extends CoreController
                 //on recupere le deck des joueur et affiche le plateau de jeu
                 $data['user'] = $deckManager->getTmpDeck($id);
 
-                if ((int) $this->getSession('game')->getPlayer2Id() === $id) { //defini l'id de l'adversaire et recupere le deck associé
-                    $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer1Id());
-                } else {
-                    $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer2Id());
+                if ((int) $this->getSession('game')->getPlayer2Id() == $id) {                                       //si on est le joueur 2 dans la partie
+                    $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer1Id());  //on recupere le deck du joueur 1 en ennemi
+                } else {                                                                                            //sinon si on est pas le joueur 2
+                    $data['opponent'] = $deckManager->getTmpDeck((int) $this->getSession('game')->getPlayer2Id());  //on recupere le deck du joueur 2 en ennemi
                 }
                 $this->render(true, 'game', $data);
 
-                //si un seul joueur est dans la partie, on laffiche seul
-            } else {
-                $cardList = $deckManager->getTmpDeck($id)->getCardList();                  //on recupere son deck
-                $deckManager->initCardStatus($cardList);                                   //on initialise le status des cartes
-                $data['user'] = $deckManager->getTmpDeck($id);                         //recupere le deck du joueur a jour
-                $this->render(true, 'game', $data);                                        //affiche la vue par default
+            } else { //si un seul joueur est dans la partie, on laffiche seul sur le plateau de jeu :
+                $cardList = $deckManager->getTmpDeck($id)->getCardList();       //on recupere son deck
+                $deckManager->initCardStatus($cardList);                        //on initialise le status des cartes
+                $data['user'] = $deckManager->getTmpDeck($id);                  //recupere le deck du joueur a jour
+                $this->render(true, 'game', $data);                             //affiche la vue par default
             }
 
 
@@ -291,50 +265,25 @@ class GameController extends CoreController
 
 
     /**
-     *   Deconnecte l'utilisateur, vide les données temporaire en bdd
-     *   et reinitialise les valeur par default de l'utilisateur
+     *   Remet a zero toute les info lie a la partie en cours
+     *   Redirige l'utilisateur vers l'acceuil
      *   @return void
      */
     public function abandonAction() {
+        $this->init(__FILE__, __FUNCTION__);
 
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO:
-        // TODO: 
-        // TODO:
-        // TODO:
+        $userManager = new UserManager();
+        $userId = (int) $this->getSession('userConnected');                     //on stock l'id du joueur connecte
+        $gameId = $userManager->getUserById($userId)->getGameIdFk();                //on recupere l'id de la partie en BDD
 
-        //si une partie a ete jouer
-        if (array_key_exists('game', $this->getSession())) {
-            //reinitialise les valeurs de user, (gameFk, deckFk)
-            $userManager = new UserManager();
-            $userManager->resetData((int) $this->getSession('userConnected'));
-            //reinitialise les données liés a la game (status)
+        if ($gameId !== NULL) {                                                 //verifie l'id de la partie est valide
+            $userManager->resetData($userId);                                       //reinitialise les valeurs de l'utilisateur en BDD (gameFk, deckFk)
             $gameManager = new GameManager();
-            $gameManager->resetData((int) $this->getSession('game')->getId());
+            $gameManager->resetData($gameId);                                   //actualise les données liés a la partie en BDD (status)
+            $deckManager = new DeckManager();
+            $deckManager->resetData($userId);                                       //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
         }
-
-        //reinitialise les données liés au deck (carte, hero)
-        $deckManager = new DeckManager();
-        $deckManager->resetData((int) $this->getSession('userConnected'));
-
-
-        //unset session
-        $this->setSession(APP_NAME, array());
-        session_unset(APP_NAME);
-
         redirection('?c=Home&a=grinoire');
-
     }
 
 }

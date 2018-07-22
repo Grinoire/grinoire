@@ -111,31 +111,30 @@ class HomeController extends CoreController
     {
         $this->init(__FILE__, __FUNCTION__);
 
-        if (array_key_exists('deconnexion', $this->getGet())) {
+        if (array_key_exists('deconnexion', $this->getGet())) {                 //Si l'utilisateur souhaite se deconnecté
 
-            echo '<script>console.log("dsddfsdfdsf")</script>';
-            //si une partie a ete jouer
-            if (array_key_exists('game', $this->getSession())) {
-                //reinitialise les valeurs de user, (gameFk, deckFk)
-                $userManager = new UserManager();
-                $userManager->resetData((int) $this->getSession('userConnected'));
-                //reinitialise les données liés a la game (status)
+            $userManager = new UserManager();
+            $userId = (int) $this->getSession('userConnected');                 //on stock l'id du joueur connecte
+            $gameId = $userManager->getUserById($userId)->getGameIdFk();        //on recupere l'id de la partie en BDD
+
+            if ($gameId !== NULL) {                                             //verifie que l'id de la partie est valide
+                $userManager->resetData($userId);                               //reinitialise les valeurs de l'utilisateur en BDD (gameFk, deckFk)
                 $gameManager = new GameManager();
-                $gameManager->resetData((int) $this->getSession('game')->getId());
+                $gameManager->resetData($gameId);                               //actualise les données liés a la partie en BDD (status)
+                $deckManager = new DeckManager();
+                $deckManager->resetData($userId);                               //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
             }
+            $this->setSession(APP_NAME, array());                               //Vide la session liée a l'application
+            session_unset(APP_NAME);                                            //Effece la session liée a l''application
+            redirection('?c=Home&a=home');                                      //Redirige vers la vue connection
 
-            //reinitialise les données liés au deck (carte, hero)
-            $deckManager = new DeckManager();
-            $deckManager->resetData((int) $this->getSession('userConnected'));
-
-            $this->setSession(APP_NAME, array());
-            session_unset(APP_NAME);
-            redirection('?c=Home&a=home');
-        } else {
+        } else { //Sinon on affiche la vue de l'acceuil
             $this->setNewLayout('template-home\\');
             $this->render(true, 'grinoire');
         }
     }
+
+
 
     /**
      * Display view profil & send data to sql if fields are valid

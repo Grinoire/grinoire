@@ -391,6 +391,22 @@ class DeckManager
     }
 
 
+    /**
+     *   Incremente le status de 1 pour les cartes posés sur le plateau depuis moins d'un tour (status = 3)
+     *   (statut = 4) permet aux carte sur le plateau d'attaquer
+     *   @param   int   $userId    Id de l'utilisateur
+     */
+    public function UpdateStatusOnBoard(int $userId) :void
+    {
+        foreach ($this->getTmpDeck($userId)->getCardList() as $card) {
+            if ($card->getStatus() === 3) {
+                $card->setStatus(4);
+                $this->UpdateTmpCard($card);
+            }
+        }
+    }
+
+
     // --------------------- //
     // ------ SETTERS ------ //
     // --------------------- //

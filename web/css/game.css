@@ -88,12 +88,12 @@
 
 
 /* container "zone de jeu" : pioche, defausse, deck, plateau */
-.firstDraw, .firstHeros
+.secondDraw, .secondHeros
 {
     grid-column: 3 / span 6;
     grid-row: 3 / span 4;
 }
-.secondDraw, .secondHeros
+.firstDraw, .firstHeros
 {
     grid-column: 3 / span 6;
     grid-row: 10 / span 4;
@@ -170,13 +170,13 @@
 
 
 /* defini le container de la pioche */
-.drawContainer, .discardedContainer
+/* .drawContainer, .discardedContainer
 {
-    /* position: relative; */
+    position: relative;
 
-    /* perspective: 5000px;
-    perspective-origin: center; */
-}
+    perspective: 5000px;
+    perspective-origin: center;
+} */
 
 
 
@@ -200,7 +200,6 @@
     height: 11.5rem;
     width: 7rem;
     margin: .1rem;
-    cursor: pointer;
     border-radius: .8rem;
     box-shadow: 0 .2rem .3rem rgba(0, 0, 0, .23);
     /* transition: .1s ease-in-out; */
