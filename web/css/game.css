@@ -278,23 +278,3 @@
     background-position: center;
     background-clip: border-box;
 }
-
-
-
-/**
- * --------------------------------------------------
- *     Deck selectCard view
- * ------------------------------------------------------
- */
-
-
-form.deck-selection-card {
-    grid-column: 7 / span 8;
-    text-align: center;
-    margin-top: 5rem;
-}
-
-form input.deck-select-card-submit {
-    display: block;
-    margin: 5rem auto;
-}

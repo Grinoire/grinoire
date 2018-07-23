@@ -28,7 +28,7 @@
                         <?php
                         foreach ($user->getCardList()  as $card) { //pr chaque carte
                             if ($card->getStatus() === 0) {
-                                echo '<a href="?c=game&a=game&id=' . $card->getId() . '&draw"><div class="card back"></div></a>';
+                                echo '<a href="?c=game&a=draw&id=' . $card->getId() . '"><div class="card back"></div></a>';
                             }
                         }
                         ?>
@@ -124,10 +124,11 @@
                             </div>
 
                             <!-- on affiche les carte du joueur, affichage a revoir... -->
+
                             <div class="board-bottom">
                                 <?php
                                 if (isset($_GET["id"])) {
-                                    $content = '<a class="boardGame-link" href="?c=game&a=game&id=' . $_GET['id'] . '&zone=board">Board';
+                                    $content = '<a class="boardGame-link" href="?c=game&a=moveCard&id=' . $_GET['id'] . '">Board';
                                     foreach ($user->getCardList() as $card) { //pr chaque carte
                                         if ($card->getStatus() === 3 || $card->getStatus() === 4) {
                                             $content .= '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
@@ -212,7 +213,7 @@
                         ?>
                     </div>
 
-                    <a class="button-end-tour" href="?c=game&a=game&nextTurn">TOUR</a>
+                    <a class="button-end-tour" href="?c=game&a=nextTurn">TOUR</a>
 
                     <div class="discardedContainer firstHeros brown">
                         <h3>DEFAUSSE</h3>

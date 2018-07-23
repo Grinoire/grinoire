@@ -172,15 +172,34 @@ class GameManager
             ]
         );
 
-        //bug si lutilisateur recharge la page
+        //bug si lutilisateur recharge la page // TODO: a reverifier
         // if ($response === 0) {
         //     throw new \Exception("Merci de contacter un administrateur, le passage au tour suivant n'a pas fonctionner !");
         // }
     }
 
 
+    /**
+     *   Verifie si l'utilisateur n'est pas seul dans sa partie
+     *
+     *   @param    int   $gameId   Id de la partie
+     *   @return   bool
+     */
+    public function isGameFull($gameId) {
+        $valid = true;
+        if ($this->getGame($gameId)->getPlayer2Id() == null) {
+            $valid = false;
+        }
+        return $valid;
+    }
 
-    public function resetData($gameId) {
+
+    /**
+     *   Defini le status de la partie en paramétres a 2 (game ended)
+     *
+     *   @param   int   $gameId
+     */
+    public function resetData(int $gameId) {
         $response = $this->getPdo()->makeUpdate(
             'UPDATE `game` SET
             `game_status` = 2

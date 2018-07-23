@@ -8,34 +8,15 @@ if (!isset($cardList)) { //si on n'a pas selectionne de hero
         <h1><span>C</span>HOIX DU HÉRO</h1>
 
         <div id="selectDeck-img-hero">
-
-            <div id="selectDeck-container-chapelier">
-
-                <img src="img/grinoire/selectDeck/chapelier.png"/>
-
-                <form class="select-deck" action="" method="post">
-<!--                    <img src="img/grinoire/selectDeck/chapelier.png" alt="Tim Burton">-->
-                    <input type="hidden" name="selectedDeck" value="1">
-                    <input id="selectDeck-chapelier" type="submit" value="">
-                </form>
-
-            </div>
-
-            <div id="selectDeck-div-bateau">
-
-            </div>
-<!---->
-            <div>
-                <img id="gandalf" src="img/grinoire/selectDeck/gandalf.png"/>
-
-                <form class="select-deck" action="" method="post">
-<!--                    <img src="img/grinoire/selectDeck/gandalf.png" alt="Heroic-Fantasy">-->
-                    <input type="hidden" name="selectedDeck" value="2">
-                    <input id="selectDeck-gandalf" type="submit" value="">
-                </form>
-
-            </div>
-
+            <?php foreach ($decks as$deck): ?>
+                <div id="selectDeck-container">
+                    <img src="img/grinoire/selectDeck/<?= $deck['hero_bg'] ?>"/>
+                    <form class="select-deck" action="" method="post">
+                        <input type="hidden" name="selectedDeck" value="<?= $deck['deck_id'] ?>">
+                        <input id="selectDeck-input" type="submit" value="">
+                    </form>
+                </div>
+            <?php endforeach; ?>
         </div>
 
         <?php
