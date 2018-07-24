@@ -13,10 +13,6 @@
 #selectDeck-section-wrapper img{
     transition: all ease 2s;
 }
-#selectDeck-section-wrapper img:hover{
-    /*transform: scale(2);*/
-    width: 30rem;
-}
 #selectDeck-img-hero {
     position: relative;
     top: 18rem;

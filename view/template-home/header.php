@@ -24,7 +24,7 @@
 <div id="general-container">
 
     <div id="general-container-wrapper">
-        <p id="message-info"><?= errorMessage() ?></p>
+<!--        <p id="message-info">--><?//= errorMessage() ?><!--</p>-->
 
         <header>
             <img src="img/grinoire/logo.png">
