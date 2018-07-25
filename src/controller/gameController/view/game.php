@@ -59,6 +59,7 @@
                                     . '<br>status: ' . $card->getStatus()
                                     . '<br>degat: ' . $card->getDamageReceived()
                                     . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                    . '<br>mana: ' . $card->getMana()
                                     . '</div>';
                             }
                         }
@@ -73,12 +74,14 @@
                             <?=
                             $opponent->getHero()->getName()
                             . '<br>degat: ' . $opponent->getHero()->getDamageReceived()
+                            . '<br>mana: ' . $_SESSION['grinoire']['game']->getMana()
                             ?>
                         </a>
                     <?php elseif (isset($opponent)): ?>
                         <?=
                         $opponent->getHero()->getName()
                         . '<br>degat: ' . $opponent->getHero()->getDamageReceived()
+                        . '<br>mana: ' . $_SESSION['grinoire']['game']->getMana()
                         ?>
                     <?php endif; ?>
                 </div>
@@ -102,6 +105,7 @@
                                         . '<br>status: ' . $card->getStatus()
                                         . '<br>degat: ' . $card->getDamageReceived()
                                         . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                        . '<br>mana: ' . $card->getMana()
                                         . '</div></a>';
                                     }
                                 }
@@ -114,6 +118,7 @@
                                         . '<br>status: ' . $card->getStatus()
                                         . '<br>degat: ' . $card->getDamageReceived()
                                         . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                        . '<br>mana: ' . $card->getMana()
                                         . '</div></a>';
                                     }
                                 }
@@ -136,6 +141,7 @@
                                         . '<br>status: ' . $card->getStatus()
                                         . '<br>degat: ' . $card->getDamageReceived()
                                         . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                        . '<br>mana: ' . $card->getMana()
                                         . '</div></a>';
                                     }
                                 }
@@ -149,6 +155,7 @@
                                         . '<br>status: ' . $card->getStatus()
                                         . '<br>degat: ' . $card->getDamageReceived()
                                         . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                        . '<br>mana: ' . $card->getMana()
                                         . '</div></a>';
                                     }
                                 }
@@ -169,7 +176,9 @@
                 <div class="hero-player">
                     <?=
                     $user->getHero()->getName()
+                    . '<br>degat: '
                     . '<br>degat: ' . $user->getHero()->getDamageReceived()
+                    . '<br>mana: ' . $_SESSION['grinoire']['game']->getMana()
                     ?>
                 </div>
 
@@ -183,6 +192,7 @@
                                 . '<br>status: ' . $card->getStatus()
                                 . '<br>degat: ' . $card->getDamageReceived()
                                 . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                . '<br>mana: ' . $card->getMana()
                                 . '</div></a>';
                         }
                     }

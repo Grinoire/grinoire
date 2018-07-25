@@ -195,6 +195,27 @@ class GameManager
 
 
     /**
+     *   Increment le mana de 1
+     *   @param   int    $gameId   Id de la partie
+     *   @return  void
+     */
+    public function incrementMana($gameId) {
+        // $state = 'SELECT `game_mana` FROM `game` WHERE `game_id` = :gameId';                //On recupere le mana actuel
+        // $parameter = ['gameId' => [$gameId, PDO::PARAM_INT]];
+        // $previousManaValue = $this->getPdo()->makeUpdate($state, $param);
+
+        $mana = (int)(ceil((int) $this->getGame($gameId)->getTurn() / 2) + 1);
+
+        $statement = 'UPDATE `game` SET `game_mana` = :mana WHERE `game_id` = :gameId';
+        $parameter = [
+            ':mana'  => [$mana, PDO::PARAM_INT],
+            'gameId' => [$gameId   , PDO::PARAM_INT]
+        ];
+        $response = $this->getPdo()->makeUpdate($statement, $parameter);
+    }
+
+
+    /**
      *   Defini le status de la partie en paramétres a 2 (game ended)
      *
      *   @param   int   $gameId

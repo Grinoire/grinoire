@@ -45,7 +45,7 @@ class Game
      * Game turn
      * @var  int
      */
-    // private $nextTurn;
+    private $mana;
 
     /**
      * Game on(1) or off(0)
@@ -210,6 +210,17 @@ class Game
     }
 
     /**
+     * @param int $mana
+     *
+     * @return static
+     */
+    public function setMana(int $mana)
+    {
+        $this->mana = $mana;
+        return $this;
+    }
+
+    /**
      * --------------------------------------------------
      *     GETTERS
      * ------------------------------------------------------
@@ -276,6 +287,14 @@ class Game
     public function getDate(): string
     {
         return $this->createDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMana(): int
+    {
+        return $this->mana;
     }
 
 }
