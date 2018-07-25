@@ -4,24 +4,6 @@ let email = document.querySelector('#create-account-email');
 let password = document.querySelector('#create-account-password');
 let span = document.getElementById('create-account-span');
 
-formCreateAccount.addEventListener('submit', function (event) {
-
-    event.preventDefault();
-
-    if (pseudoValid(null, pseudo) === true && emailValid(null, email) === true && passwordValid(null, password) === true) {//on doit dire à la fonction sur quel élément rechercher
-        ajaxCreateAccount(this, (response) => {
-            if (response) {
-                span.innerHTML = response;
-                span.style.color = "red";
-            } else {
-                this.submit();
-            }
-        });
-    }
-
-
-});
-
 let blur = function (event) {
     let span = document.getElementById('create-account-span');
     if (event.target.value === "") {
@@ -38,8 +20,9 @@ let blur = function (event) {
     }
 };
 
+
 function spanReturnMessage(event, message) {
-        span.append(message);
+    span.append(message);
     setTimeout(function () {
         span.innerHTML = "";
         event.style.borderColor = "transparent";
@@ -140,18 +123,6 @@ let passwordValid = function (event, elt = null) {
 // Quand j'appelle la fonction sur un évènment, la fonction comprend automatiquement / implicitement QUE 'event' fait réfférence à l'évenement
 // si la fonction est appellé hors d'un évènement, il faut lui spécifier "l'élément" sur lequel "rechercher / travailler"
 
-pseudo.addEventListener('focus', pseudoFocus);
-pseudo.addEventListener('blur', blur);//event ne sera pas null
-pseudo.addEventListener('keyup', pseudoValid);
-
-email.addEventListener('focus', emailFocus);
-email.addEventListener('blur', blur);
-email.addEventListener('keyup', emailValid);
-
-password.addEventListener('blur', blur);
-password.addEventListener('keyup', passwordValid);
-
-
 // formCreateAccount.addEventListener('submit', function(event){
 function ajaxCreateAccount(dataForm, callBack) {
 
@@ -166,8 +137,30 @@ function ajaxCreateAccount(dataForm, callBack) {
         if (xhr.status === 200 && xhr.readyState === 4) {
 
             callBack(xhr.responseText);
-            // span.innerHTML = xhr.responseText;
-            // console.log(xhr.responseText);
         }
     }
 };
+if (document.getElementById('create-account-form')) {
+    formCreateAccount.addEventListener('submit', function (event) {
+
+        event.preventDefault();
+
+        if (pseudoValid(null, pseudo) === true && emailValid(null, email) === true && passwordValid(null, password) === true) {//on doit dire à la fonction sur quel élément rechercher
+            ajaxCreateAccount(this, (response) => {
+                if (response) {
+                    spanReturnMessageCommon(span, response);
+                } else {
+                    this.submit();
+                }
+            });
+        }
+    });
+    pseudo.addEventListener('focus', pseudoFocus);
+    pseudo.addEventListener('blur', blur);//event ne sera pas null
+    pseudo.addEventListener('keyup', pseudoValid);
+    email.addEventListener('focus', emailFocus);
+    email.addEventListener('blur', blur);
+    email.addEventListener('keyup', emailValid);
+    password.addEventListener('blur', blur);
+    password.addEventListener('keyup', passwordValid);
+}

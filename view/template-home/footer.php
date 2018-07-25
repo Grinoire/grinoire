@@ -8,10 +8,10 @@
     </div>
 </footer>
 
-
-<!--<script src="ajax/createAccount.js"></script>-->
-<script src="js/effect.js" charset="utf-8"></script>
-<!--<script src="js/animate.js"></script>-->
-<script src="js/validForm.js"></script>
+<script src="js/common.js"></script>
+<script src="js/createAccount.js"></script>
+<script src="js/home.js"></script>
+<script src="js/login.js"></script>
+<script src="js/profil.js"></script>
 </body>
 </html>

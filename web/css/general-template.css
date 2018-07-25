@@ -52,10 +52,12 @@
     font-family: "Libre Baskerville", Serif;
     font-size: 1.5rem;
     background-color: #b49c83;
-    color: #ff000d;
+    /*color: #ff000d;*/
+    color: green;
     text-align: center;
     line-height: 5rem;
     font-weight: bold;
+    transition-delay: 3s;
 }
 
 section {

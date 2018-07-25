@@ -15,7 +15,7 @@
                     </div>
                     <div>
                     <label>EMAIL : </label>
-                    <input id="create-account-email" class="create-account-input-form" type='email' name='email'
+                    <input id="create-account-email" class="create-account-input-form" type='email' oninvalid="setCustomValidity(' ')" name='email'
                            value='<?php if (isset($_POST['email'])) echo htmlspecialchars($_POST['email']) ?>'>
                     </div>
                     <div>

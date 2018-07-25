@@ -4,13 +4,20 @@
     <div id="profil-section-wrapper">
 
         <span id="profil-pseudo-baniere"><?= $user->getLogin() ?></span>
-<!--        <img id="profil-contour-avatar" src="img/grinoire/profil/contour-avatar.png"/>-->
+        <!--        <img id="profil-contour-avatar" src="img/grinoire/profil/contour-avatar.png"/>-->
         <img id="profil-contour-avatar" src="img/grinoire/profil/bandeau.png"/>
 
 
+
         <div id="profil-form-container">
+
+
             <div id="profil-statistique-joueur">
-                <span>Inscrit depuis le : <?= $user->getInscription() ?></span>
+                <?php
+                date_default_timezone_set('Europe/Paris');
+                setlocale(LC_TIME, 'fr_FR.utf8','fra');
+                ?>
+                <span>Inscrit depuis le : <?=  strftime("%A %d %B %Y", strtotime($user->getInscription())) ?></span>
 
                 <span>Parties gagnées : <?= $user->getWinnedGame() ?></span>
 
@@ -18,6 +25,8 @@
 
                 <span>Nombre de parties jouées: <?= $user->getPlayedGame() ?></span>
             </div>
+
+            <span id="profilSpanMessage"></span>
 
             <form id="profil-form" action="" method="POST" enctype="multipart/form-data">
                 <?php
@@ -46,23 +55,28 @@
 
                     <div>
                         <label>Pseudo :</label>
-                        <input id="profil-input-login" class="input-profil" type="text" name="login" value="<?= $user->getLogin() ?>">
+                        <input id="profil-input-login" class="input-profil" type="text" name="login"
+                               value="<?= $user->getLogin() ?>">
                     </div>
                     <div>
                         <label>Nom :</label>
-                        <input id="profil-input-nom" class="input-profil" type="text" name="lastName" value="<?= $user->getLastName() ?>">
+                        <input id="profil-input-nom" class="input-profil" type="text" name="lastName"
+                               value="<?= $user->getLastName() ?>">
                     </div>
                     <div>
                         <label>Prénom :</label>
-                        <input id="profil-input-prenom" class="input-profil" type="text" name="firstName" value="<?= $user->getFirstName() ?>">
+                        <input id="profil-input-prenom" class="input-profil" type="text" name="firstName"
+                               value="<?= $user->getFirstName() ?>">
                     </div>
                     <div>
                         <label>Email :</label>
-                        <input id="profil-input-email" class="input-profil" type="text" name="mail" value="<?= $user->getMail() ?>">
+                        <input id="profil-input-email" class="input-profil" type="text" name="mail"
+                               value="<?= $user->getMail() ?>">
                     </div>
                     <div>
                         <label>Mot de passe :</label>
-                        <input id="profil-input-password" class="input-profil" type="password" name="password" value="<?= $user->getPassword() ?>">
+                        <input id="profil-input-password" class="input-profil" type="password" name="password"
+                               value="<?= $user->getPassword() ?>">
                     </div>
 
                 </div>
