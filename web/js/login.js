@@ -31,17 +31,10 @@ let validPseudoEmailPasswor = function (event, elt) {
     }
     if (element.value == "") {
         flag = false;
-        spanReturnMessageCommon(element, 'Veuillez renseigner le formulaire');
+        spanReturnMessageCommon(spanLogin, 'Veuillez renseigner le formulaire');
     }
     return flag;
 };
-
-// function spanReturnMessageLogin(element, message) {
-//     element.append(message);
-//     setTimeout(function () {
-//         element.innerHTML = "";
-//     }, 3000);
-// }
 
 if (document.getElementById('login-form')) {
     formLogin.addEventListener('submit', function (event) {

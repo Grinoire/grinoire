@@ -26,7 +26,7 @@
                 <span>Nombre de parties jouées: <?= $user->getPlayedGame() ?></span>
             </div>
 
-            <span id="profilSpanMessage"></span>
+            <span id="profilSpanMessage"><p id="profilMessageValid" style="color: green;"><?= validMessage() ?></p></span>
 
             <form id="profil-form" action="" method="POST" enctype="multipart/form-data">
                 <?php

@@ -205,18 +205,22 @@ class HomeController extends CoreController
 
     public function profilAjaxAction()
     {
+        $profilManager = new UserManager();
+        $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+
         if ((isset($this->post['lastName']) AND isset($this->post['firstName'])) AND (isset($this->post['mail']) AND isset($this->post['login'])) AND isset($this->post['password'])) {
-            if ((isset($_FILES['avatar']) AND $_FILES['avatar']['error'] == 0)) {
-                if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {
+            if ((isset($_FILES['avatar']) AND $_FILES['avatar']['error'] == 0)) {                                   //on vérifit que l'avatar est en POST
+                if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {                  //on vérifit que le login n'existe pas en base de données
                     echo 'Le pseudo est déjà utilisé';
-                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {
+                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {              //vérif que le mail n'existe pas en base de données
                     echo 'Ce mail existe déjà, veuillez entrer un autre mail';
-                }
-                if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {
+                }                                                                                                //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
+            } else {                                                                                                //Si l'avatar n'est pas en POST
+                if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {                  //vérif login existe pas en bdd
                     echo 'Le pseudo est déjà utilisé';
-                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {
+                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {               //mail != en bdd
                     echo 'Ce mail existe déjà, veuillez entrer un autre mail';
-                }
+                }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
             }
         }
     }

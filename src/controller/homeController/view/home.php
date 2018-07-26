@@ -1,4 +1,5 @@
 <section id="home-section">
+    <p id="message-info"><?= validMessage() ?></p>
 
     <div id="home-section-wrapper">
 

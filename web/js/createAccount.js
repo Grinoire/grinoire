@@ -85,6 +85,7 @@ let emailValid = function (event, elt = null) {
     }
     return flag;
 }
+
 let emailFocus = function (event) {
     event.target.select();
 };
