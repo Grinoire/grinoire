@@ -74,15 +74,15 @@
                             <?=
                             $opponent->getHero()->getName()
                             . '<br>degat: ' . $opponent->getHero()->getDamageReceived()
-                            . '<br>mana: ' . $_SESSION['grinoire']['game']->getMana()
                             ?>
+                            <?='<br>mana: ' . $game->getMana()?>
                         </a>
                     <?php elseif (isset($opponent)): ?>
                         <?=
                         $opponent->getHero()->getName()
                         . '<br>degat: ' . $opponent->getHero()->getDamageReceived()
-                        . '<br>mana: ' . $_SESSION['grinoire']['game']->getMana()
                         ?>
+                        <?='<br>mana: ' . $game->getMana()?>
                     <?php endif; ?>
                 </div>
 
@@ -132,8 +132,8 @@
 
                         <div class="board-bottom">
                             <?php
-                            if (isset($_GET["idMain"])) {
-                                $content = '<a class="boardGame-link" href="?c=game&a=moveCard&id=' . $_GET['idMain'] . '">Board';
+                            if (isset($_GET["idMain"])) {//si une carte en main est selectionne
+                                $content = '<a class="boardGame-link" href="?c=game&a=moveCard&id=' . $_GET['idMain'] . '">Board';     // TODO: BBBBBBBBBBBBBBBBBUUUUUUUUUUUUUUUUUUGGGGGGGGGGGGGGG
                                 foreach ($user->getCardList() as $card) { //pr chaque carte
                                     if ($card->getStatus() === 3 || $card->getStatus() === 4) {
                                         $content .= '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
@@ -176,10 +176,9 @@
                 <div class="hero-player">
                     <?=
                     $user->getHero()->getName()
-                    . '<br>degat: '
                     . '<br>degat: ' . $user->getHero()->getDamageReceived()
-                    . '<br>mana: ' . $_SESSION['grinoire']['game']->getMana()
                     ?>
+                    <?= isset($game) ? '<br>mana: ' . $game->getMana() : null;?>
                 </div>
 
                 <!-- generation des carte du joueur tenu en main-->
@@ -223,7 +222,7 @@
                     ?>
                 </div>
 
-                <a class="button-end-tour" href="?c=game&a=nextTurn">TOUR</a>
+                <a class="button-end-tour" href="?c=game&a=nextTurn">TOUR N° <?= isset($game) ? $game->getTurn() : null;?></a>
 
                 <div class="discardedContainer firstHeros brown">
                     <h3>DEFAUSSE</h3>

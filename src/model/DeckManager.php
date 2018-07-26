@@ -363,9 +363,9 @@ class DeckManager
     public function getDeckId(int $userId)
     {
         return $this->getPdo()->makeSelect(
-            'SELECT user_deck_id_fk FROM user WHERE user_id = :userID',
+            'SELECT user_deck_id_fk FROM user WHERE user_id = :userId',
             [
-                ':userID' => [$userId, PDO::PARAM_INT]
+                ':userId' => [$userId, PDO::PARAM_INT]
             ],
             false
         );
@@ -432,7 +432,8 @@ class DeckManager
      *   @param   int   $deckId  Id du deck
      *   @return  bool
      */
-    public function isValidDeck(int $deckId) {
+    public function isValidDeck(int $deckId)
+    {
         $valid = true;
         $statement = 'SELECT * FROM `deck` WHERE `deck_id` = :deckId';
         $response = $this->getPdo()->makeSelect(

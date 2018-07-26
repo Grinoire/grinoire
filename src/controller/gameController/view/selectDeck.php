@@ -31,12 +31,12 @@ if (!isset($cardList)) { //si on n'a pas selectionne de hero
                     $counter++;
                     ?>
                     <div class="card">
-                        <input id="checkboxSelectCard<?= $counter ?>" class="selectCard" type="checkbox"
-                               name="selectedCard[]" value="<?= $card->getId() ?>">
+                        <input id="checkboxSelectCard<?= $counter ?>" class="selectCard" type="checkbox" name="selectedCard[]" value="<?= $card->getId() ?>">
                         <label for="checkboxSelectCard<?= $counter ?>"></label>
                     </div>
                 <?php endforeach; ?>
-                <input class='deck-select-card-submit' type="submit" name="submit" value="Commencer a jouer !">
+                <input class='deck-select-card-submit' type="submit" name="submit" value="Commencer a jouer !">     <!-- Validation selection carte -->
+                <input class='deck-select-card-rand' type="submit" name="rand" value="Selection aléatoire">         <!-- Selection carte aleatoirement -->
             </form>
             <?php
         }

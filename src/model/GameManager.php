@@ -3,10 +3,10 @@
 declare(strict_types= 1);
 
 namespace grinoire\src\model;
+
 use PDO;
 
 use grinoire\src\model\entities\Game;
-
 
 /**
  *  Represents a GameManager
@@ -49,14 +49,14 @@ class GameManager
 
 
 
-     /**
-     * Insert a new game in database, auto generate game_FK in user
-     * @param  int  $player1Id  Player ID
-     * @return int  GameId
-     */
-     public function newGame(int $player1Id) :int
-     {
-         $response = $this->getPdo()->makeUpdate( //generate a new game
+    /**
+    * Insert a new game in database, auto generate game_FK in user
+    * @param  int  $player1Id  Player ID
+    * @return int  GameId
+    */
+    public function newGame(int $player1Id) :int
+    {
+        $response = $this->getPdo()->makeUpdate( //generate a new game
              'INSERT INTO `game` (`game_player_1_id`)
              VALUES (:player1)',
              [
@@ -64,10 +64,10 @@ class GameManager
              ]
          );
 
-         $lastInsertId = (int) $this->getPdo()->getPdo()->lastInsertId(); //get last id inserted
-         $this->session['grinoire']['activeGame'] = $lastInsertId;
+        $lastInsertId = (int) $this->getPdo()->getPdo()->lastInsertId(); //get last id inserted
+        $this->session['grinoire']['activeGame'] = $lastInsertId;
 
-         $response2 = $this->getPdo()->makeUpdate( //update both user to set active game id and remove ready state
+        $response2 = $this->getPdo()->makeUpdate( //update both user to set active game id and remove ready state
              'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :player1',
              [
                  ':gameId'  => [$lastInsertId, PDO::PARAM_INT],
@@ -75,21 +75,42 @@ class GameManager
              ]
          );
 
-         if ($response === 0 || $response2 === 0) { //error if one update return 0
-             throw new \Exception("Merci de contacter un administrateur, la partie n'a pas pu étre généré !");
-         } else {
-             return $lastInsertId;
-         }
-     }
+        if ($response === 0 || $response2 === 0) { //error if one update return 0
+            throw new \Exception("Merci de contacter un administrateur, la partie n'a pas pu étre généré !");
+        } else {
+            return $lastInsertId;
+        }
+    }
 
 
-     /**
-      * Attribue une instance game a un joueur, update user gameFK & game player 2 id
-      * @param  int  $userId
-      * @param  int  $gameId
-      */
-    public function attributeGame(int $userId, int $gameId) :void {
+    /**
+     *   Met a jour le mana et le tour de jeu en BDD
+     *
+     *   @param  Game   $game  Instance de Game
+     *   @return void
+     */
+    public function updateGame(Game $game) {
+        $response = $this->getPdo()->makeUpdate(
+            'UPDATE `game` SET
+            `game__turn` = :turn,
+            `game_mana` = :mana
+            WHERE `game_id` = :id',
+            [
+                ':turn' => $game->getTurn(),
+                ':mana' => $game->getMana(),
+                ':id'   => $game->getId()
+            ]
+        );
+    }
 
+
+    /**
+     * Attribue une instance game a un joueur, update user gameFK & game player 2 id
+     * @param  int  $userId
+     * @param  int  $gameId
+     */
+    public function attributeGame(int $userId, int $gameId) :void
+    {
         $response = $this->getPdo()->makeUpdate( //attribue la game dans userFK
             'UPDATE `user` SET `user_game_id_fk` = :gameId WHERE `user_id` = :userId',
             [
@@ -112,11 +133,11 @@ class GameManager
     }
 
 
-     /**
-      * Get all defined properties for a game selected by ID
-      * @param   int  $id  Game ID
-      * @return  Game
-      */
+    /**
+     * Get all defined properties for a game selected by ID
+     * @param   int  $id  Game ID
+     * @return  Game
+     */
     public function getGame(int $id) :Game
     {
         $response = $this->getPdo()->makeSelect(
@@ -134,10 +155,10 @@ class GameManager
 
 
 
-     /**
-      * Get all defined properties for a game selected by ID
-      * @return  Game[]
-      */
+    /**
+     * Get all defined properties for a game selected by ID
+     * @return  Game[]
+     */
     public function getActiveGame() :array
     {
         $response = $this->getPdo()->makeSelect(
@@ -161,7 +182,8 @@ class GameManager
      * @param   int     $actualTurn  Actual turn value
      * @return  void
      */
-    public function nextTurn(int $id, int $actualTurn) {
+    public function nextTurn(int $id, int $actualTurn)
+    {
         $actualTurn++;
 
         $response = $this->getPdo()->makeUpdate(
@@ -185,7 +207,8 @@ class GameManager
      *   @param    int   $gameId   Id de la partie
      *   @return   bool
      */
-    public function isGameFull($gameId) {
+    public function isGameFull($gameId)
+    {
         $valid = true;
         if ($this->getGame($gameId)->getPlayer2Id() == null) {
             $valid = false;
@@ -199,17 +222,15 @@ class GameManager
      *   @param   int    $gameId   Id de la partie
      *   @return  void
      */
-    public function incrementMana($gameId) {
-        // $state = 'SELECT `game_mana` FROM `game` WHERE `game_id` = :gameId';                //On recupere le mana actuel
-        // $parameter = ['gameId' => [$gameId, PDO::PARAM_INT]];
-        // $previousManaValue = $this->getPdo()->makeUpdate($state, $param);
-
-        $mana = (int)(ceil((int) $this->getGame($gameId)->getTurn() / 2) + 1);
+    public function incrementMana($gameId)
+    {
+        $turn = (int) (ceil((int)$this->getGame($gameId)->getTurn() / 2));
+        $mana = $turn + 1;
 
         $statement = 'UPDATE `game` SET `game_mana` = :mana WHERE `game_id` = :gameId';
         $parameter = [
-            ':mana'  => [$mana, PDO::PARAM_INT],
-            'gameId' => [$gameId   , PDO::PARAM_INT]
+            ':mana'  => [$mana  , PDO::PARAM_INT],
+            'gameId' => [$gameId, PDO::PARAM_INT]
         ];
         $response = $this->getPdo()->makeUpdate($statement, $parameter);
     }
@@ -220,7 +241,8 @@ class GameManager
      *
      *   @param   int   $gameId
      */
-    public function resetData(int $gameId) {
+    public function resetData(int $gameId)
+    {
         $response = $this->getPdo()->makeUpdate(
             'UPDATE `game` SET
             `game_status` = 2
@@ -246,6 +268,4 @@ class GameManager
     {
         return $this->pdo;
     }
-
-
 }

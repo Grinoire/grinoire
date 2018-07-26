@@ -125,7 +125,7 @@ class HomeController extends CoreController
                 $deckManager->resetData($userId);                               //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
             }
             $this->setSession(APP_NAME, array());                               //Vide la session liée a l'application
-            session_unset(APP_NAME);                                            //Effece la session liée a l''application
+            session_unset();                                                    //Efface les sessions de l'utilisateur
             redirection('?c=Home&a=home');                                      //Redirige vers la vue connection
 
         } else { //Sinon on affiche la vue de l'acceuil
