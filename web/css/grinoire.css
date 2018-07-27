@@ -1,7 +1,7 @@
 #grinoire-section-wrapper {
 }
 
-#box-contour{
+#box-contour {
     position: relative;
     z-index: 100;
 }
@@ -16,24 +16,27 @@
     margin: auto;
 }
 
-#grinoire-liens-wrapper{
+#grinoire-liens-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
 
-#img-cerlce-deco{
+#img-cerlce-deco {
     left: -11.3rem;
     position: relative;
 }
-#img-cercle-jouer{
+
+#img-cercle-jouer {
     left: -11rem;
     position: relative;
 }
-#img-cercle-profil{
+
+#img-cercle-profil {
     left: -7rem;
     position: relative;
 }
+
 #grinoire-liens-wrapper a {
     font-family: "Libre Baskerville regular", Serif;
     text-decoration: none;
@@ -42,7 +45,6 @@
     font-family: "Libre Baskerville", serif;
     font-weight: bold;
 }
-
 
 #grinoire-texte {
     font-family: "Libre Baskerville", Serif;
@@ -59,12 +61,52 @@
     font-size: 2.5rem;
 }
 
-#grinoire-jouer{
+#grinoire-jouer {
     font-size: 3rem;
 }
-#grinoire-deconnexion{
+
+#grinoire-deconnexion {
     font-size: 1.8rem;
 }
-#grinoire-profil{
+
+#grinoire-profil {
     font-size: 1.8rem;
+}
+
+/*////////////////  ADMIN //////////*/
+#grinoire-liste-utilisateur {
+    position: absolute;
+    width: 27rem;
+    top: 30rem;
+    border: 3px solid black;
+    padding: 3rem;
+    left: 4rem;
+    max-height: 50vh;
+    overflow: scroll;
+    background: rgba(240, 226, 207, 0.6);
+}
+
+#grinoire-liste-utilisateur p {
+    font-size: 1.8rem;
+    border-bottom: 3px solid black;
+    margin-bottom: 2rem;
+}
+
+#grinoire-liste-utilisateur ul li {
+    list-style: none;
+    font-size: 1.8rem;
+    border-bottom: 1px solid black;
+    margin-bottom: 1rem;
+}
+#grinoire-liste-utilisateur ul li:hover {
+    background: rgba(240, 226, 207, 0.2);
+}
+
+#grinoire-liste-utilisateur ul li span {
+    display: flex;
+}
+
+#grinoire-liste-utilisateur a {
+    text-decoration: none;
+    color: black;
 }

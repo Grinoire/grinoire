@@ -7,6 +7,7 @@ namespace grinoire\src\controller\homeController;
 use Exception;
 use grinoire\src\controller\CoreController;
 use grinoire\src\exception\UserException;
+use grinoire\src\model\AdminManager;
 use grinoire\src\model\DeckManager;
 use grinoire\src\model\GameManager;
 use grinoire\src\model\UserManager;
@@ -113,6 +114,12 @@ class HomeController extends CoreController
     {
         $this->init(__FILE__, __FUNCTION__);
 
+        $adminManager = new AdminManager();
+        $data['admin'] = $adminManager->getRoleById((int)$this->getSession('userConnected'));
+        $data['action'] = $adminManager->getActionByRole($data['admin']['role_name']);
+
+        $data['users'] = $adminManager->getAllUser();
+
         if (array_key_exists('deconnexion', $this->getGet())) {
             //si une partie a ete jouer
             if (array_key_exists('game', $this->getSession())) {
@@ -132,8 +139,9 @@ class HomeController extends CoreController
             session_unset(APP_NAME);
             redirection('?c=Home&a=home');
         } else {
+
             $this->setNewLayout('template-home\\');
-            $this->render(true, 'grinoire');
+            $this->render(true, 'grinoire', $data);
         }
     }
 
@@ -145,7 +153,13 @@ class HomeController extends CoreController
         $this->init(__FILE__, __FUNCTION__);
 
         $profilManager = new UserManager();
-        $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+
+        if (isset($_GET['id'])) {
+            $myUser = $profilManager->getProfilById($_GET['id']);
+        } else {
+            $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+        }
+
 
         try {
             if ((isset($this->post['lastName']) AND isset($this->post['firstName'])) AND (isset($this->post['mail']) AND isset($this->post['login'])) AND isset($this->post['password'])) {
@@ -190,8 +204,11 @@ class HomeController extends CoreController
                     }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
                 }
             } else {                                                                                                    //else de sortie, récupère l'utilisateur par l'id stocker en sesssion
-                $data = [];
-                $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
+                if (isset($_GET['id'])) {
+                    $data['user'] = $profilManager->getProfilById($_GET['id']);
+                } else {
+                    $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
+                }
                 $this->setNewLayout('template-home\\');
                 $this->render(true, 'profil', $data);
             }

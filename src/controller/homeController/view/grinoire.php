@@ -1,6 +1,12 @@
 <section id="grinoire-section">
+    <?php
+    if ($data['admin']['role_name'] == 'Admin' || $data['admin']['role_name'] == 'Moderateur') {
+        require '../src/controller/homeController/view/admin/grinoire.php';
+    }
+    //    var_dump($data['admin']);
+    ////    var_dump($data['action']);
+    ?>
     <div id="grinoire-section-wrapper">
-
         <img id="box-contour" src="img/grinoire/contour-grinoire.png"/>
 
         <div id="grinoire-liens">
@@ -18,3 +24,4 @@
 
     </div>
 </section>
+

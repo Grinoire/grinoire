@@ -4,10 +4,12 @@ let email = document.querySelector('#create-account-email');
 let password = document.querySelector('#create-account-password');
 let span = document.getElementById('create-account-span');
 
+/**
+ *Permet d'afficher un message pour l'utilisateur au blur
+ */
 let blur = function (event) {
-    let span = document.getElementById('create-account-span');
+    span.innerHTML = "";
     if (event.target.value === "") {
-        // span.innerHTML = "";
         event.target.style.border = "1px solid red";
         event.target.style.color = "red";
         if (event.target === document.getElementById('create-account-pseudo')) {
@@ -20,7 +22,18 @@ let blur = function (event) {
     }
 };
 
+/**
+ *  Au focus du champ, selectionne tous le texte du champ
+ */
+let focusChamp = function (event) {
+    event.target.select();
+};
 
+/**
+ * Permet de retourner un message dans la span
+ * remmet les effets à 0 a partir de 3s
+ * Cette methode est utilisé que pour le formulaire create account
+ */
 function spanReturnMessage(event, message) {
     span.append(message);
     setTimeout(function () {
@@ -30,12 +43,7 @@ function spanReturnMessage(event, message) {
     }, 3000);
 }
 
-//      PARTIE CHAMP PSEUDO   ----------------------------
-let pseudoFocus = function (event) {
-    event.target.select();
-    //ou this.select();
-};
-
+/////// PSEUDO  ///////
 let pseudoValid = function (event, elt = null) {
     let element;
     if (event == null) {//Si on ne fait pas appel à l'évent de base
@@ -85,10 +93,6 @@ let emailValid = function (event, elt = null) {
     }
     return flag;
 }
-
-let emailFocus = function (event) {
-    event.target.select();
-};
 ///////////////// END EMAIL //////////////
 ////////////////    PASSWORD    //////////////////
 let passwordValid = function (event, elt = null) {
@@ -156,10 +160,10 @@ if (document.getElementById('create-account-form')) {
             });
         }
     });
-    pseudo.addEventListener('focus', pseudoFocus);
+    pseudo.addEventListener('focus', focusChamp);
     pseudo.addEventListener('blur', blur);//event ne sera pas null
     pseudo.addEventListener('keyup', pseudoValid);
-    email.addEventListener('focus', emailFocus);
+    email.addEventListener('focus', focusChamp);
     email.addEventListener('blur', blur);
     email.addEventListener('keyup', emailValid);
     password.addEventListener('blur', blur);
