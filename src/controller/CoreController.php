@@ -354,8 +354,11 @@ class CoreController
     }
 
     /**
-     * @param string|null $key
-     * @return array
+     * Retourne la super-global POST associé a la clé en paramètres
+     * Retourne toutes les super-global POST de l'application sans clé
+     *
+     * @param    string|null $key     Nom de la super-global POST recherché
+     * @return   mixed                Array | string | null
      */
     public function getPost(string $key = null)
     {
@@ -367,7 +370,11 @@ class CoreController
     }
 
     /**
-     * @param  string|null  $key
+     * Retourne la session associé a la clé en paramètres
+     * Retourne toutes les sessions de l'application sans clé
+     *
+     * @param    string|null  $key    Nom de la session recherché
+     * @return   mixed                Array | string | null
      */
     public function getSession( ?string $key = null)
     {
@@ -396,6 +403,7 @@ class CoreController
 
      /**
       * Affiche la valeur en parametre dans la console du navigateur
+      * 
       * @param   mixed  $value   string ou array
       * @return  void
       */

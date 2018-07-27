@@ -1,57 +1,67 @@
+/* section de selection du deck */
+#selectDeck-section-wrapper {
+    width: 90vw;
+    height: 80%;
+    margin: 0 auto;
+}
+
+/* Titre de la page */
 #selectDeck-section-wrapper h1 {
     text-align: center;
     font-family: "Libre Baskerville", Serif;
     font-weight: 200;
     font-size: 2.4rem;
-    position: relative;
-    top: 5rem;
+    margin-bottom: 10%;
 }
-
 #selectDeck-section-wrapper h1 span {
     font-size: 3.4rem;
 }
-#selectDeck-section-wrapper img{
-    transition: all ease 2s;
-}
+
+
+/* container choix du deck */
 #selectDeck-img-hero {
-    position: relative;
-    top: 18rem;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: space-around;
+    align-items: end;
 }
 
-/*Div qui permet d'espacer les images des héros*/
-#selectDeck-div-bateau {
-    width: 18rem;
-}
-
-#selectDeck-chapelier {
+/* container pour chaque deck proposé */
+#selectDeck-container {
     position: relative;
-    width: 19.2rem;
-    height: 16.7rem;
-    border-radius: 100%;
-    top: -21.7rem;
-    left: 0.8rem;
-    opacity: 0;
 }
 
-#selectDeck-chapelier:hover {
+/* input submit */
+#selectDeck-input {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    opacity: 0;
     cursor: pointer;
 }
 
-#selectDeck-gandalf {
-    position: relative;
-    width: 19.2rem;
-    height: 16.7rem;
-    border-radius: 100%;
-    top: -21.7rem;
-    left: 0.8rem;
-    opacity: 0;
+/* Formulaire selection du deck */
+form.select-deck {
+    height: 100%;
+    width: 100%;
+    border-radius: 10%;
+
+
+    display: inline-block;
+
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-#selectDeck-gandalf:hover {
-    cursor: pointer;
+/* Selection cartes */
+form.deck-selection-card {
+    grid-column: 7 / span 8;
+    text-align: center;
+    margin-top: 5rem;
+}
+form input.deck-select-card-submit {
+    display: block;
+    margin: 5rem auto;
 }
 
 #selectDeck-lien-vers-accueil {
@@ -59,6 +69,7 @@
     width: 15rem;
     height: 2rem;
     margin: auto;
+    margin-top: 10%;
     text-align: center;
     color: black;
     font-size: 1.8rem;

@@ -1,6 +1,5 @@
-<!--Import CDN Jquery.min.js-->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="js/effect.js" charset="utf-8"></script>                  <!-- master js -->
+<!-- <script src="js/animate.js"></script> -->      <!-- a definir -->
+<script src="js/validForm.js"></script>             <!-- Validation js formulaire -->
+<script src="js/selectDeck.js"></script>            <!-- selection aleatoire et effet diverse vue selection deck -->
 </body>
 </html>
