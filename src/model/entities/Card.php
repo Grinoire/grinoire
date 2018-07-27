@@ -370,7 +370,7 @@ class Card
     }
 
     /**
-    * Set the value of Status (0 = pioche, 1=main, 2= defausse, 3 = pose depuuis moin d'un tour , 4 = pose et peut jouer)
+    * Set the value of Status (0 = pioche, 1=main, 2= defausse, 3 = pose depuis moin d'un tour , 4 = pose et peut jouer)
     * @param  int|null $status
     * @return Card
     */

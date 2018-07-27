@@ -1,2 +1,9 @@
 remove game session if disconnected or game ended
 clear bdd after match end or deconnexion or time out?
+
+add field 'game_winner_id' in game ???
+
+
+fait a la maison:
+modifier sql status pour avoir la meme bdd que formation
+modifier default turn value 0 au lieu de 1 pour avoir la meme bdd que formation

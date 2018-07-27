@@ -8,7 +8,6 @@ use grinoire\src\model\entities\Card;
 use grinoire\src\model\entities\Deck;
 use grinoire\src\model\entities\Hero;
 
-
 /**
  *  DeckManager gere les requetes necessaire a la construction d'un deck
  *  Il est compose d'une entite {Deck}
@@ -55,19 +54,31 @@ class DeckManager
      */
 
     /**
-     *  recupere les cartes original associé au deck
+     *   Recupere tous les deck en base de données
+     *
+     *   @return array   Deck data
+     */
+    public function getAllDataForDeck()
+    {
+        $statement = 'SELECT * FROM deck';
+        return $this->getPdo()->makeSelect($statement);
+    }
+
+
+    /**
+     *  recupere les cartes original associé a un deck
      *
      *  @param    int      $deckId
      *  @return   Card[]   Carte instancié
      */
-    public function getAllCardByDeck( int $deckId ) :array
+    public function getAllCardByDeck(int $deckId) :array
     {
         $statement = 'SELECT * FROM `card` AS c WHERE c.`card_deck_id_fk` = :deckId';
         $param = [ ':deckId' => $deckId ];
-        $data = $this->pdo->makeSelect( $statement, $param);
+        $data = $this->pdo->makeSelect($statement, $param);
 
         $cardList = [];
-        foreach ($data as $id => $card ) {
+        foreach ($data as $id => $card) {
             $cardList[] = new Card($card);
         }
 
@@ -82,7 +93,7 @@ class DeckManager
      *  @param  int    $deckId
      *  @return Hero   Hero instance
      */
-    public function getHeroForDeck( int $deckId ) :Hero
+    public function getHeroForDeck(int $deckId) :Hero
     {
         $statement =
         'SELECT d.`hero_name`, d.`hero_bg`, d.`hero_mana`, d.`hero_life`, d.`hero_damage_received`
@@ -90,7 +101,7 @@ class DeckManager
         WHERE d.`deck_id` = :deckId';
         $param = [ ':deckId' => $deckId ];
 
-        $data = $this->getPdo()->makeSelect( $statement, $param, false );
+        $data = $this->getPdo()->makeSelect($statement, $param, false);
 
         return new Hero($data);
     }
@@ -109,7 +120,7 @@ class DeckManager
         WHERE d.`deck_id` = :deck_id';
         $param = [ ':deck_id' => $deckId ];
 
-        return $this->pdo->makeSelect( $statement, $param, false );
+        return $this->pdo->makeSelect($statement, $param, false);
     }
 
 
@@ -264,7 +275,8 @@ class DeckManager
         $params = [':cardId' => [$cardId, PDO::PARAM_INT]];
         $response = $this->getPdo()->makeSelect($statement, $params, false);
 
-        return new Card($response);;
+        return new Card($response);
+        ;
     }
 
 
@@ -348,12 +360,14 @@ class DeckManager
      * @param   int     $userId  User ID
      * @return  int
     */
-    public function getDeckId(int $userId) {
+    public function getDeckId(int $userId)
+    {
         return $this->getPdo()->makeSelect(
-            'SELECT user_deck_id_fk FROM user WHERE user_id = :userID',
+            'SELECT user_deck_id_fk FROM user WHERE user_id = :userId',
             [
-                ':userID' => [$userId, PDO::PARAM_INT]
-            ], false
+                ':userId' => [$userId, PDO::PARAM_INT]
+            ],
+            false
         );
     }
 
@@ -363,7 +377,8 @@ class DeckManager
      * @param   int     $userId  opponent ID
      * @return  Deck
      */
-    public function getTmpDeck(int $userId) :Deck {
+    public function getTmpDeck(int $userId) :Deck
+    {
         $data     = $this->getDataForDeck((int)$this->getDeckId($userId));
         $Hero     = $this->getTmpHero($userId);
         $CardList = $this->getTmpCards($userId);
@@ -377,10 +392,10 @@ class DeckManager
      * @param   Card[]  $cardList    Array of Card
      * @return  void
      */
-    public function initCardStatus(array $cardList) :void {
-
+    public function initCardStatus(array $cardList) :void
+    {
         //define card status for setting position on board, card is already randomized
-        for ( $i=0 ; $i < count($cardList) ; $i++ ) {
+        for ($i=0 ; $i < count($cardList) ; $i++) {
             if ($i < HAND_NBR_CARD) {
                 $cardList[$i]->setStatus(1);//define status
             } else {
@@ -391,6 +406,70 @@ class DeckManager
     }
 
 
+    /**
+     *   Incremente le status de 1 pour les cartes posés sur le plateau depuis moins d'un tour
+     *
+     *   (status = 3) carte posé sur le plateau mais injouable
+     *
+     *   (statut = 4) permet aux carte sur le plateau d'attaquer
+     *
+     *   @param   int   $userId    Id de l'utilisateur
+     */
+    public function UpdateStatusOnBoard(int $userId) :void
+    {
+        foreach ($this->getTmpDeck($userId)->getCardList() as $card) {
+            if ($card->getStatus() === 3) {
+                $card->setStatus(4);
+                $this->UpdateTmpCard($card);
+            }
+        }
+    }
+
+
+    /**
+     *   Verifie si l'id du deck existe en base de donnée
+     *
+     *   @param   int   $deckId  Id du deck
+     *   @return  bool
+     */
+    public function isValidDeck(int $deckId)
+    {
+        $valid = true;
+        $statement = 'SELECT * FROM `deck` WHERE `deck_id` = :deckId';
+        $response = $this->getPdo()->makeSelect(
+            $statement,
+            [':deckId' => [$deckId, PDO::PARAM_INT]],
+            false
+        );
+        if (count($response) == 0) {
+            $valid = false;
+        }
+        return $valid;
+    }
+
+
+    /**
+    *   [resetData description]
+    *
+    *   @param [type] $userId [description]
+    */
+    public function resetData($userId)
+    {
+        //on efface les cartes attribué au joueur
+        $response = $this->getPdo()->makeUpdate(
+            'DELETE FROM `tmp_card`
+            WHERE `tmpcard_user_id_fk` = :userId',
+            [':userId' => $userId]
+        );
+
+        //on efface le hero attribué au joueur
+        $response2 = $this->getPdo()->makeUpdate(
+            'DELETE FROM `tmp_hero`
+            WHERE `tmphero_user_id_fk` = :userId',
+            [':userId' => $userId]
+        );
+    }
+
     // --------------------- //
     // ------ SETTERS ------ //
     // --------------------- //
@@ -400,7 +479,7 @@ class DeckManager
      *  @param    Deck  $cardObj   Deck instance
      *  @return   self
      */
-    public function setDeck( Deck $cardObj ) :self
+    public function setDeck(Deck $cardObj) :self
     {
         $this->deck = $cardObj;
         return $this;
@@ -429,27 +508,4 @@ class DeckManager
     {
         return $this->pdo;
     }
-
-
-    /**
-     *   [resetData description]
-     *
-     *   @param [type] $userId [description]
-     */
-    public function resetData($userId) {
-        //on efface les cartes attribué au joueur
-        $response = $this->getPdo()->makeUpdate(
-            'DELETE FROM `tmp_card`
-            WHERE `tmpcard_user_id_fk` = :userId',
-            [':userId' => $userId]
-        );
-
-        //on efface le hero attribué au joueur
-        $response2 = $this->getPdo()->makeUpdate(
-            'DELETE FROM `tmp_hero`
-            WHERE `tmphero_user_id_fk` = :userId',
-            [':userId' => $userId]
-        );
-    }
-
 }
