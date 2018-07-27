@@ -96,9 +96,9 @@ class GameManager
             `game_mana` = :mana
             WHERE `game_id` = :id',
             [
-                ':turn' => $game->getTurn(),
-                ':mana' => $game->getMana(),
-                ':id'   => $game->getId()
+                ':turn' => [$game->getTurn(), PDO::PARAM_INT],
+                ':mana' => [$game->getMana(), PDO::PARAM_INT],
+                ':id'   => [$game->getId(),   PDO::PARAM_INT]
             ]
         );
     }
@@ -218,14 +218,34 @@ class GameManager
 
 
     /**
-     *   Increment le mana de 1
+     *   Increment le mana de 1 en BDD
      *   @param   int    $gameId   Id de la partie
      *   @return  void
      */
     public function incrementMana($gameId)
     {
-        $turn = (int) (ceil((int)$this->getGame($gameId)->getTurn() / 2));
-        $mana = $turn + 1;
+        $turn = (int) $this->getGame($gameId)->getTurn();                       //On recupere le tour actuel
+        if ($turn <= 1) {                                                       //Si le tour de jeu est inferieur a 3
+            $mana = 1;                                                          //Le mana vaut 1
+        } elseif ($turn <= 3) {
+            $mana = 2;
+        } elseif ($turn <= 5) {
+            $mana = 3;
+        } elseif ($turn <= 8) {
+            $mana = 4;
+        } elseif ($turn <= 10) {
+            $mana = 5;
+        } elseif ($turn <= 12) {
+            $mana = 6;
+        } elseif ($turn <= 14) {
+            $mana = 7;
+        } elseif ($turn <= 16) {
+            $mana = 8;
+        } elseif ($turn <= 18) {
+            $mana = 9;
+        } else {
+            $mana = 10;                                                             //Sinon
+        }
 
         $statement = 'UPDATE `game` SET `game_mana` = :mana WHERE `game_id` = :gameId';
         $parameter = [

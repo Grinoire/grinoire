@@ -74,15 +74,15 @@
                             <?=
                             $opponent->getHero()->getName()
                             . '<br>degat: ' . $opponent->getHero()->getDamageReceived()
+                            . '<br>mana: ' . $opponent->getHero()->getMana()
                             ?>
-                            <?='<br>mana: ' . $game->getMana()?>
                         </a>
                     <?php elseif (isset($opponent)): ?>
                         <?=
                         $opponent->getHero()->getName()
                         . '<br>degat: ' . $opponent->getHero()->getDamageReceived()
+                        . '<br>mana: ' . $opponent->getHero()->getMana()
                         ?>
-                        <?='<br>mana: ' . $game->getMana()?>
                     <?php endif; ?>
                 </div>
 
@@ -177,8 +177,8 @@
                     <?=
                     $user->getHero()->getName()
                     . '<br>degat: ' . $user->getHero()->getDamageReceived()
+                    . '<br>mana: ' . $user->getHero()->getMana()
                     ?>
-                    <?= isset($game) ? '<br>mana: ' . $game->getMana() : null;?>
                 </div>
 
                 <!-- generation des carte du joueur tenu en main-->

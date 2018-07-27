@@ -23,10 +23,10 @@ function randomizeSelection(list) {
     let rand;
     let randomized = [];
 
-    while (randomized.length < 20) {                                        //tant qu'on a pas 20 valeurs
-    rand = getRandomIntInclusive(0 , list.length - 1);                  //on genere un chiffre aleatoire
-    if (randomized.indexOf(rand) == -1) {                               //si il n'est pas deja existant
-    randomized.push(rand);                                          //on le stock
+    while (randomized.length < 20) {                       //tant qu'on a pas 20 valeurs
+    rand = getRandomIntInclusive(0 , list.length - 1);     //on genere un chiffre aleatoire
+    if (randomized.indexOf(rand) == -1) {                  //si il n'est pas deja existant
+    randomized.push(rand);                                 //on le stock
 }
 }
 
