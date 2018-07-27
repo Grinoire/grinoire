@@ -1,5 +1,8 @@
-<!--<span style="text-align:center;color:white;background-color: red;font-size:30px;">--><? //= errorMessage() ?><!--</span>-->
-<!--<span style="text-align:center;color:white;background-color: green;font-size:30px;">--><? //= validMessage() ?><!--</span>-->
+<?php
+//todo: admin doit pouvoir modifier l'utilisateur
+var_dump($_GET);
+var_dump($_SESSION);
+?>
 <section id="profil-section">
     <div id="profil-section-wrapper">
 

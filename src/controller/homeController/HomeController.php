@@ -7,6 +7,7 @@ namespace grinoire\src\controller\homeController;
 use Exception;
 use grinoire\src\controller\CoreController;
 use grinoire\src\exception\UserException;
+use grinoire\src\model\AdminManager;
 use grinoire\src\model\DeckManager;
 use grinoire\src\model\GameManager;
 use grinoire\src\model\UserManager;
@@ -114,25 +115,35 @@ class HomeController extends CoreController
         $this->init(__FILE__, __FUNCTION__);
       
         if (array_key_exists('deconnexion', $this->getGet())) {                 //Si l'utilisateur souhaite se deconnecté
+          
+        $adminManager = new AdminManager();
+        $data['admin'] = $adminManager->getRoleById((int)$this->getSession('userConnected'));
+        $data['action'] = $adminManager->getActionByRole($data['admin']['role_name']);
 
-            $userManager = new UserManager();
-            $userId = (int) $this->getSession('userConnected');                 //on stock l'id du joueur connecte
-            $gameId = $userManager->getUserById($userId)->getGameIdFk();        //on recupere l'id de la partie en BDD
+        $data['users'] = $adminManager->getAllUser();
 
-            if ($gameId !== NULL) {                                             //verifie que l'id de la partie est valide
-                $userManager->resetData($userId);                               //reinitialise les valeurs de l'utilisateur en BDD (gameFk, deckFk)
-                $gameManager = new GameManager();
-                $gameManager->resetData($gameId);                               //actualise les données liés a la partie en BDD (status)
-                $deckManager = new DeckManager();
-                $deckManager->resetData($userId);                               //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
-            }
-            $this->setSession(APP_NAME, array());                               //Vide la session liée a l'application
-            session_unset();                                                    //Efface les sessions de l'utilisateur
-            redirection('?c=Home&a=home');                                      //Redirige vers la vue connection
+        if (array_key_exists('deconnexion', $this->getGet())) {
+            //si une partie a ete jouer
+            if (array_key_exists('game', $this->getSession())) {
+
+                $userManager = new UserManager();
+                $userId = (int) $this->getSession('userConnected');                 //on stock l'id du joueur connecte
+                $gameId = $userManager->getUserById($userId)->getGameIdFk();        //on recupere l'id de la partie en BDD
+
+                if ($gameId !== NULL) {                                             //verifie que l'id de la partie est valide
+                    $userManager->resetData($userId);                               //reinitialise les valeurs de l'utilisateur en BDD (gameFk, deckFk)
+                    $gameManager = new GameManager();
+                    $gameManager->resetData($gameId);                               //actualise les données liés a la partie en BDD (status)
+                    $deckManager = new DeckManager();
+                    $deckManager->resetData($userId);                               //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
+                }
+                $this->setSession(APP_NAME, array());                               //Vide la session liée a l'application
+                session_unset();                                                    //Efface les sessions de l'utilisateur
+                redirection('?c=Home&a=home');                                      //Redirige vers la vue connection
 
         } else { //Sinon on affiche la vue de l'acceuil
             $this->setNewLayout('template-home\\');
-            $this->render(true, 'grinoire');
+            $this->render(true, 'grinoire', $data);
         }
     }
 
@@ -146,7 +157,13 @@ class HomeController extends CoreController
         $this->init(__FILE__, __FUNCTION__);
 
         $profilManager = new UserManager();
-        $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+
+        if (isset($_GET['id'])) {
+            $myUser = $profilManager->getProfilById($_GET['id']);
+        } else {
+            $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+        }
+
 
         try {
             if ((isset($this->post['lastName']) AND isset($this->post['firstName'])) AND (isset($this->post['mail']) AND isset($this->post['login'])) AND isset($this->post['password'])) {
@@ -191,8 +208,11 @@ class HomeController extends CoreController
                     }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
                 }
             } else {                                                                                                    //else de sortie, récupère l'utilisateur par l'id stocker en sesssion
-                $data = [];
-                $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
+                if (isset($_GET['id'])) {
+                    $data['user'] = $profilManager->getProfilById($_GET['id']);
+                } else {
+                    $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
+                }
                 $this->setNewLayout('template-home\\');
                 $this->render(true, 'profil', $data);
             }
