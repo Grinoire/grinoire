@@ -31,10 +31,6 @@
     font-family: "Libre Baskerville", Serif;
 }
 
-#create-account-form div {
-    text-align: left;
-}
-
 #lien-vers-accueil-create-account {
     font-family: "Libre Baskerville", Serif;
     text-decoration: none;
@@ -84,4 +80,11 @@
 }
 #create-account-submit-div {
     text-align: right !important;
+}
+#create-account-span{
+    height: 2rem;
+    color: red;
+    text-shadow: 0px 1px 0px grey;
+    font-size: 1.7rem;
+    font-variant: all-small-caps;
 }

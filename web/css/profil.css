@@ -31,8 +31,9 @@
 /*La div qui englobe le label + input de l'avatar*/
 .avatar-img {
     margin: auto;
+    width: 15rem;
     position: relative;
-    top: -9rem;
+    top: -13rem;
     z-index: 500;
 }
 /*l'image de l'avatar*/
@@ -41,7 +42,7 @@
     height: 15rem;
     border-radius: 100%;
     position: relative;
-    top: -24.7rem;
+    top: -28.9rem;
     left: 12.3rem;
     z-index: 0;
 }
@@ -88,7 +89,7 @@
     margin: auto;
     padding: 0.2rem;
     position: relative;
-    top: -8.4rem;
+    top: -12rem;
     font-size: 1.6rem;
     cursor: pointer;
     font-family: "Libre Baskerville", Serif;
@@ -156,4 +157,13 @@
     top: -11.2rem;
     left: 25.4rem;
     z-index: 500;
+}
+#profilSpanMessage{
+    color: red;
+    text-align: center;
+    position: relative;
+    top: -1rem;
+    height: 2rem;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
 }

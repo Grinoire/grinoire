@@ -52,10 +52,12 @@
     font-family: "Libre Baskerville", Serif;
     font-size: 1.5rem;
     background-color: #b49c83;
-    color: #ff000d;
+    /*color: #ff000d;*/
+    color: green;
     text-align: center;
     line-height: 5rem;
     font-weight: bold;
+    transition-delay: 3s;
 }
 
 section {
@@ -92,4 +94,9 @@ footer p {
     text-align: center;
     margin-left: 2rem;
     margin-right: 2rem;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0px 1000px rgba(225, 215, 197, 1) inset;
 }
