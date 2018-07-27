@@ -88,12 +88,12 @@
 
 
 /* container "zone de jeu" : pioche, defausse, deck, plateau */
-.firstDraw, .firstHeros
+.secondDraw, .secondHeros
 {
     grid-column: 3 / span 6;
     grid-row: 3 / span 4;
 }
-.secondDraw, .secondHeros
+.firstDraw, .firstHeros
 {
     grid-column: 3 / span 6;
     grid-row: 10 / span 4;
@@ -102,12 +102,12 @@
 .firstPlayerDeck
 {
     grid-column: 1 / span 20;
-    grid-row: 1 / span 3;
+    grid-row: 13 / span 3;
 }
 .secondPlayerDeck
 {
     grid-column: 1 / span 20;
-    grid-row: 13 / span 3;
+    grid-row: 1 / span 3;
 
     /* placement des carte en main */
     display: flex;
@@ -170,13 +170,13 @@
 
 
 /* defini le container de la pioche */
-.drawContainer, .discardedContainer
+/* .drawContainer, .discardedContainer
 {
-    /* position: relative; */
+    position: relative;
 
-    /* perspective: 5000px;
-    perspective-origin: center; */
-}
+    perspective: 5000px;
+    perspective-origin: center;
+} */
 
 
 
@@ -200,7 +200,6 @@
     height: 11.5rem;
     width: 7rem;
     margin: .1rem;
-    cursor: pointer;
     border-radius: .8rem;
     box-shadow: 0 .2rem .3rem rgba(0, 0, 0, .23);
     /* transition: .1s ease-in-out; */
@@ -278,24 +277,4 @@
     background-repeat: no-repeat;
     background-position: center;
     background-clip: border-box;
-}
-
-
-
-/**
- * --------------------------------------------------
- *     Deck selectCard view
- * ------------------------------------------------------
- */
-
-
-form.deck-selection-card {
-    grid-column: 7 / span 8;
-    text-align: center;
-    margin-top: 5rem;
-}
-
-form input.deck-select-card-submit {
-    display: block;
-    margin: 5rem auto;
 }

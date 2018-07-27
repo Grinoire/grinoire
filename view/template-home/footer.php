@@ -8,10 +8,14 @@
     </div>
 </footer>
 
+
 <script src="js/common.js"></script>
 <script src="js/createAccount.js"></script>
 <script src="js/home.js"></script>
 <script src="js/login.js"></script>
 <script src="js/profil.js"></script>
+<script src="js/validForm.js"></script>             <!-- Validation js formulaire -->
+<script src="js/selectDeck.js"></script>            <!-- selection aleatoire et effet diverse vue selection deck -->
+
 </body>
 </html>
