@@ -1,22 +1,54 @@
 (function() {
     'use strict';
 
-
-    let resizeWrapper = function () {
-        let book = document.getElementById('book');
-        let bookWrapper = document.getElementById('bookWrapper');
-        let oImage = getBackgroundSize(book);
-        bookWrapper.style.width = oImage.width + 'px';
-        bookWrapper.style.height = oImage.height + 'px';
+    /**
+     *   Redimensionne un container selon la taille du background parent
+     *
+     *   @param  {HTMLElement} container Element parent de l'element contenant un background
+     *   @param  {HTMLElement} target    Element a redimensionner a la taille du backgroud parent
+     *   @return {void}
+     */
+    function resizeWrapper(container, target) {
+        let oImage = getBackgroundSize(container);
+        target.style.width = oImage.width + 'px';
+        target.style.height = oImage.height + 'px';
     }
 
-    window.addEventListener('load', resizeWrapper);
-    window.addEventListener('resize', resizeWrapper);
+
+    window.addEventListener('load', function() {
+        let container1 = document.getElementById('book');                       //container du livre
+        let target1 = document.getElementById('bookWrapper');                   //grid interne au container
+
+        let container2 = document.getElementById('bottomBand');                 //container bande noir bas
+        let target2 = document.getElementById('bottomBandWrapper');             //grid interne au container
+
+        let container3 = document.getElementById('topBand');                    //container bande noir haut
+        let target3 = document.getElementById('topBandWrapper');                //grid interne au container
+
+        resizeWrapper(container1, target1);                                     //Resize element at window.load
+        resizeWrapper(container2, target2);                                     //Resize element at window.load
+        resizeWrapper(container3, target3);                                     //Resize element at window.load
+
+        window.addEventListener('resize', function() {                          //Or if window resized
+            resizeWrapper(container1, target1)
+        });
+        window.addEventListener('resize', function() {                          //Or if window resized
+            resizeWrapper(container2, target2)
+        });
+        window.addEventListener('resize', function() {                          //Or if window resized
+            resizeWrapper(container3, target3)
+        });
+    });
+
 }());
 
 
-
-
+/**
+ *   Retourne les propriétés réél  width et height d'un backgroud
+ *
+ *   @param  {HTMLElement}  elem   Element contenant un backgroud-image
+ *   @return {object}              Contient la width et la height
+ */
 function getBackgroundSize(elem) {
     var computedStyle = getComputedStyle(elem),
     image = new Image(),

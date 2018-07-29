@@ -173,13 +173,13 @@
                 <!------------------------------->
 
                 <!-- Affichage du heros du joueur -->
-                <div class="hero-player">
+                <!-- <div class="hero-player">
                     <?=
-                    $user->getHero()->getName()
-                    . '<br>degat: ' . $user->getHero()->getDamageReceived()
-                    . '<br>mana: ' . $user->getHero()->getMana()
+                    // $user->getHero()->getName()
+                    // . '<br>degat: ' . $user->getHero()->getDamageReceived()
+                    // . '<br>mana: ' . $user->getHero()->getMana()
                     ?>
-                </div>
+                </div> -->
 
                 <!-- generation des carte du joueur tenu en main-->
                 <div id="deck-2" class="deckContainer firstPlayerDeck cyan">
