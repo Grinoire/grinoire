@@ -13,23 +13,25 @@
     // Fonction callback à éxécuter quand une mutation ou un window.resize est observée
     let callback = function(mutationsList) {
     	let total = 0;
-    	let elementWidth = container.children[0].offsetWidth;
-    	let childNbr = container.children.length;
-    	let itemLength = (childNbr * elementWidth) + elementWidth;
-    	let margin = 0;
+        if (container.children.length > 0) {
+            let elementWidth = container.children[0].offsetWidth;
+            let childNbr = container.children.length;
+            let itemLength = (childNbr * elementWidth) + elementWidth;
+            let margin = 0;
 
-        //on gere pas les carte en responsive donc j'ai desactive la gestion des position des carte
-    	// if (itemLength > container.offsetWidth) {
-    	// 	margin = container.offsetWidth / childNbr ;
-    	// } else {
-    	// 	margin = itemLength / childNbr;
-    	// }
+            //on gere pas les carte en responsive donc j'ai desactive la gestion des position des carte
+        	// if (itemLength > container.offsetWidth) {
+        	// 	margin = container.offsetWidth / childNbr ;
+        	// } else {
+        	// 	margin = itemLength / childNbr;
+        	// }
 
-    	for (let i = 0 ; i < childNbr ; i++) {
-    		// container.children[i].style.left = (margin * i) + "px";
-            container.children[i].addEventListener('mouseover', setHover);
-            // container.children[i].addEventListener('click', setSelected); // TODO: sans AJAX php doit se charger de mettre la classe selected
-    	}
+        	for (let i = 0 ; i < childNbr ; i++) {
+        		// container.children[i].style.left = (margin * i) + "px";
+                container.children[i].addEventListener('mouseover', setHover);
+                // container.children[i].addEventListener('click', setSelected); // TODO: sans AJAX php doit se charger de mettre la classe selected
+        	}
+        }
     };
 
 

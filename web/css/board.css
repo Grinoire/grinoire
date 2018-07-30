@@ -54,8 +54,8 @@ div.board-container {
 div.board-wrapper {
     width: 100vw;
     height: 100vh;
-    max-width: 1536px;/*a definir*/
-    max-height: 864px;/*a definir*/
+    /* max-width: 1536px;
+    max-height: 864px;*/
 
     display: grid;
     grid-template-columns: repeat(43, 1fr);
@@ -193,7 +193,7 @@ div.right-border-gold {
 /* Container du hero de l'ennemi */
 div.opponent-hero {
     grid-column: 38 / span 5;
-    grid-row: 1 / span 6;
+    grid-row: 2 / span 6;
 }
 
 /* Container de la main de l'ennemi */
@@ -207,6 +207,17 @@ div.opponent-hand {
     justify-content: center;
 
     z-index: 150;
+}
+
+/* Continer partie utilisateur du plateau central */
+div.opponent-center-board {
+    grid-column: 1 / -1;
+    grid-row: 1 / span 8;
+
+    /* Range les carte proprement */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -296,6 +307,26 @@ div.player-deck {
     grid-row: 5 / span 7;
 }
 
+/* Continer partie utilisateur du plateau central */
+div.player-center-board {
+    grid-column: 1 / -1;
+    grid-row: 10 / span 8;
+
+    /* Range les carte proprement */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a.boardGame-link {
+    text-decoration: none;
+    color: black;
+
+    display: block;
+
+    grid-column: 1 / -1;
+    grid-row: 10 / span 8;
+}
 
 
 
@@ -318,8 +349,12 @@ div.hero {
     position: relative;
 }
 
-/* Affichage de la vie du hero */
-span.hero-life {
+div.opponent-hero .hero {
+    background-position: right;
+}
+
+/* Affichage de la vie du hero du joueur*/
+div.player-hero span.hero-life {
     color: black;
     font-size: 1.4rem;
     font-weight: bold;
@@ -331,6 +366,21 @@ span.hero-life {
     position: absolute;
     top: 30%;
     left: 13%;
+}
+
+/* Affichage de la vie du hero ennemi */
+div.opponent-hero span.hero-life {
+    color: black;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 14%;
+    height: 12%;
+
+    position: absolute;
+    top: 30%;
+    left: 24%;
 }
 
 /* TODO: proportion de user-card appartienne a card normalement, mais sans ajax on a besoin de lien  */
@@ -348,6 +398,12 @@ a.user-card {
     display: block;
 }
 
+/**
+ * --------------------------------------------------
+ *     FORMAT CARTES
+ * ------------------------------------------------------
+ */
+
  /* card = style general des cartes */
 div.card
 {
@@ -356,10 +412,13 @@ div.card
     background-size: contain;
 
     border: inset 1px transparent;
-    /*border-radius: 5%; */
 
-    height: 100%;
-    width: 100%;
+    border-radius: 5%;
+    height: 200%;
+    width: 14%;
+
+    /* height: 100%;
+    width: 100%; */
 
 	transition: all .01s ease;
 
@@ -367,14 +426,22 @@ div.card
 }
 
 div.back-card {
-    background-image: url('../img/board/deck.png');
+    background-image: url('../img/cards/backcard.png');
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 90%;
+    background-size: contain;
+
+    height: 200%;
+    width: 14%;
+
+    border-radius: 5%;
+    transition: .01s ease-in-out;
+
+    display: block;
 }
 
 /* Affichage de la vie des créatures */
-span.creature-life {
+div.card span.creature-life {
     color: white;
     font-size: 1.3rem;
     font-weight: bold;
@@ -389,7 +456,7 @@ span.creature-life {
 }
 
 /* Affichage de l'attaque des créatures */
-span.creature-attack {
+div.card span.creature-attack {
     color: white;
     font-size: 1.3rem;
     font-weight: bold;
@@ -404,7 +471,7 @@ span.creature-attack {
 }
 
 /* Affichage du cout en mana des créatures */
-span.creature-mana {
+div.card span.creature-mana {
     color: black;
     font-size: 1.3rem;
     font-weight: bold;
@@ -419,7 +486,7 @@ span.creature-mana {
 }
 
 /* Affichage de l'attaque des sorts */
-span.sort-attack {
+div.card span.sort-attack {
     color: white;
     font-size: 1.3rem;
     font-weight: bold;
@@ -434,7 +501,7 @@ span.sort-attack {
 }
 
 /* Affichage du cout en mana des sorts */
-span.sort-mana {
+div.card span.sort-mana {
     color: black;
     font-size: 1.3rem;
     font-weight: bold;
@@ -448,8 +515,8 @@ span.sort-mana {
     left: 74%;
 }
 
-/* Affichage de la vie des créatures */
-span.legendary-life {
+/* Affichage de la vie des legendaires */
+div.card span.legendary-life {
     color: white;
     font-size: 1.3rem;
     font-weight: bold;
@@ -463,8 +530,8 @@ span.legendary-life {
     left: 10.5%;
 }
 
-/* Affichage de l'attaque des créatures */
-span.legendary-attack {
+/* Affichage de l'attaque des legendaires */
+div.card span.legendary-attack {
     color: white;
     font-size: 1.3rem;
     font-weight: bold;
@@ -478,8 +545,8 @@ span.legendary-attack {
     left: 8%;
 }
 
-/* Affichage du cout en mana des créatures */
-span.legendary-mana {
+/* Affichage du cout en mana des legendaires */
+div.card span.legendary-mana {
     color: black;
     font-size: 1.3rem;
     font-weight: bold;
@@ -492,6 +559,118 @@ span.legendary-mana {
     top: 63%;
     left: 73.5%;
 }
+
+/**
+ * --------------------------------------------------
+ *     FORMAT BLAZON
+ * ------------------------------------------------------
+ */
+
+/* Style des blazon */
+div.blazon {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    height: 50%;
+    width: 14%;
+
+    border-radius: 5%;
+    transition: all .01s ease;
+
+    position: relative;
+}
+
+/* Affichage de la vie des créatures en blazon */
+div.blazon span.creature-life {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 14%;
+    height: 12%;
+
+    position: absolute;
+    top: 28%;
+    left: 12%;
+}
+
+/* Affichage de l'attaque des créatures en blazon */
+div.blazon span.creature-attack {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 15%;
+    height: 11%;
+
+    position: absolute;
+    top: 73%;
+    left: 12%;
+}
+
+/* Affichage du cout en mana des créatures en blazon */
+div.blazon span.creature-mana {
+    color: black;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 15%;
+    height: 11%;
+
+    position: absolute;
+    top: 72%;
+    left: 72%;
+}
+
+/* Affichage de la vie des legendaires en blazon */
+div.blazon span.legendary-life {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 14%;
+    height: 12%;
+
+    position: absolute;
+    top: -1%;
+    left: 10.5%;
+}
+
+/* Affichage de l'attaque des legendaires en blazon */
+div.blazon span.legendary-attack {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 15%;
+    height: 11%;
+
+    position: absolute;
+    top: 63%;
+    left: 8%;
+}
+
+/* Affichage du cout en mana des legendaires en blazon */
+div.blazon span.legendary-mana {
+    color: black;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 15%;
+    height: 11%;
+
+    position: absolute;
+    top: 63%;
+    left: 73.5%;
+}
+
 
 /* Active l'animation lors de la pioche */
 .drawed {

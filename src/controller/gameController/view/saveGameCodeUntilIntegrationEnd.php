@@ -52,18 +52,18 @@
                 <!-- generation des cartes de l'adversaire tenu en main-->
                 <div id="deck-1" class="deckContainer secondPlayerDeck red">
                     <?php
-                    if (isset($opponent)) {
-                        foreach ($opponent->getCardList() as $card) {//pr chaque carte
-                            if ($card->getStatus() === 1) {
-                                echo '<div class="card" style="font-size: 11px">' . $card->getName()
-                                    . '<br>status: ' . $card->getStatus()
-                                    . '<br>degat: ' . $card->getDamageReceived()
-                                    . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
-                                    . '<br>mana: ' . $card->getMana()
-                                    . '</div>';
-                            }
-                        }
-                    }
+                    // if (isset($opponent)) {
+                    //     foreach ($opponent->getCardList() as $card) {//pr chaque carte
+                    //         if ($card->getStatus() === 1) {
+                    //             echo '<div class="card" style="font-size: 11px">' . $card->getName()
+                    //                 . '<br>status: ' . $card->getStatus()
+                    //                 . '<br>degat: ' . $card->getDamageReceived()
+                    //                 . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                    //                 . '<br>mana: ' . $card->getMana()
+                    //                 . '</div>';
+                    //         }
+                    //     }
+                    // }
                     ?>
                 </div>
 
@@ -110,18 +110,18 @@
                                     }
                                 }
                             } elseif (isset($opponent)) { //sinon si le joueur n'a rien selectionne on les affiche sans lien de selection
-                                $content = '';
-                                foreach ($opponent->getCardList() as $card) { //on genere chaque carte
-                                    if ($card->getStatus() === 3 || $card->getStatus() === 4) {
-                                        $content .= '<div class="card" style="font-size: 11px">'
-                                        . $card->getName()
-                                        . '<br>status: ' . $card->getStatus()
-                                        . '<br>degat: ' . $card->getDamageReceived()
-                                        . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
-                                        . '<br>mana: ' . $card->getMana()
-                                        . '</div></a>';
-                                    }
-                                }
+                                // $content = '';
+                                // foreach ($opponent->getCardList() as $card) { //on genere chaque carte
+                                //     if ($card->getStatus() === 3 || $card->getStatus() === 4) {
+                                //         $content .= '<div class="card" style="font-size: 11px">'
+                                //         . $card->getName()
+                                //         . '<br>status: ' . $card->getStatus()
+                                //         . '<br>degat: ' . $card->getDamageReceived()
+                                //         . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                //         . '<br>mana: ' . $card->getMana()
+                                //         . '</div></a>';
+                                //     }
+                                // }
                             }
 
                             echo isset($content) ? $content :null;
@@ -148,17 +148,17 @@
                                 $content .= '</a>';
                             } else {
                                 $content = '';
-                                foreach ($user->getCardList() as $card) { //pr chaque carte
-                                    if ($card->getStatus() === 3 || $card->getStatus() === 4) {
-                                        $content .= '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
-                                        . $card->getName()
-                                        . '<br>status: ' . $card->getStatus()
-                                        . '<br>degat: ' . $card->getDamageReceived()
-                                        . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
-                                        . '<br>mana: ' . $card->getMana()
-                                        . '</div></a>';
-                                    }
-                                }
+                                // foreach ($user->getCardList() as $card) { //pr chaque carte
+                                //     if ($card->getStatus() === 3 || $card->getStatus() === 4) {
+                                //         $content .= '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
+                                //         . $card->getName()
+                                //         . '<br>status: ' . $card->getStatus()
+                                //         . '<br>degat: ' . $card->getDamageReceived()
+                                //         . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                                //         . '<br>mana: ' . $card->getMana()
+                                //         . '</div></a>';
+                                //     }
+                                // }
                             }
 
                             echo isset($content) ? $content :null;
@@ -184,17 +184,17 @@
                 <!-- generation des carte du joueur tenu en main-->
                 <div id="deck-2" class="deckContainer firstPlayerDeck cyan">
                     <?php
-                    foreach ($user->getCardList() as $card) { //pr chaque carte
-                        if ($card->getStatus() === 1) {
-                                echo '<a href="?c=game&a=game&idMain=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
-                                . $card->getName()
-                                . '<br>status: ' . $card->getStatus()
-                                . '<br>degat: ' . $card->getDamageReceived()
-                                . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
-                                . '<br>mana: ' . $card->getMana()
-                                . '</div></a>';
-                        }
-                    }
+                    // foreach ($user->getCardList() as $card) { //pr chaque carte
+                    //     if ($card->getStatus() === 1) {
+                    //             echo '<a href="?c=game&a=game&idMain=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
+                    //             . $card->getName()
+                    //             . '<br>status: ' . $card->getStatus()
+                    //             . '<br>degat: ' . $card->getDamageReceived()
+                    //             . '<br>type: ' . $card->getTypeIdFk()   //1legendaire, 2bouclier, 3 sort, 4 normal
+                    //             . '<br>mana: ' . $card->getMana()
+                    //             . '</div></a>';
+                    //     }
+                    // }
                     ?>
                 </div>
 
