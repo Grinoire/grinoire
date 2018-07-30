@@ -22,6 +22,15 @@
         idCard = null;
     });
 
+    /**
+    *   Recupere l'id de l'element clique
+    *
+    *   @return {void}
+    */
+    function getId() {
+        idCard = this.dataset.id;
+        console.log('idCard=' + idCard);
+    }
 
 
 
