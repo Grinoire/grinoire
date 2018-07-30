@@ -103,7 +103,7 @@ class GameController extends CoreController
                     $gameManager = new GameManager();
                     $gameId = $userManager->getUserById($userId)->getGameIdFk();        //on recupere l'id de la partie en BDD
 
-                    if ($gameId !== NULL) {                                             //verifie que l'id de la partie est valide
+                    if ($gameId !== null) {                                             //verifie que l'id de la partie est valide
                         $userManager->resetData($userId);                               //reinitialise les valeurs de l'utilisateur en BDD (gameFk, deckFk)
                         $gameManager->resetData($gameId);                               //actualise les données liés a la partie en BDD (status)
                         $deckManager->resetData($userId);                               //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
@@ -147,11 +147,6 @@ class GameController extends CoreController
             if ($gameManager->isGameFull((int) $userManager->getUserById($userId)->getGameIdFk())) {    //On controle si le joueur n'est pas seul dans la partie
                 $gameSession = $this->getSession('game');
 
-                // $heroPlayer = $deckManager->getTmpHero($userId);
-                // $gameManager->incrementMana($gameSession->getId());                                     //On incremente le mana en  BDD
-                // $heroPlayer->setMana($gameSession->getMana());                                          //on defini le mana pour chaque hero
-                // $deckManager->UpdateTmpHero($heroPlayer);                                               //On met le hero a jour en BDD
-
                 if ((int) $gameSession->getTurn() === 0) {                                              //Si c'est le premier tour de jeu, on initialise le plateau
                     $cardList = $deckManager->getTmpDeck($userId)->getCardList();                       //On recupere les cartes du joueur
                     $deckManager->initCardStatus($cardList);                                            //On initialise le status des carte(pioche ou en main)
@@ -176,7 +171,12 @@ class GameController extends CoreController
                     );
                 }
 
-                $this->render(true, 'game', $data);
+                if (array_key_exists('ajax', $this->getGet())) {
+                    return json_encode($data);
+                } else {
+                    $this->render(true, 'game', $data);
+                }
+
 
             } else { //Si un seul joueur est dans la partie, on l'affiche seul sur le plateau de jeu :
                 $cardList = $deckManager->getTmpDeck($userId)->getCardList();   //On recupere son deck
@@ -191,6 +191,7 @@ class GameController extends CoreController
             getErrorMessageDie($e);
         }
     }
+
 
 
     /**
@@ -228,7 +229,6 @@ class GameController extends CoreController
                                 redirection('?c=game&a=game');                                                  //On redirige vers gameAction()
                             }
                         }
-
                     } else {                                                                                    //Sinon si on attaque une carte
                         $target = $deckManager->getTmpCardByID((int) $this->getGet('target'));                  //On recupere la carte
 
@@ -241,7 +241,6 @@ class GameController extends CoreController
                     }
 
                     if (!in_array($cardPlayer->getId(), $this->getSession('played'))) {
-
                         if ($cardPlayer->isValidTarget($target)) {                              //si la cible est valide (Hero ou target instance)
 
                             $dead = $cardPlayer->giveDamage($target);                           //on attaque la cible et retourne une valeur mort ou pas
@@ -358,6 +357,7 @@ class GameController extends CoreController
     }
 
 
+
     /**
      *   Deplace une carte sur le plateau si il la limite max n'est pas atteinte
      *   @return   void
@@ -390,19 +390,32 @@ class GameController extends CoreController
 
                         $heroPlayer = $deckManager->getTmpHero($userId);                                                //On recupere le hero du joueur
                         if ($cardOnBoard < 7) {                                                                         //Si la limite de carte n'est pas atteinte et qu'on a suffisament de mana
-                            if ($gameManager->getGame($gameSession->getId())->getMana() >= $cardPlayer->getMana()) {    //Si on a asser de mana
+                            if ($heroPlayer->getMana() >= $cardPlayer->getMana()) {    //Si on a asser de mana
                                 $cardPlayer->setStatus(3);                                                              //On deplace la carte demandé sur le plateau
                                 $heroPlayer->setMana($heroPlayer->getMana() - $cardPlayer->getMana());                  //on retire le coup en mana de la carte au mana restant
                                 $deckManager->UpdateTmpCard($cardPlayer);                                               //On met a jour la carte en BDD
                                 $deckManager->UpdateTmpHero($heroPlayer);                                               //On met a jour le hero en BDD
+
+                                $data['move'] = $cardPlayer->getId();
+                                $data['bg'] = $cardPlayer->getBg();
+                                $data['heroMana'] = $heroPlayer->getMana() . ' / ' . $oGame->getMana();
+
                             } else {
+                                $data['error'] = 'Vous n\'avez pas asser de mana';
                                 // TODO: MANA INSUFFISANT
                             }
                         } else {
+                            $data['error'] = 'Vous ne pouver pas ajouter plus de cartes';
                             // TODO: TROP DE CARTE SUR LE PLATEAU
                         }
                     }
+            } else {
+                $data['error'] = 'Ce n\'est pas encore votre tour, soyer patient';
             }
+        }
+        if (array_key_exists('ajax', $this->getGet())) {
+            echo json_encode($data);
+        } else {
             redirection('?c=game&a=game');                                      //On redirige vers gameAction()
         }
     }
@@ -431,3 +444,108 @@ class GameController extends CoreController
         redirection('?c=Home&a=grinoire');
     }
 }
+
+
+
+// public function gameAction()
+// {
+//     $this->init(__FILE__, __FUNCTION__);
+//     try {
+//         $deckManager = new DeckManager();
+//         $gameManager = new GameManager();
+//         $userManager = new UserManager();
+//         $userId = (int) $this->getSession('userConnected');
+//         if ($gameManager->isGameFull((int) $userManager->getUserById($userId)->getGameIdFk())) {    //On controle si le joueur n'est pas seul dans la partie
+//             $gameSession = $this->getSession('game');
+//
+//             if ((int) $gameSession->getTurn() === 0) {                                              //Si c'est le premier tour de jeu, on initialise le plateau
+//                 $cardList = $deckManager->getTmpDeck($userId)->getCardList();                       //On recupere les cartes du joueur
+//                 $deckManager->initCardStatus($cardList);                                            //On initialise le status des carte(pioche ou en main)
+//                 $gameManager->nextTurn((int) $gameSession->getId(), (int) $gameSession->getTurn()); //On incremente le tour de 1 en BDD
+//                 $this->setSession('game', $gameManager->getGame((int) $gameSession->getId()));      //On met a jour la session de jeu
+//                 $this->setSession('drawed', 0);                                                     //On initialise le nombre de carte pioché par tour
+//                 $this->setSession('played', []);
+//             }
+//
+//             $this->setSession('game', $gameManager->getGame((int) $gameSession->getId()));
+//             $data['game'] = $gameManager->getGame((int) $gameSession->getId());
+//
+//             //on recupere le deck des joueur et affiche le plateau de jeu
+//             $data['user'] = $deckManager->getTmpDeck($userId);
+//             if ((int) $this->getSession('game')->getPlayer1Id() == $userId) {                       //Si on est le joueur 1 dans la partie
+//                 $data['opponent'] = $deckManager->getTmpDeck(                                       //On recupere le deck du joueur 2 en ennemi
+//                     (int) $gameManager->getGame($gameSession->getId())->getPlayer2Id()
+//                 );
+//             } else {                                                                                //Sinon si on est pas le joueur 1
+//                 $data['opponent'] = $deckManager->getTmpDeck(                                       //On recupere le deck du joueur 2 en ennemi
+//                     (int) $gameManager->getGame($gameSession->getId())->getPlayer1Id()
+//                 );
+//             }
+//
+//             $this->render(true, 'game', $data);
+//
+//         } else { //Si un seul joueur est dans la partie, on l'affiche seul sur le plateau de jeu :
+//             $cardList = $deckManager->getTmpDeck($userId)->getCardList();   //On recupere son deck
+//             $deckManager->initCardStatus($cardList);                        //On initialise le status des cartes
+//             $data['user'] = $deckManager->getTmpDeck($userId);              //Recupere le deck du joueur a jour
+//             $this->render(true, 'game', $data);                             //Affiche la vue par default
+//         }
+//     } catch (UserException $e) {
+//         $this->setSession('error', $e->getMessage());
+//         $this->render(true); //show view deck selection with error message
+//     } catch (\Exception $e) {
+//         getErrorMessageDie($e);
+//     }
+// }
+
+
+
+
+/**
+ *   Deplace une carte sur le plateau si il la limite max n'est pas atteinte
+ *   @return   void
+ */
+// public function moveCardAction()
+// {
+//     $this->init(__FILE__, __FUNCTION__);
+//     $gameManager = new GameManager();
+//     $deckManager = new DeckManager();
+//     $userManager = new UserManager();
+//     $userId = (int) $this->getSession('userConnected');
+//     $gameSession = $this->getSession('game');
+//
+//     if ($gameManager->isGameFull((int) $userManager->getUserById($userId)->getGameIdFk())) {        //Si le joueur n'est pas seul dans la partie
+//         $oGame = $gameManager->getGame($gameSession->getId());                                      //On recupere la partie en cours en BDD
+//
+//         if (((int) $oGame->getTurn() % 2) == 0 && ((int) $oGame->getPlayer2Id() == $userId)         //Si on joue un tour pair et qu'on est le joueur 2 on peut jouer
+//             || ((int) $oGame->getTurn() % 2) != 0 && ((int) $oGame->getPlayer1Id() == $userId)) {   //Si on joue un tour impair, et qu'on est le premier joueur on peut jouer
+//
+//                 if (array_key_exists('id', $this->getGet())) {                                          //Si l'id de la carte a déplacé est defini
+//
+//                     $cardPlayer = $deckManager->getTmpCardByID((int) $this->getGet('id'));              //On recupere la carte
+//                     $cardList = $deckManager->getTmpDeck($userId)->getCardList();                       //On recupere toutes les cartes du deck
+//                     $cardOnBoard = 0;                                                                   //On initialise un compteur pour connaitre le nbr de carte sur le plateau
+//                     foreach ($cardList as $card) {                                                      //Pour chacune des cartes
+//                         if ($card->getStatus() === 3 || $card->getStatus() === 4) {                     //si leur status est egale a 3 ou 4 (posé sur le plateau)
+//                             $cardOnBoard++;                                                             //on incremente le compteur de 1 pour connaitre le nbr de carte deja posées
+//                         }
+//                     }
+//
+//                     $heroPlayer = $deckManager->getTmpHero($userId);                                                //On recupere le hero du joueur
+//                     if ($cardOnBoard < 7) {                                                                         //Si la limite de carte n'est pas atteinte et qu'on a suffisament de mana
+//                         if ($gameManager->getGame($gameSession->getId())->getMana() >= $cardPlayer->getMana()) {    //Si on a asser de mana
+//                             $cardPlayer->setStatus(3);                                                              //On deplace la carte demandé sur le plateau
+//                             $heroPlayer->setMana($heroPlayer->getMana() - $cardPlayer->getMana());                  //on retire le coup en mana de la carte au mana restant
+//                             $deckManager->UpdateTmpCard($cardPlayer);                                               //On met a jour la carte en BDD
+//                             $deckManager->UpdateTmpHero($heroPlayer);                                               //On met a jour le hero en BDD
+//                         } else {
+//                             // TODO: MANA INSUFFISANT
+//                         }
+//                     } else {
+//                         // TODO: TROP DE CARTE SUR LE PLATEAU
+//                     }
+//                 }
+//         }
+//         redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+//     }
+// }
