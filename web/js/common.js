@@ -9,3 +9,7 @@ function spanReturnMessageCommon(element, message) {
         element.innerHTML = "";
     }, 3000);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('section').classList.add('is-ready');
+}, false);

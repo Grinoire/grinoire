@@ -86,8 +86,9 @@ class HomeController extends CoreController
                     $user = $userManager->getUserDataBase(htmlspecialchars($this->post['email/pseudo']), htmlspecialchars($this->post['password']));
                     $this->session['grinoire']['userConnected'] = $user->getId();
                     redirection('?c=Home&a=grinoire');
+                }else{
+                    redirection('?c=Home&a=login');
                 }
-
             } else {
                 $this->setNewLayout('template-home\\');
                 $this->render(true, 'login');
@@ -113,11 +114,9 @@ class HomeController extends CoreController
     public function grinoireAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
-      
-        if (array_key_exists('deconnexion', $this->getGet())) {                 //Si l'utilisateur souhaite se deconnecté
-          
+
         $adminManager = new AdminManager();
-        $data['admin'] = $adminManager->getRoleById((int)$this->getSession('userConnected'));
+        $data['admin'] = $adminManager->getPowerById((int)$this->getSession('userConnected'));
         $data['action'] = $adminManager->getActionByRole($data['admin']['role_name']);
 
         $data['users'] = $adminManager->getAllUser();
@@ -127,7 +126,7 @@ class HomeController extends CoreController
             if (array_key_exists('game', $this->getSession())) {
 
                 $userManager = new UserManager();
-                $userId = (int) $this->getSession('userConnected');                 //on stock l'id du joueur connecte
+                $userId = (int)$this->getSession('userConnected');                 //on stock l'id du joueur connecte
                 $gameId = $userManager->getUserById($userId)->getGameIdFk();        //on recupere l'id de la partie en BDD
 
                 if ($gameId !== NULL) {                                             //verifie que l'id de la partie est valide
@@ -137,16 +136,15 @@ class HomeController extends CoreController
                     $deckManager = new DeckManager();
                     $deckManager->resetData($userId);                               //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
                 }
-                $this->setSession(APP_NAME, array());                               //Vide la session liée a l'application
-                session_unset();                                                    //Efface les sessions de l'utilisateur
-                redirection('?c=Home&a=home');                                      //Redirige vers la vue connection
-
+            }
+            $this->setSession(APP_NAME, array());                               //Vide la session liée a l'application
+            session_unset();                                                    //Efface les sessions de l'utilisateur
+            redirection('?c=Home&a=home');                                      //Redirige vers la vue connection
         } else { //Sinon on affiche la vue de l'acceuil
             $this->setNewLayout('template-home\\');
             $this->render(true, 'grinoire', $data);
         }
     }
-
 
 
     /**
@@ -158,23 +156,26 @@ class HomeController extends CoreController
 
         $profilManager = new UserManager();
 
-        if (isset($_GET['id'])) {
-            $myUser = $profilManager->getProfilById($_GET['id']);
+        if (isset($this->get['id'])) {
+            $myUser = $profilManager->getProfilById($this->get['id']);
+            $id = $myUser->getId();
         } else {
             $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+            $id = $myUser->getId();
         }
-
 
         try {
             if ((isset($this->post['lastName']) AND isset($this->post['firstName'])) AND (isset($this->post['mail']) AND isset($this->post['login'])) AND isset($this->post['password'])) {
                 if ((isset($_FILES['avatar']) AND $_FILES['avatar']['error'] == 0)) {                                   //on vérifit que l'avatar est en POST
-                    if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {                  //on vérifit que le login n'existe pas en base de données
+                    if ($profilManager->isValidLoginProfil($this->post['login'], $id)) {                 //on vérifit que le login n'existe pas en base de données
                         throw new UserException('Le pseudo est déjà utilisé');
-                        redirection('?c=Home&a=profil');
-                    } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {              //vérif que le mail n'existe pas en base de données
+                        redirection("?c=Home&a=profil&id=" . $id);
+                    } elseif ($profilManager->isValidMailProfil($this->post['mail'], $id)) {              //vérif que le mail n'existe pas en base de données
                         throw new UserException('Ce mail existe déjà, veuillez entrer un autre mail');
+                        redirection("?c=Home&a=profil&id=" . $id);
                     } else {
                         $avatar = $profilManager->pictureProfilUser($_FILES['avatar']);
+
                         $profilManager->updateProfilUserById(
                             htmlspecialchars($this->post['lastName']),
                             htmlspecialchars($this->post['firstName']),
@@ -182,17 +183,20 @@ class HomeController extends CoreController
                             htmlspecialchars($this->post['login']),
                             htmlspecialchars($this->post['password']),
                             $avatar,
-                            $this->getSession('userConnected')
+                            $id
                         );
                         $this->setSession('msgValid', 'Le profil a bien été mis a jour');                                   ////message de validation pour l'update du profil
-                        redirection('?c=Home&a=profil');                                                         //Lors de la validation, on redirige vers la page profil,
+
+                        redirection("?c=Home&a=profil&id=" . $id);                                          //Lors de la validation, on redirige vers la page profil,
+
                     }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
                 } else {                                                                                                //Si l'avatar n'est pas en POST
-                    if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {                  //vérif login existe pas en bdd
+                    if ($profilManager->isValidLoginProfil($this->post['login'], $id)) {                  //vérif login existe pas en bdd
                         throw new UserException('Le pseudo est déjà utilisé');
-                        redirection('?c=Home&a=profil');
-                    } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {               //mail != en bdd
+                        redirection("?c=Home&a=profil&id=" . $id);
+                    } elseif ($profilManager->isValidMailProfil($this->post['mail'], $id)) {               //mail != en bdd
                         throw new UserException('Ce mail existe déjà, veuillez entrer un autre mail');
+                        redirection("?c=Home&a=profil&id=" . $id);
                     } else {
                         $profilManager->updateProfilUserById(
                             htmlspecialchars($this->post['lastName']),
@@ -201,10 +205,10 @@ class HomeController extends CoreController
                             htmlspecialchars($this->post['login']),
                             htmlspecialchars($this->post['password']),
                             $avatar = "",
-                            $this->getSession('userConnected')
+                            $id
                         );
                         $this->setSession('msgValid', 'Le profil a bien été mis a jour');                                   //message de validation pour l'update du profil
-                        redirection('?c=Home&a=profil');                                                         //Lors de la validation, on redirige vers la page profil,
+                        redirection("?c=Home&a=profil&id=" . $id);                                                 //Lors de la validation, on redirige vers la page profil,
                     }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
                 }
             } else {                                                                                                    //else de sortie, récupère l'utilisateur par l'id stocker en sesssion
@@ -218,31 +222,37 @@ class HomeController extends CoreController
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
-            redirection('?c=Home&a=profil');
+            redirection("?c=Home&a=profil&id=" . $id);
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }
     }
 
-    public function profilAjaxAction()
-    {
-        $profilManager = new UserManager();
-        $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+//    public function profilAjaxAction()
+//    {
+//        $profilManager = new UserManager();
+//        if (isset($_GET['id'])) {
+//            $myUser = $profilManager->getProfilById($_GET['id']);
+//            $id = $myUser->getId();
+//        } else {
+//            $myUser = $profilManager->getProfilById($this->getSession('userConnected'));
+//            $id = $myUser->getId();
+//        }
+//        if ((isset($this->post['lastName']) AND isset($this->post['firstName'])) AND (isset($this->post['mail']) AND isset($this->post['login'])) AND isset($this->post['password'])) {
+//            if ((isset($_FILES['avatar']) AND $_FILES['avatar']['error'] == 0)) {
+//                if ($profilManager->isValidLoginProfil($this->post['login'], $id)) {
+//                    echo 'Le pseudo est déjà utilisé';
+//                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $id)) {
+//                    echo 'Ce mail existe déjà, veuillez entrer un autre mail';
+//                }
+//            } else {
+//                if ($profilManager->isValidLoginProfil($this->post['login'], $id)) {
+//                    echo 'Le pseudo est déjà utilisé';
+//                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $id)) {
+//                    echo 'Ce mail existe déjà, veuillez entrer un autre mail';
+//                }
+//            }
+//        }
+//    }
 
-        if ((isset($this->post['lastName']) AND isset($this->post['firstName'])) AND (isset($this->post['mail']) AND isset($this->post['login'])) AND isset($this->post['password'])) {
-            if ((isset($_FILES['avatar']) AND $_FILES['avatar']['error'] == 0)) {                                   //on vérifit que l'avatar est en POST
-                if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {                  //on vérifit que le login n'existe pas en base de données
-                    echo 'Le pseudo est déjà utilisé';
-                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {              //vérif que le mail n'existe pas en base de données
-                    echo 'Ce mail existe déjà, veuillez entrer un autre mail';
-                }                                                                                                //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
-            } else {                                                                                                //Si l'avatar n'est pas en POST
-                if ($profilManager->isValidLoginProfil($this->post['login'], $myUser->getLogin())) {                  //vérif login existe pas en bdd
-                    echo 'Le pseudo est déjà utilisé';
-                } elseif ($profilManager->isValidMailProfil($this->post['mail'], $myUser->getMail())) {               //mail != en bdd
-                    echo 'Ce mail existe déjà, veuillez entrer un autre mail';
-                }                                                                                                   //il n'y aura pas de post donc lors de l'execution, on ira directement dans le else
-            }
-        }
-    }
 }

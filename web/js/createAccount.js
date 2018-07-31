@@ -3,6 +3,7 @@ let pseudo = document.getElementById('create-account-pseudo');
 let email = document.querySelector('#create-account-email');
 let password = document.querySelector('#create-account-password');
 let span = document.getElementById('create-account-span');
+let confirmPassword = document.getElementById('create-account-confirmer-password');
 
 /**
  *Permet d'afficher un message pour l'utilisateur au blur
@@ -110,10 +111,10 @@ let passwordValid = function (event, elt = null) {
         span.style.color = "red";
         flag = false;
     } else if (element.value.length >= 4 && element.value.length <= 10) {
-        element.style.color = "orange";
+        element.style.color = "green";
         element.style.border = "2px solid green";
         span.append('Mot de passe correctement sécurisé');
-        span.style.color = "orange";
+        span.style.color = "green";
         flag = true;
     } else if (element.value.length > 10 && element.value.length <= 25) {
         element.style.color = "green";
@@ -121,6 +122,26 @@ let passwordValid = function (event, elt = null) {
         span.append('Mot de passe très sécurisé');
         span.style.color = "green";
         flag = true;
+    }
+    return flag;
+};
+let confirmPasswordValid = function (event, elt = null) {
+    let flag = true;
+    let element;
+    if (event == null) {
+        element = elt;
+    } else {
+        element = event.target;
+    }
+    span.innerHTML = "";
+    if(element.value == password.value){
+        span.append('Confirmation du mot de passe correcte');
+        span.style.color = "green";
+        flag = true;
+    }else{
+        span.append('Confirmation du mot de passe incorrect');
+        span.style.color = "red";
+        flag = false;
     }
     return flag;
 };
@@ -150,7 +171,7 @@ if (document.getElementById('create-account-form')) {
 
         event.preventDefault();
 
-        if (pseudoValid(null, pseudo) === true && emailValid(null, email) === true && passwordValid(null, password) === true) {//on doit dire à la fonction sur quel élément rechercher
+        if (pseudoValid(null, pseudo) === true && emailValid(null, email) === true && passwordValid(null, password) === true && confirmPasswordValid(null, confirmPassword) === true) {//on doit dire à la fonction sur quel élément rechercher
             ajaxCreateAccount(this, (response) => {
                 if (response) {
                     spanReturnMessageCommon(span, response);
@@ -168,4 +189,5 @@ if (document.getElementById('create-account-form')) {
     email.addEventListener('keyup', emailValid);
     password.addEventListener('blur', blur);
     password.addEventListener('keyup', passwordValid);
+    confirmPassword.addEventListener('keyup', confirmPasswordValid);
 }

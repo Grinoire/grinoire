@@ -66,6 +66,11 @@ section {
     display: grid;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+}
+section.is-ready{
+opacity: 1;
+transition-duration: 1s;
 }
 
 footer {

@@ -2,9 +2,10 @@
 declare(strict_types=1);
 
 namespace grinoire\src\model;
-use PDO;
+
 use grinoire\src\exception\UserException;
 use grinoire\src\model\entities\User;
+use PDO;
 
 
 /**
@@ -40,10 +41,11 @@ class UserManager
 
     /**
      * Get user in database selected by ID
-     * @param   int     $id  userID
+     * @param   int $id userID
      * @return  User
      */
-    public function getUserById(int $id) :User {
+    public function getUserById(int $id): User
+    {
         $response = $this->getPdo()->makeSelect(
             'SELECT * FROM user WHERE user_id = :id',
             [':id' => [$id, PDO::PARAM_INT]],
@@ -82,7 +84,8 @@ class UserManager
      * @param  string $login
      * @return bool
      */
-    public function checkLoginInDataBase($login){
+    public function checkLoginInDataBase($login)
+    {
 
         $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login');
         $req->execute(array(
@@ -94,14 +97,15 @@ class UserManager
 
     /**
      * Vérifit si le mail est déjà en base de données (renvoit un booleen)
-     * @param string  $mail
+     * @param string $mail
      * @return bool
      */
-    public function checkMailInDataBase($mail){
+    public function checkMailInDataBase($mail)
+    {
 
         $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_mail = :mail');
         $req->execute(array(
-            'mail'  => $mail
+            'mail' => $mail
         ));
         return (bool)$req->fetch(PDO::FETCH_ASSOC);
 
@@ -109,30 +113,32 @@ class UserManager
 
     /**
      *  Vérifit si le password est déjà en base de données (renvoit un booleen)
-     * @param  string  $password
+     * @param  string $password
      * @return bool
      */
-    public function checkPasswordInDataBase($password){
+    public function checkPasswordInDataBase($password)
+    {
 
         $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_password = :password');
         $req->execute(array(
-            'password'  => $password
+            'password' => $password
         ));
         return (bool)$req->fetch(PDO::FETCH_ASSOC);
 
     }
 
     /**
-     * [isValidLoginProfil description]
-     * @param   [type]  $login    [description]
-     * @param   [type]  $mylogin  [description]
-     * @return  bool
+     * @param $login
+     * @param $myId
+     * @return bool
      */
-    public function isValidLoginProfil($login, $mylogin){
-        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login AND user_login != :mylogin');
+    public function isValidLoginProfil($login, $myId)
+    {
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_login = :login AND user_id != :myId');
         $req->execute(array(
             'login' => $login,
-            'mylogin' => $mylogin
+            'myId' => $myId
+//            'mylogin' => $mylogin
         ));
         return (bool)$req->fetch(PDO::FETCH_ASSOC);
     }
@@ -143,11 +149,12 @@ class UserManager
      * @param   [type]  $myMail  [description]
      * @return  bool
      */
-    public function isValidMailProfil($mail, $myMail){
-        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_mail = :mail AND user_mail != :myMail');
+    public function isValidMailProfil($mail, $myId)
+    {
+        $req = $this->getPdo()->getPdo()->prepare('SELECT user_id FROM user WHERE user_mail = :mail AND user_id != :myId');
         $req->execute(array(
             'mail' => $mail,
-            'myMail' => $myMail
+            'myId' => $myId
         ));
         return (bool)$req->fetch(PDO::FETCH_ASSOC);
     }
@@ -180,7 +187,6 @@ class UserManager
 
     }
 
-
     /**
      * [getProfilById description]
      * @param   [type]  $id  [description]
@@ -189,16 +195,14 @@ class UserManager
     public function getProfilById($id)
     {
 
-        $requete = 'SELECT * FROM user WHERE user_id = :id';
-
-        $param = [
-            'id' => $id
-        ];
-        $data = $this->getPdo()->makeSelect($requete, $param);
-
-        $user = new User($data[0]);
-
-        return $user;
+        $response = $this->getPdo()->makeSelect(
+            'SELECT * FROM user WHERE user_id = :id',
+            [
+                'id' => $id
+            ],
+            false
+        );
+        return new User($response);
 
     }
 
@@ -254,8 +258,8 @@ class UserManager
      */
     public function pictureProfilUser($avatar)
     {
-        //on teste si la taille du fichier n'est pas trop grosse (7Mo)
-        if ($avatar['size'] <= 7000000) {
+        //on teste si la taille du fichier n'est pas trop grosse (200ko max)
+        if ($avatar['size'] <= 200000) {
             $infosfichier = pathinfo($avatar['name']);
             $extension_upload = $infosfichier['extension'];
             //on définis les exetentions autorisé
@@ -265,14 +269,14 @@ class UserManager
                 move_uploaded_file($avatar['tmp_name'], DIR_IMG . basename($avatar['name']));
                 return $avatar['name'];
             } else {
-                throw new \Exception('Extension de fichier non autorisé', 69);
+//                throw new \Exception('Extension de fichier non autorisé', 69);
+                throw new UserException('Extension de fichier non autorisé', 69);
             }
         } else {
-            throw new \Exception('La taille du fichier est trop volumineuse', 69);
+//            throw new \Exception('La taille du fichier est trop volumineuse', 69);
+            throw new UserException('La taille du fichier est trop volumineuse', 69);
         }
     }
-
-
 
 
     /**
@@ -280,17 +284,17 @@ class UserManager
      *
      * Ready state define who have selected a deck and search for match
      *
-     * @param  int  $id     User ID
-     * @param  int  $ready  0= not ready, 1=ready for fight , default value = 0
+     * @param  int $id User ID
+     * @param  int $ready 0= not ready, 1=ready for fight , default value = 0
      */
-    public function setReady(int $id, int $ready = 0) :void
+    public function setReady(int $id, int $ready = 0): void
     {
         if ($this->getProfilById($id)->getReady() !== $ready) {
             $response = $this->getPdo()->makeUpdate(
                 'UPDATE `user` SET `user_ready` = :ready WHERE `user_id` = :id',
                 [
                     ':ready' => [$ready, PDO::PARAM_INT],
-                    ':id'    => [$id, PDO::PARAM_INT]
+                    ':id' => [$id, PDO::PARAM_INT]
                 ]
             );
 
@@ -307,12 +311,12 @@ class UserManager
 
     /**
      * select a ready User as opponent in database
-     * @param   int    $idPlayer
+     * @param   int $idPlayer
      * @return  mixed  TRUE = User,  FALSE = boolean
      */
     public function getOpponent(int $idPlayer)
     {
-        $opponent =null;
+        $opponent = null;
         $response = $this->getPdo()->makeSelect(
             'SELECT * FROM `user` WHERE `user_ready` = :int AND `user_id` != :idPlayer',
             [
@@ -322,7 +326,7 @@ class UserManager
         );
 
         if ($response) {
-            $rand = rand(0,count($response) - 1);
+            $rand = rand(0, count($response) - 1);
             $opponent = $response[$rand];
             return new User($opponent);
         } else {
@@ -332,10 +336,10 @@ class UserManager
 
     /**
      * Update SQL user->FK->deck used to know who has wich deck
-     * @param  int   $idPlayer   Id player
-     * @param  int   $idDeck     Id selected deck
+     * @param  int $idPlayer Id player
+     * @param  int $idDeck Id selected deck
      */
-    public function setSelectedDeck(int $idPlayer, int $idDeck = NULL) :void
+    public function setSelectedDeck(int $idPlayer, int $idDeck = NULL): void
     {
         $response = $this->getPdo()->makeUpdate(
             'UPDATE `user` SET `user_deck_id_fk` = :idDeck WHERE `user_id` = :idPlayer',
@@ -351,11 +355,11 @@ class UserManager
     }
 
 
-
     /**
      *   Reinitialise les FK user deck & game
      */
-    public function resetData($userId) {
+    public function resetData($userId)
+    {
         $response = $this->getPdo()->makeUpdate(
             'UPDATE `user` SET
             `user_deck_id_fk` = NULL,

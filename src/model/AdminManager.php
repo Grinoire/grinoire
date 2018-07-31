@@ -29,11 +29,11 @@ class AdminManager
     {
         return $this->pdo;
     }
-//SELECT * FROM role
-//INNER JOIN role on user_role_id_fk = role_id
-//INNER JOIN can on role_id = can_role_id_fk
-//INNER JOIN `action` on can_action_id_fk = action_id
-//WHERE user_id = :id',
+
+    /**
+     * @param int $id
+     * @return array
+     */
     public function getRoleById(int $id)
     {
         $response = $this->getPdo()->makeSelect(
@@ -48,6 +48,22 @@ class AdminManager
 //        return new User($response);
         $role = $response;
         return $role;
+    }
+
+    public function getPowerById(int $id)
+    {
+        $response = $this->getPdo()->makeSelect(
+            'SELECT * FROM role
+                  INNER JOIN user on user_role_id_fk = role_id
+                  WHERE user_id = :id',
+            [
+                'id' => $id
+            ],
+            false
+        );
+//        return new User($response);
+        $power = $response;
+        return $power;
     }
 
     public function getActionByRole($role)

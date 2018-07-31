@@ -38,7 +38,6 @@
 }
 
 #grinoire-liens-wrapper a {
-    font-family: "Libre Baskerville regular", Serif;
     text-decoration: none;
     color: black;
     z-index: 150;
@@ -74,32 +73,60 @@
 }
 
 /*////////////////  ADMIN //////////*/
+#admin-button{
+    position: absolute;
+    width: 15rem;
+    padding: 17px;
+    border-radius: 41%;
+    top: 26.4rem;
+    left: 4rem;
+    background-color: #430f10;
+    color: #f8e9c9;
+    border: 2px solid #f8e9c9;
+    font-family: "Libre Baskerville", serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+}
+#admin-button:hover{
+    cursor: pointer;
+}
 #grinoire-liste-utilisateur {
     position: absolute;
-    width: 27rem;
-    top: 30rem;
-    border: 3px solid black;
+    width: 35rem;
+    top: 34rem;
+    border-radius: 1.7rem;
+    height: 35rem;
+    font-size: 1.7rem;
     padding: 3rem;
     left: 4rem;
     max-height: 50vh;
     overflow: scroll;
-    background: rgba(240, 226, 207, 0.6);
+    background: rgba(240, 226, 207, 0.7);
+    z-index: 800;
+    font-family: "Libre Baskerville", serif;
+    transition-duration: 1s;
 }
-
+.hidden{
+    visibility: hidden;
+    opacity: 0;
+}
+.show{
+    opacity: 1;
+    visibility: initial;
+}
 #grinoire-liste-utilisateur p {
     font-size: 1.8rem;
-    border-bottom: 3px solid black;
+    /*border-bottom: 3px solid black;*/
     margin-bottom: 2rem;
 }
 
 #grinoire-liste-utilisateur ul li {
     list-style: none;
-    font-size: 1.8rem;
-    border-bottom: 1px solid black;
     margin-bottom: 1rem;
 }
 #grinoire-liste-utilisateur ul li:hover {
-    background: rgba(240, 226, 207, 0.2);
+    background: rgba(240, 226, 207, 0.9);
 }
 
 #grinoire-liste-utilisateur ul li span {
