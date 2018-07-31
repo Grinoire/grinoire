@@ -8,7 +8,7 @@
                 <div id="topBandWrapper" class="bottom-band-wrapper">           <!-- grid wrapper -->
                     <a href="?c=Game&a=abandon">Abandonner</a>
                     <!-- hero blason -->
-                    <div class="opponent-hero">
+                    <div id="opponentHero" class="opponent-hero">
                         <?php
                         if (isset($opponent)) {
                             $hero = $opponent->getHero();
@@ -42,7 +42,7 @@
                 <div id="bottomBandWrapper" class="bottom-band-wrapper">        <!-- grid wrapper -->
 
                     <!-- hero blason -->
-                    <div class="player-hero">
+                    <div id="playerHero" class="player-hero">
                         <?php
                         if (isset($user)) {
                             $hero = $user->getHero();
@@ -70,8 +70,6 @@
                                 //Si status en 'main'
                                 if ($card->getStatus() === 1) {
 
-                                    // echo '<a class="user-card" href="?c=game&a=game&idMain=' . $card->getId() . '">';
-
                                     //Selon le type de carte on charge le pattern correspondant
                                     if ($card->getTypeIdFk() == 1) {
                                         require("../view/pattern/legendaryCard.php");
@@ -80,7 +78,6 @@
                                     } elseif($card->getTypeIdFk() == 2 || $card->getTypeIdFk() == 4) {
                                         require("../view/pattern/creatureCard.php");
                                     }
-                                    // echo "</a>";
                                 }
                             }
                         }
@@ -106,16 +103,9 @@
 
                     <!-- Bouton fin de tour -->
                     <div class="stop-turn">
-                        <?php
-                        if (isset($game)) {
-                            if (((int) $game->getTurn() % 2) == 0 && ((int) $game->getPlayer2Id() == $_SESSION["grinoire"]["userConnected"])
-                                || ((int) $game->getTurn() % 2) != 0 && ((int) $game->getPlayer1Id() == $_SESSION["grinoire"]["userConnected"])) {
-                                echo '<a class="stop-turn-link" href="?c=game&a=nextTurn">STOP</a>';
-                            } else {
-                                echo 'STOP';
-                            }
-                        }
-                        ?>
+                        <span id="stopTurn" class="span-stop-turn">
+                            <span>STOP</span>
+                        </span>
                     </div>
 
                     <!-- Bordure du livre -->
@@ -123,7 +113,7 @@
                     <div class="right-border-gold"></div>
 
                     <!-- Affichage des cartes de l'opposant' -->
-                    <div class="opponent-center-board">
+                    <div id="opponentCenterBoard" class="opponent-center-board">
                         <?php
                         if (isset($_GET["id"]) && isset($opponent)) {
                             // code...

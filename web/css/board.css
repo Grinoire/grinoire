@@ -120,6 +120,21 @@ div.stop-turn {
 
     grid-column: 24 / span 4;
     grid-row: 6 / span 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+span.span-stop-turn {
+    width: 60%;
+    height: 70%;
+}
+span.span-stop-turn span {
+    width: 100%;
+
+    display: block;
+    text-align: center;
+    margin-top: 80%;
 }
 
 /* Bordure doré gauche du livre */

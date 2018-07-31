@@ -214,6 +214,7 @@ class GameController extends CoreController
             if (array_key_exists('id', $this->getGet()) && array_key_exists('target', $this->getGet())) {       //Si une carte et sa cible sont defini
 
                 $cardPlayer = $deckManager->getTmpCardByID((int) $this->getGet('id'));                          //On recupere la carte qui attaque
+                $data['attack'] = true;
 
                 if ($cardPlayer->getStatus() === 4) {                                                           //Si la carte peut attaquer
                     if (array_key_exists('hero', $this->getGet())) {                                            //Si on attaque un hero
@@ -225,8 +226,13 @@ class GameController extends CoreController
 
                         foreach ($deckManager->getTmpCards($target->getUserIdFk()) as $card) {                  //pour chaque carte du deck ennemi
                             if ($card->getStatus() == 4 && $card->getTypeIdFk() == 2) {                         //si une carte bouclier est posé
-                                // TODO: MESSAGE ERREUR : VOUS DEVER D'ABORD ATTQUER LE BOUCLIER
-                                redirection('?c=game&a=game');                                                  //On redirige vers gameAction()
+                                $data['error'] = 'Vous devez d\'abord attaquer le défenseur';
+                                if (array_key_exists('ajax', $this->getGet())) {
+                                    echo json_encode($data);
+                                    return;
+                                } else {
+                                    redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+                                }// redirection('?c=game&a=game');                                                  //On redirige vers gameAction()
                             }
                         }
                     } else {                                                                                    //Sinon si on attaque une carte
@@ -234,8 +240,14 @@ class GameController extends CoreController
 
                         foreach ($deckManager->getTmpCards($target->getUserIdFk()) as $card) {                  //pour chaque carte du deck ennemi
                             if ($card->getStatus() == 4 && $card->getTypeIdFk() == 2 && $target->getTypeIdFk() != 2) {                         //si une carte bouclier est posé
-                                // TODO: MESSAGE ERREUR : VOUS DEVER D'ABORD ATTQUER LE BOUCLIER
-                                redirection('?c=game&a=game');                                                  //On redirige vers gameAction()
+                                $data['error'] = 'Vous devez d\'abord attaquer le défenseur';
+                                if (array_key_exists('ajax', $this->getGet())) {
+                                    echo json_encode($data);
+                                    return;
+                                } else {
+                                    redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+                                }
+                                // redirection('?c=game&a=game');                                                  //On redirige vers gameAction()
                             }
                         }
                     }
@@ -251,29 +263,52 @@ class GameController extends CoreController
 
                             if (get_class($target) == 'grinoire\src\model\entities\Hero') {     //Si la cible est un hero
                                 $deckManager->UpdateTmpHero($target);                           //On met a jour le hero en BDD
-                                // TODO: END OF GAME IF KING DIE
+                                if ($dead === 2) {                                              //Si la carte est morte
+                                    //LE ROI EST MORT
+                                    $data['win'] = 'Victoire, l\'encre prend la fuite suite a la mort du roi ennemi';
+                                    $data['hero'] = $target->getId();
+                                    $data['heroLife'] = 0;
+                                } else {
+                                    $data['hero'] = $target->getId();
+                                    $data['heroLife'] = $target->getLife() - $target->getDamageReceived();
+                                }
                             } else {                                                            //Sinon si la cible est une carte
                                 if ($dead === 2) {                                              //Si la carte est morte
                                     $target->setStatus(2);                                      //On la place dans la defausse (statut=2)
+                                    $data['target'] = $target->getId();
+                                    $data['targetLife'] = 0;
+                                } else {
+                                    $data['target'] = $target->getId();
+                                    $data['targetLife'] = $target->getLife() - $target->getDamageReceived();
                                 }
                                 $deckManager->UpdateTmpCard($target);                           //On met a jour la carte en BDD
 
                                 $dead = $target->giveDamage($cardPlayer);                       //la carte attaquer contre attaque
                                 if ($dead === 2) {                                              //Si la carte est morte
                                     $cardPlayer->setStatus(2);                                  //On la place dans la defausse (statut=2)
+                                    $data['cardPlayer'] = $cardPlayer->getId();
+                                    $data['cardPlayerLife'] = 0;
+                                } else {
+                                    $data['cardPlayer'] = $cardPlayer->getId();
+                                    $data['cardPlayerLife'] = $cardPlayer->getLife() - $cardPlayer->getDamageReceived();
                                 }
                                 $deckManager->UpdateTmpCard($cardPlayer);                       //On met a jour la carte en BDD
                             }
                         } else {
-                            // TODO: MESSAGE CIBLE INVALIDE
+                            $data['error'] = 'Vous ne pouvez pas attaquer cette carte...';
                         }
                     } else {
-                        // TODO: CETTE CARTE A DEJA ATTAQUE CE TOUR
+                        $data['error'] = 'Cette carte a déja était jouer ce tour';
                     }
                 } else {
-                    // TODO: MESSAGE CARTE DOIT ETRE POSE DEPUIS AU MOINS UN TOUR POUR ATTAQUER
+                    $data['error'] = 'Vous ne pouvez pas attaquer avec une carte posé ce tour';
                 }
-                redirection('?c=game&a=game');                                              //On redirige vers gameAction()
+
+                if (array_key_exists('ajax', $this->getGet())) {
+                    echo json_encode($data);
+                } else {
+                    redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+                }
             }
         }
     }
@@ -314,8 +349,93 @@ class GameController extends CoreController
                 $this->setSession('game', $gameManager->getGame((int) $gameSession->getId()));          //On met a jour la valeur du tour en session
                 $this->setSession('drawed', 0);                                                         //On reinitialise le nombre de carte pioché
                 $this->setSession('played', []);
-                redirection('?c=game&a=game');                                                          //On redirige vers gameAction()
+                $data['turn'] = true;
+                $data['mana'] = $firstHero->getMana() . ' / ' . $oGame->getMana();
+                $data['userId'] = $userId;
+                $data['playId'] = $userId;
+                // redirection('?c=game&a=game');
+            } else {
+                $data['error'] = 'Ce n\'est pas encore votre tour';
             }
+        } else {
+            $data['error'] = 'Veuillez attendre un second joueur avant de jouer';
+        }
+        if (array_key_exists('ajax', $this->getGet())) {
+            echo json_encode($data);
+        } else {
+            redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+        }
+    }
+
+
+    /**
+     *   Retourne les données php a ajax afin de determiner si l'ennemi a lance une action
+     *
+     *   @return void
+     */
+    public function renderOpponentAction()
+    {
+        $this->init(__FILE__, __FUNCTION__);
+
+        $gameManager = new GameManager();
+        $userManager = new UserManager();
+        $deckManager= new DeckManager();
+        $userId = (int) $this->getSession('userConnected');
+        $gameSession = $this->getSession('game');
+
+        if ($gameManager->isGameFull((int) $userManager->getUserById($userId)->getGameIdFk())) {    //Si le joueur n'est pas seul dans la partie
+            if ($gameSession->getPlayer1Id() == $userId) {
+                $opponentId = $gameSession->getPlayer2Id();
+            } else {
+                $opponentId = $gameSession->getPlayer1Id();
+            }
+
+            $data['render'] = true;
+            foreach ($deckManager->getTmpCards($opponentId) as $key => $card) {
+                //(0 = pioche, 1=main, 2= defausse, 3 = pose depuis moin d'un tour , 4 = pose et peut jouer)
+                // if ($card->getStatus() != 0 && $card->getStatus() != 4) {
+                    $data['cards'][]  = [
+                        'id'    => $card->getId(),
+                        'life'  => $card->getLife() - $card->getDamageReceived(),
+                        'mana'  => $card->getMana(),
+                        'attack'=> $card->getAttack(),
+                        'type'  => $card->getTypeIdFk(),
+                        'status'=> $card->getStatus(),
+                        'bg'    => $card->getBg()
+                    ];
+                // }
+            }
+            $data['opponentHero'] = [
+                'id'    => $deckManager->getTmpHero($opponentId)->getId(),
+                'life'  => $deckManager->getTmpHero($opponentId)->getLife() - $deckManager->getTmpHero($opponentId)->getDamageReceived(),
+                'mana'  => $deckManager->getTmpHero($opponentId)->getMana()
+            ];
+            $data['opponent'] = [
+                'id'    => $userManager->getUserById($opponentId)->getId(),
+                'gameId'  => $userManager->getUserById($opponentId)->getGameIdFk()
+            ];
+
+            $data['user'] = [
+                'id'    => $userManager->getUserById($userId)->getId(),
+                'mana'  => $deckManager->getTmpHero($userId)->getMana()
+            ];
+
+            $oGame = $gameManager->getGame($gameSession->getId());
+            if (((int) $oGame->getTurn() % 2) == 0 && ((int) $oGame->getPlayer2Id() == $userId)         //Si on joue un tour pair et qu'on est le joueur 2 on peut jouer
+                || ((int) $oGame->getTurn() % 2) != 0 && ((int) $oGame->getPlayer1Id() == $userId)) {
+                $playId = $userId;
+            } else {
+                $playId = null;
+            }
+
+            $data['game'] = [
+                'id'     => $gameManager->getGame($gameSession->getId())->getId(),
+                'turn'   => $gameManager->getGame($gameSession->getId())->getTurn(),
+                'playId' => $playId,
+                'userId' => $userId
+            ];
+
+            echo json_encode($data);
         }
     }
 
