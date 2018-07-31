@@ -136,6 +136,10 @@ span.span-stop-turn span {
     text-align: center;
     margin-top: 80%;
 }
+div.stop-turn span.play {
+    font-weight: bold;
+    color: green;
+}
 
 /* Bordure doré gauche du livre */
 div.left-border-gold {

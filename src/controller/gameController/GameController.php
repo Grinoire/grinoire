@@ -153,7 +153,10 @@ class GameController extends CoreController
                     $gameManager->nextTurn((int) $gameSession->getId(), (int) $gameSession->getTurn()); //On incremente le tour de 1 en BDD
                     $this->setSession('game', $gameManager->getGame((int) $gameSession->getId()));      //On met a jour la session de jeu
                     $this->setSession('drawed', 0);                                                     //On initialise le nombre de carte pioché par tour
-                    $this->setSession('played', []);
+                    $this->setSession('played', []);                                                    //on initialise le tableau d'id des carte joue ce tour
+                    if ($gameSession->getPlayer1Id() == $userId) {                                      //Si on est le premier joueur a jouer on set une variable
+                        $data['play'] = '';                                                             //afin d'inialiser la vue correctement pr le premier
+                    }
                 }
 
                 $this->setSession('game', $gameManager->getGame((int) $gameSession->getId()));

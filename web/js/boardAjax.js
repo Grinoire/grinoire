@@ -68,11 +68,9 @@
 	for (let card of cardOpponentInMiddle) {
 		card.addEventListener('click', function () {
 			if (idBlazon != null && isCardExist(cardInMiddle, idBlazon)) {
-				ajax(
-					"id=" + idBlazon + '&target=' + this.dataset.id,
-					'?c=game&a=attack&ajax',
-					renderBoard
-				);
+				let param = "id=" + idBlazon + '&target=' + this.dataset.id;
+				let target = '?c=game&a=attack&ajax';
+				ajax(param, target, renderBoard);
 			}
 			idBlazon = null;
 		});
@@ -193,6 +191,15 @@
 
 			if (lastAjaxValue == null) {
 				lastAjaxValue = ajaxResponse;
+
+				// playerMana.innerHTML = ajaxResponse.user.mana;
+				// met en evidence le bouton stop si l'utilisateur commence
+				if (ajaxResponse.game.playId == ajaxResponse.game.userId) {
+					stopTurn.classList.add('play');
+				} else {
+					stopTurn.classList.remove('play');
+				}
+
 			} else if (JSON.stringify(lastAjaxValue) != JSON.stringify(ajaxResponse)) {
 
 				//on check la liste des carte et defini les modif a faire
@@ -343,10 +350,11 @@
 					}
 				}
 
-			} else {
+			} else { //Si aucune difference avec la derniere MAJ
 				console.log('aucune donnée a actualiser');
 			}
-			lastAjaxValue = ajaxResponse;
+
+			lastAjaxValue = ajaxResponse;  //on stock la requete traité en tant que derniere requete execute
 		}
 	}
 
