@@ -19,6 +19,7 @@
 	let cardOpponentInMiddle = document.querySelectorAll('#opponentCenterBoard .blazon');
 	let opponentHero = document.querySelector('#opponentHero .hero');
 	let opponentHand = document.getElementById('opponentHand');
+	let playerHero = document.querySelector('#playerHero .hero');
 
 	let stopTurn = document.getElementById("stopTurn");
 
@@ -112,6 +113,7 @@
 
 	stopTurn.addEventListener('click', function () {
 		ajax(null, '?c=game&a=nextTurn&ajax', renderBoard);
+		this.click;
 	});
 
 
@@ -208,7 +210,6 @@
 				stopTurn.classList.remove('play');
 			}
 		} else if (ajaxResponse.render) {
-			console.log('render');
 
 			if (lastAjaxValue == null) {
 				lastAjaxValue = ajaxResponse;
@@ -238,13 +239,6 @@
 								if (ajaxResponse.cards[index].status == 2) { //on la defausse
 									element.remove();
 								}
-
-								// let movable = element;
-								// element.remove();
-								// movable.classList.remove('card');
-								// movable.classList.add('blazon');
-								// movable.setAttribute('style', "background-image:url('img/blazon/" + ajaxResponse.cards[index].bg + "')");
-								// zoneOpponentBook.appendChild(movable);
 
 							//Sinon si la vie n'est plus la meme on la met a jour
 							} else if (element.firstElementChild.innerHTML != ajaxResponse.cards[index].life) {
@@ -322,7 +316,7 @@
 								// }
 
 								//generation de carte créature
-								else if (ajaxResponse.cards[index].type == 4) { //creature
+								else if (ajaxResponse.cards[index].type == 4 || ajaxResponse.cards[index].type == 2) { //creature
 									console.log('generation creature');
 									let div = document.createElement('DIV');
 									div.dataset.id = ajaxResponse.cards[index].id;
@@ -359,6 +353,10 @@
 				if (opponentHero.firstElementChild.innerHTML != ajaxResponse.opponentHero.life) { // TODO: verifier id peut etre ?????
 					console.log('hero life change');
 					opponentHero.firstElementChild.innerHTML = ajaxResponse.opponentHero.life;
+				}
+				if (playerHero.firstElementChild.innerHTML != ajaxResponse.playerHero.life) { // TODO: verifier id peut etre ?????
+					console.log('hero life change');
+					playerHero.firstElementChild.innerHTML = ajaxResponse.playerHero.life;
 				}
 
 				// TODO: opponent mana a gere

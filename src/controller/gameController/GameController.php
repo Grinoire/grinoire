@@ -234,7 +234,7 @@ class GameController extends CoreController
                                     return;
                                 } else {
                                     redirection('?c=game&a=game');                                      //On redirige vers gameAction()
-                                }// redirection('?c=game&a=game');                                                  //On redirige vers gameAction()
+                                }
                             }
                         }
                     } else {                                                                                    //Sinon si on attaque une carte
@@ -249,7 +249,6 @@ class GameController extends CoreController
                                 } else {
                                     redirection('?c=game&a=game');                                      //On redirige vers gameAction()
                                 }
-                                // redirection('?c=game&a=game');                                                  //On redirige vers gameAction()
                             }
                         }
                     }
@@ -344,18 +343,45 @@ class GameController extends CoreController
                 $gameManager->nextTurn((int) $gameSession->getId(), (int) $gameSession->getTurn());     //on defini en BDD la valeur du tour actuel
                 $gameManager->incrementMana($gameSession->getId());                                     //On incremente le mana en  BDD
 
-                $firstHero->setMana($gameSession->getMana());                                          //on defini le mana pour chaque hero
-                $deckManager->UpdateTmpHero($firstHero);                                               //On met le hero a jour en BDD
+                $firstHero->setMana($gameSession->getMana());                                           //on defini le mana pour chaque hero
+                $deckManager->UpdateTmpHero($firstHero);                                                //On met le hero a jour en BDD
                 $secondHero->setMana($gameSession->getMana());                                          //on defini le mana pour chaque hero
                 $deckManager->UpdateTmpHero($secondHero);                                               //On met le hero a jour en BDD
-                $this->setSession('game', $gameManager->getGame((int) $gameSession->getId()));          //On met a jour la valeur du tour en session
-                $this->setSession('drawed', 0);                                                         //On reinitialise le nombre de carte pioché
+
+                //pioche a chaque tour
+                if ($gameSession->getPlayer1Id() == $userId) {
+                    $drawedcards = $deckManager->getTmpCards($gameSession->getPlayer1Id());
+                } else {
+                    $drawedcards = $deckManager->getTmpCards($gameSession->getPlayer1Id());
+                }
+                $drawedCard= [];
+                foreach ($drawedcards as $card) {
+                    if ($card->getStatus() == 0) {
+                        $drawedCard[] = $card;
+                    }
+                }
+                $drawed = $drawedCard[rand(0, count($drawedcard))];
+
+                $cardOnBoard = 0;                                                                   //On initialise un compteur pour connaitre le nbr de carte sur le plateau
+                foreach ($drawedcards as $card) {                                                      //Pour chacune des cartes
+                    if ($card->getStatus() === 3 || $card->getStatus() === 4) {                     //si leur status est egale a 3 ou 4 (posé sur le plateau)
+                        $cardOnBoard++;                                                             //on incremente le compteur de 1 pour connaitre le nbr de carte deja posées
+                    }
+                }
+
+                if ($cardOnBoard < 7) {
+                    $drawed->setStatus(1);                                                              //On defini le status a 1 (1 = carte en main)
+                    $deckManager->UpdateTmpCard($drawed);                                               //On met a jour la carte en BDD
+                }
+
+
+                $this->setSession('game', $gameManager->getGame((int) $gameSession->getId()));      //On met a jour la valeur du tour en session
                 $this->setSession('played', []);
                 $data['turn'] = true;
                 $data['mana'] = $firstHero->getMana() . ' / ' . $gameSession->getMana();
                 $data['userId'] = $userId;
                 $data['playId'] = $userId;
-                // redirection('?c=game&a=game');
+
             } else {
                 $data['error'] = 'Ce n\'est pas encore votre tour';
             }
@@ -394,26 +420,28 @@ class GameController extends CoreController
 
             $data['render'] = true;
             foreach ($deckManager->getTmpCards($opponentId) as $key => $card) {
-                //(0 = pioche, 1=main, 2= defausse, 3 = pose depuis moin d'un tour , 4 = pose et peut jouer)
-                // if ($card->getStatus() != 0 && $card->getStatus() != 4) {
-                    $data['cards'][]  = [
-                        'id'    => $card->getId(),
-                        'life'  => $card->getLife() - $card->getDamageReceived(),
-                        'mana'  => $card->getMana(),
-                        'attack'=> $card->getAttack(),
-                        'type'  => $card->getTypeIdFk(),
-                        'status'=> $card->getStatus(),
-                        'bg'    => $card->getBg()
-                    ];
-                // }
+                $data['cards'][]  = [
+                    'id'    => $card->getId(),
+                    'life'  => $card->getLife() - $card->getDamageReceived(),
+                    'mana'  => $card->getMana(),
+                    'attack'=> $card->getAttack(),
+                    'type'  => $card->getTypeIdFk(),
+                    'status'=> $card->getStatus(),
+                    'bg'    => $card->getBg()
+                ];
             }
             $data['opponentHero'] = [
                 'id'    => $deckManager->getTmpHero($opponentId)->getId(),
                 'life'  => $deckManager->getTmpHero($opponentId)->getLife() - $deckManager->getTmpHero($opponentId)->getDamageReceived(),
                 'mana'  => $deckManager->getTmpHero($opponentId)->getMana() . ' / ' . $gameSession->getMana()
             ];
+            $data['playerHero'] = [
+                'id'    => $deckManager->getTmpHero($userId)->getId(),
+                'life'  => $deckManager->getTmpHero($userId)->getLife() - $deckManager->getTmpHero($userId)->getDamageReceived(),
+                'mana'  => $deckManager->getTmpHero($userId)->getMana() . ' / ' . $gameSession->getMana()
+            ];
             $data['opponent'] = [
-                'id'    => $userManager->getUserById($opponentId)->getId(),
+                'id'      => $userManager->getUserById($opponentId)->getId(),
                 'gameId'  => $userManager->getUserById($opponentId)->getGameIdFk()
             ];
 
