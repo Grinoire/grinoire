@@ -104,7 +104,7 @@
                     <!-- Bouton fin de tour -->
                     <div class="stop-turn">
                         <span id="stopTurn" class="span-stop-turn">
-                            <span>STOP</span>
+                            STOP
                         </span>
                     </div>
 

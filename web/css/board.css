@@ -128,14 +128,18 @@ div.stop-turn {
 span.span-stop-turn {
     width: 60%;
     height: 70%;
+    text-align: center;
+    padding-top: 49%;
+
+    z-index: 1500;
 }
-span.span-stop-turn span {
+/* span.span-stop-turn span {
     width: 100%;
 
     display: block;
     text-align: center;
     margin-top: 80%;
-}
+} */
 div.stop-turn span.play {
     font-weight: bold;
     color: green;

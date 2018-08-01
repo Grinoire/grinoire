@@ -130,7 +130,6 @@ class GameController extends CoreController
     }
 
 
-
     /**
      * init game, define default card status
      *
@@ -353,7 +352,7 @@ class GameController extends CoreController
                 $this->setSession('drawed', 0);                                                         //On reinitialise le nombre de carte pioché
                 $this->setSession('played', []);
                 $data['turn'] = true;
-                $data['mana'] = $firstHero->getMana() . ' / ' . $oGame->getMana();
+                $data['mana'] = $firstHero->getMana() . ' / ' . $gameSession->getMana();
                 $data['userId'] = $userId;
                 $data['playId'] = $userId;
                 // redirection('?c=game&a=game');
@@ -411,7 +410,7 @@ class GameController extends CoreController
             $data['opponentHero'] = [
                 'id'    => $deckManager->getTmpHero($opponentId)->getId(),
                 'life'  => $deckManager->getTmpHero($opponentId)->getLife() - $deckManager->getTmpHero($opponentId)->getDamageReceived(),
-                'mana'  => $deckManager->getTmpHero($opponentId)->getMana()
+                'mana'  => $deckManager->getTmpHero($opponentId)->getMana() . ' / ' . $gameSession->getMana()
             ];
             $data['opponent'] = [
                 'id'    => $userManager->getUserById($opponentId)->getId(),
@@ -420,7 +419,7 @@ class GameController extends CoreController
 
             $data['user'] = [
                 'id'    => $userManager->getUserById($userId)->getId(),
-                'mana'  => $deckManager->getTmpHero($userId)->getMana()
+                'mana'  => $deckManager->getTmpHero($userId)->getMana() . ' / ' . $gameSession->getMana()
             ];
 
             $oGame = $gameManager->getGame($gameSession->getId());

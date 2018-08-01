@@ -66,14 +66,7 @@
 
 	//Si une carte en main est clique on recupere l'id
 	for (let card of cardOpponentInMiddle) {
-		card.addEventListener('click', function () {
-			if (idBlazon != null && isCardExist(cardInMiddle, idBlazon)) {
-				let param = "id=" + idBlazon + '&target=' + this.dataset.id;
-				let target = '?c=game&a=attack&ajax';
-				ajax(param, target, renderBoard);
-			}
-			idBlazon = null;
-		});
+		card.addEventListener('click', attack);
 	}
 
 	// TODO: add event quand le hero ennemi est charge
@@ -87,6 +80,16 @@
 		}
 		idBlazon = null;
 	});
+
+
+	function attack() {
+		if (idBlazon != null && isCardExist(cardInMiddle, idBlazon)) {
+			let param = "id=" + idBlazon + '&target=' + this.dataset.id;
+			let target = '?c=game&a=attack&ajax';
+			ajax(param, target, renderBoard);
+		}
+		idBlazon = null;
+	}
 
 
 	/**
@@ -112,6 +115,21 @@
 	});
 
 
+
+	/**
+	 * --------------------------------------------------
+	 *     MAJ DU PLATEAU OPPOSANT
+	 * ------------------------------------------------------
+	 */
+
+
+	setInterval(function () {
+		ajax(null, '?c=game&a=renderOpponent', renderBoard);
+	}, 1000)
+
+
+
+
 	/**
 	 * --------------------------------------------------
 	 *     RENDU PLATEAU VIA AJAX
@@ -130,6 +148,7 @@
 			console.log('errrrrrrrrrrrrorrrrrrrrrr');
 			// TODO: template message erruer a faire
 		} else if (ajaxResponse.move) {
+			console.log('move');
 			let playerMana = document.getElementById("playerMana");
 			let cardInHand = document.querySelectorAll('#playerHand .card');
 			let zonePlayerBook = document.getElementById('playerCenterBoard');
@@ -152,6 +171,7 @@
 				}
 			}
 		} else if (ajaxResponse.attack) {
+			console.log('attack');
 			let cardInMiddle = document.querySelectorAll('#playerCenterBoard .blazon');
 			let cardOpponentInMiddle = document.querySelectorAll('#opponentCenterBoard .blazon');
 
@@ -178,16 +198,17 @@
 				opponentHero.firstElementChild.innerHTML = ajaxResponse.heroLife;
 			}
 		} else if (ajaxResponse.turn) {
+			console.log('turn');
 			let playerMana = document.getElementById('playerMana');
 
-			playerMana.innerHTML = ajaxResponse.mana;
+			playerMana.innerHTML = ajaxResponse.mana + ' / ' + ajaxResponse.gameMana;
 			if (ajaxResponse.playId == ajaxResponse.userId) {
 				stopTurn.classList.add('play');
 			} else {
 				stopTurn.classList.remove('play');
 			}
 		} else if (ajaxResponse.render) {
-			console.log(ajaxResponse);
+			console.log('render');
 
 			if (lastAjaxValue == null) {
 				lastAjaxValue = ajaxResponse;
@@ -208,7 +229,7 @@
 
 						//Si la carte existe deja dans la vue
 						if (document.querySelector("div[data-id='" + ajaxResponse.cards[index].id + "']")) {
-							console.log(document.querySelector("div[data-id='" + ajaxResponse.cards[index].id + "']"));
+							console.log('defausse');
 
 							let element = document.querySelector("div[data-id='" + ajaxResponse.cards[index].id + "']");
 
@@ -227,18 +248,20 @@
 
 							//Sinon si la vie n'est plus la meme on la met a jour
 							} else if (element.firstElementChild.innerHTML != ajaxResponse.cards[index].life) {
+								console.log('life changed');
 								element.firstElementChild.innerHTML = ajaxResponse.cards[index].life;
 							}
 
 							//Si des carte on ete pioché
 						} else if (ajaxResponse.cards[index].status == 1) {
+							console.log('drawed');
 							let div = document.createElement('DIV', {
 								'class': 'back-card'
 							});
 							opponentHand.appendChild(div);
 						} else {
-							console.log(ajaxResponse.cards[index].status);
 							if (ajaxResponse.cards[index].status == 3) { //pose sur le plateau
+								console.log('generation');
 								//generation de carte legendaire
 								if (ajaxResponse.cards[index].type == 1) { //legendaire
 									console.log('generation legendaire');
@@ -266,6 +289,7 @@
 									div.appendChild(spanAttack);
 									div.appendChild(spanMana);
 									zoneOpponentBook.appendChild(div);
+									div.addEventListener('click', attack);
 
 									//generation de carte sort
 								}
@@ -296,6 +320,7 @@
 								// 	zoneOpponentBook.appendChild(div);
 								//
 								// }
+
 								//generation de carte créature
 								else if (ajaxResponse.cards[index].type == 4) { //creature
 									console.log('generation creature');
@@ -323,6 +348,7 @@
 									div.appendChild(spanAttack);
 									div.appendChild(spanMana);
 									zoneOpponentBook.appendChild(div);
+									div.addEventListener('click', attack);
 								}
 								//Sinon carte genere de la pioche
 							}
@@ -331,6 +357,7 @@
 				}
 
 				if (opponentHero.firstElementChild.innerHTML != ajaxResponse.opponentHero.life) { // TODO: verifier id peut etre ?????
+					console.log('hero life change');
 					opponentHero.firstElementChild.innerHTML = ajaxResponse.opponentHero.life;
 				}
 
@@ -341,7 +368,7 @@
 				// TODO: opponent mana a gere
 
 				if (ajaxResponse.game.turn != lastAjaxValue.game.turn) {
-
+					console.log('change turn');
 					playerMana.innerHTML = ajaxResponse.user.mana;
 					if (ajaxResponse.game.playId == ajaxResponse.game.userId) {
 						stopTurn.classList.add('play');
@@ -358,17 +385,6 @@
 		}
 	}
 
-
-	/**
-	 * --------------------------------------------------
-	 *     MAJ DU PLATEAU OPPOSANT
-	 * ------------------------------------------------------
-	 */
-
-
-	setInterval(function () {
-		ajax(null, '?c=game&a=renderOpponent', renderBoard);
-	}, 3000)
 
 
 	/**
