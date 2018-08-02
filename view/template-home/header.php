@@ -28,5 +28,5 @@
 <!--        <p id="message-info">--><?//= errorMessage() ?><!--</p>-->
 
         <header>
-            <img src="img/grinoire/logo.png">
+            <img id="header-img" class="header-img-none" src="img/grinoire/logo.png">
         </header>

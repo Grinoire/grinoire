@@ -70,7 +70,7 @@ let profilEmailValid = function (event, elt = null) {
     }
     let regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
     profilSpanMsg.innerHTML = "";
-    if (!regex.test(element.value) && element.value.length > 100) {
+    if (!regex.test(element.value)) {
         profilSpanMsg.append('L\'email n\'est pas conforme : exemple@gmail.com');
         profilSpanMsg.style.color = "red";
         element.style.color = "red";
@@ -97,10 +97,10 @@ let profilPasswordValid = function (event, elt = null) {
         profilSpanMsg.style.color = "red";
         flag = false;
     } else if (element.value.length >= 4 && element.value.length <= 10) {
-        element.style.color = "orange";
+        element.style.color = "green";
         element.style.border = "2px solid green";
         profilSpanMsg.append('Mot de passe correctement sécurisé');
-        profilSpanMsg.style.color = "orange";
+        profilSpanMsg.style.color = "green";
         flag = true;
     } else if (element.value.length > 10 && element.value.length <= 25) {
         element.style.color = "green";
@@ -134,9 +134,15 @@ if (document.getElementById('profil-form')) {
 
 window.addEventListener("load", function () {
     let msgValid = document.getElementById('profilMessageValid');
+    let msgErreur = document.getElementById('profilErreurMessage');
     if (msgValid) {
         setTimeout(function () {
             msgValid.style.visibility = "hidden";
+        }, 4000);
+    }
+    if (msgErreur) {
+        setTimeout(function () {
+            msgErreur.style.visibility = "hidden";
         }, 4000);
     }
 });

@@ -1,8 +1,3 @@
-<?php
-//todo: admin doit pouvoir modifier l'utilisateur
-var_dump($_GET);
-var_dump($_SESSION);
-?>
 <section id="profil-section">
     <div id="profil-section-wrapper">
 
@@ -22,14 +17,14 @@ var_dump($_SESSION);
                 ?>
                 <span>Inscrit depuis le : <?=  strftime("%A %d %B %Y", strtotime($user->getInscription())) ?></span>
 
-                <span>Parties gagnées : <?= $user->getWinnedGame() ?></span>
+                <span>Parties gagnées : <?php echo $user->getWinnedGame() != null ? $user->getWinnedGame() : 0 ?></span>
 
-                <span>Parties perdues : </span>
+                <span>Parties perdues : <?php echo $user->getPlayedGame() == null ? 0 : $user->getPlayedGame() - $user->getWinnedGame() ?></span>
 
-                <span>Nombre de parties jouées: <?= $user->getPlayedGame() ?></span>
+                <span>Nombre de parties jouées: <?php echo $user->getPlayedGame() != null ? $user->getPlayedGame() : 0 ?></span>
             </div>
 
-            <span id="profilSpanMessage"><p id="profilMessageValid" style="color: green;"><?= validMessage() ?></p></span>
+            <span id="profilSpanMessage"><p id="profilErreurMessage" style="color: red;"><?= errorMessage() ?></p><p id="profilMessageValid" style="color: green;"><?= validMessage() ?></p></span>
 
             <form id="profil-form" action="" method="POST" enctype="multipart/form-data">
                 <?php
@@ -49,7 +44,7 @@ var_dump($_SESSION);
                         </label>
                         <input id="file" class="input-file" type="file" name="avatar" value="">
                     </div>
-                    <img class="avatar" src="img/avatar/<?= $user->getAvatar() ?>"/>
+                    <img class="avatar" src="img/avatar/<?= htmlspecialchars($user->getAvatar()) ?>"/>
                     <?php
                 }
                 ?>
@@ -59,27 +54,27 @@ var_dump($_SESSION);
                     <div>
                         <label>Pseudo :</label>
                         <input id="profil-input-login" class="input-profil" type="text" name="login"
-                               value="<?= $user->getLogin() ?>">
+                               value="<?= htmlspecialchars($user->getLogin()) ?>">
                     </div>
                     <div>
                         <label>Nom :</label>
                         <input id="profil-input-nom" class="input-profil" type="text" name="lastName"
-                               value="<?= $user->getLastName() ?>">
+                               value="<?= htmlspecialchars($user->getLastName()) ?>">
                     </div>
                     <div>
                         <label>Prénom :</label>
                         <input id="profil-input-prenom" class="input-profil" type="text" name="firstName"
-                               value="<?= $user->getFirstName() ?>">
+                               value="<?= htmlspecialchars($user->getFirstName()) ?>">
                     </div>
                     <div>
                         <label>Email :</label>
                         <input id="profil-input-email" class="input-profil" type="text" name="mail"
-                               value="<?= $user->getMail() ?>">
+                               value="<?= htmlspecialchars($user->getMail()) ?>">
                     </div>
                     <div>
                         <label>Mot de passe :</label>
                         <input id="profil-input-password" class="input-profil" type="password" name="password"
-                               value="<?= $user->getPassword() ?>">
+                               value="<?= htmlspecialchars($user->getPassword()) ?>">
                     </div>
 
                 </div>

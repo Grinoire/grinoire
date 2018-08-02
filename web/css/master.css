@@ -7,18 +7,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    outline: none;
 }
 html {
     font-size: 62.5%;
 }
 
 body {
-    /*font-size: 1.4rem;*/
     height: 100vh;
-    background-image: url(../img/grinoire/bg-image-de-fond.png);
+    background-image: url(../img/grinoire/bg-image-de-fond.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position-y: -102px;
 }
 /*
 MEDIA QUERY A PARTIR DE 1700 SUR LE BACKGROUND IMGAGE DE BODY
@@ -26,9 +24,9 @@ MEDIA QUERY A PARTIR DE 1700 SUR LE BACKGROUND IMGAGE DE BODY
 @media screen and (max-width: 2080px) {
     body {
         font-size: 1.4rem;
-        background-image: url(../img/grinoire/bg-image-de-fond.png);
+        background-image: url(../img/grinoire/bg-image-de-fond.jpg);
         background-size: cover;
-        background-repeat: no-repeat;
+        /*background-repeat: no-repeat;*/
         background-position-y: 2rem;
     }
 }

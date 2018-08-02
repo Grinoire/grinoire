@@ -1,3 +1,6 @@
+/*
+ANIMATION HEADER IMAGE EN BAS DU FICHIER
+*/
 @font-face {
     /*medium*/
     font-family: "EB Garamond";
@@ -39,7 +42,6 @@
     align-items: center;
     justify-content: center;
 }
-
 #general-container-wrapper {
     display: grid;
     grid-template-columns: repeat(20, 1fr);
@@ -59,13 +61,20 @@
     font-weight: bold;
     transition-delay: 3s;
 }
-
+/**
+ANIMATION DE SUR LA SECTION
+ */
 section {
     grid-column: 1 / span 20;
     height: 80vh;
     display: grid;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+}
+section.is-ready{
+opacity: 1;
+transition-duration: 2s;
 }
 
 footer {
@@ -100,3 +109,13 @@ textarea:-webkit-autofill,
 select:-webkit-autofill{
     -webkit-box-shadow: 0 0 0px 1000px rgba(225, 215, 197, 1) inset;
 }
+
+/*ANIMETION IMAGE DU HEADER*/
+.header-img-none{
+    opacity: 0;
+}
+.header-img-display{
+    transition: 6s;
+    opacity: 1;
+}
+/*FIN ANIMATION HEADER*/

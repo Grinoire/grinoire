@@ -59,10 +59,13 @@
 #create-account-email {
     width: 83%;
 }
-
 #create-account-password {
     width: 69%;
 }
+#create-account-confirmer-password {
+    width: 47%;
+}
+
 
 #create-account-submit {
     font-family: "Libre Baskerville", Serif;

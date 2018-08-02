@@ -6,7 +6,7 @@
 
         <div id="home-div-container">
 
-            <p>Entrez dans l'histoire...</p>
+            <p id="home-p" class="left">Entrez dans l'histoire...</p>
 
             <img src="img/grinoire/container-form"/>
 

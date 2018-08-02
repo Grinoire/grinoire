@@ -16,6 +16,8 @@
 <script src="js/profil.js"></script>
 <script src="js/validForm.js"></script>             <!-- Validation js formulaire -->
 <script src="js/selectDeck.js"></script>            <!-- selection aleatoire et effet diverse vue selection deck -->
+<script src="js/admin.js"></script>
+<script src="js/grinoire.js"></script>
 
 </body>
 </html>

@@ -10,4 +10,10 @@ window.addEventListener("load", function () {
             msgValid.style.visibility = "hidden";
         }, 4000);
     }
+
+    let homeTexte = document.getElementById('home-p');
+
+    homeTexte.classList.remove('left');
+    homeTexte.classList.add('center');
+
 });

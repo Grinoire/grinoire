@@ -1,21 +1,20 @@
-<div id="grinoire-liste-utilisateur">
+<button id="admin-button">Liste des utilisateurs</button>
 
-<p>Liste des utilisateurs</p>
-<ul>
-<?php
-foreach ($data['users'] as $value) {
+<div id="grinoire-liste-utilisateur" class="hidden">
 
-    ?>
-        <li>
-            Login : <a href="?c=Home&a=profil&id=<?= $value->getId() ?>"><?= $value->getLogin() ?></a>
-            <span>Email : <?= $value->getMail() ?></span>
-        </li>
-    <!---->
-    <?php
-}
-?>
-</ul>
+    <ul>
+        <?php
+        foreach ($data['users'] as $value) {
+
+            ?>
+            <li>
+                Login : <a href="?c=Home&a=profil&id=<?= $value->getId() ?>"><?= $value->getLogin() ?></a>
+                <span>Email : <?= $value->getMail() ?></span>
+            </li>
+            <!---->
+            <?php
+        }
+        ?>
+    </ul>
 
 </div>
-<?php
-//var_dump($data['users']);
