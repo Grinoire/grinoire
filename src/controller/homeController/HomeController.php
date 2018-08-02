@@ -113,9 +113,7 @@ class HomeController extends CoreController
     public function grinoireAction(): void
     {
         $this->init(__FILE__, __FUNCTION__);
-      
-        if (array_key_exists('deconnexion', $this->getGet())) {                 //Si l'utilisateur souhaite se deconnecté
-          
+
         $adminManager = new AdminManager();
         $data['admin'] = $adminManager->getRoleById((int)$this->getSession('userConnected'));
         $data['action'] = $adminManager->getActionByRole($data['admin']['role_name']);
@@ -123,8 +121,6 @@ class HomeController extends CoreController
         $data['users'] = $adminManager->getAllUser();
 
         if (array_key_exists('deconnexion', $this->getGet())) {
-            //si une partie a ete jouer
-            if (array_key_exists('game', $this->getSession())) {
 
                 $userManager = new UserManager();
                 $userId = (int) $this->getSession('userConnected');                 //on stock l'id du joueur connecte

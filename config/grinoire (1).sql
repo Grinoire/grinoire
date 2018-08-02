@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 29 juil. 2018 à 14:22
--- Version du serveur :  5.7.19
--- Version de PHP :  7.1.9
+-- Généré le :  mar. 31 juil. 2018 à 15:27
+-- Version du serveur :  5.7.21
+-- Version de PHP :  7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -102,7 +102,7 @@ INSERT INTO `card` (`card_id`, `card_name`, `card_description`, `card_bg`, `card
 (4, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice.png', 3, 6, 3, NULL, NULL, 2, 1),
 (5, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice.png', 3, 6, 3, NULL, NULL, 2, 1),
 (6, 'Golden ticket ', 'Une visite sans retour', 'goldenticket.png', 5, NULL, 6, NULL, NULL, 3, 1),
-(7, 'Le chat', 'ce monde n’a aucun sens….', 'chatduchesire.png', 1, NULL, 1, NULL, NULL, 3, 1),
+(7, 'Le chat', 'ce monde n’a aucun sens….', 'chatducheshire.png', 1, NULL, 1, NULL, NULL, 3, 1),
 (8, 'Barnabas', 'je reviendrais', 'barnabas.png', 3, NULL, 4, NULL, NULL, 3, 1),
 (9, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux.png', 1, 1, 2, NULL, NULL, 4, 1),
 (10, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux.png', 1, 1, 2, NULL, NULL, 4, 1),
@@ -122,8 +122,8 @@ INSERT INTO `card` (`card_id`, `card_name`, `card_description`, `card_bg`, `card
 (24, 'La moria', 'L\'infranchissable forteresse', 'moria.png', 3, 6, 3, 0, NULL, 2, 2),
 (25, 'La moria', 'L\'infranchissable forteresse', 'moria.png', 3, 6, 3, 0, NULL, 2, 2),
 (26, 'Le saint graal', 'Restaure X point de vie', 'graal.png', 1, NULL, 2, 0, NULL, 3, 2),
-(27, 'Armageddon', 'Detruit toutes les créatures du plateau', 'armageddon.png', 3, NULL, 5, 0, NULL, 3, 2),
-(28, 'Résurrection', 'Rappelle une créature morte', 'resurrection.png', 5, NULL, 7, 0, NULL, 3, 2),
+(27, 'Armagedon', 'Detruit toutes les créatures du plateau', 'armagedon.png', 3, NULL, 5, 0, NULL, 3, 2),
+(28, 'Jesus', 'Crucifiction', 'jesus.png', 5, NULL, 7, 0, NULL, 3, 2),
 (29, 'Voldemort', 'Avada Kedavra', 'voldemort.png', 2, 3, 2, 0, NULL, 4, 2),
 (30, 'Voldemort', 'Avada Kedavra', 'voldemort.png', 2, 3, 2, 0, NULL, 4, 2),
 (31, 'Maléfique', 'Dors mon ange', 'malefique.png', 1, 1, 1, 0, NULL, 4, 2),
@@ -132,8 +132,8 @@ INSERT INTO `card` (`card_id`, `card_name`, `card_description`, `card_bg`, `card
 (34, 'Zoltan', 'C\'est pas la taille qui compte', 'zoltan.png', 3, 3, 4, 0, NULL, 4, 2),
 (35, 'Garrosh', 'La victoire ou la mort', 'garrosh.png', 4, 4, 2, 0, NULL, 4, 2),
 (36, 'Garrosh', 'La victoire ou la mort', 'garrosh.png', 4, 4, 2, 0, NULL, 4, 2),
-(37, 'Eilistraee', 'La nuit est mon domaine', 'eilistraee-bg.png', 5, 5, 6, 0, NULL, 4, 2),
-(38, 'Eilistraee', 'La nuit est mon domaine', 'eilistraee-bg.png', 5, 5, 6, 0, NULL, 4, 2),
+(37, 'Zelda', 'C\'est ma legende', 'zelda.png', 5, 5, 6, 0, NULL, 4, 2),
+(38, 'Zelda', 'C\'est ma legende', 'zelda.png', 5, 5, 6, 0, NULL, 4, 2),
 (39, 'Ragnarok', 'Meurs insecte', 'ragnarok.png', 7, 6, 8, 0, NULL, 4, 2),
 (40, 'Ragnarok', 'Meurs insecte', 'ragnarok.png', 7, 6, 8, 0, NULL, 4, 2);
 
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `game` (
   `game_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = game waiting, 1 = game on, 2game ended',
   `game_create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`game_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=234 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `game`
@@ -201,15 +201,75 @@ INSERT INTO `game` (`game_id`, `game_player_1_id`, `game_player_2_id`, `game_tur
 (222, 26, 17, 6, 1, 2, '2018-07-23 14:40:38'),
 (223, 26, NULL, 0, 1, 2, '2018-07-24 09:44:54'),
 (224, 26, NULL, 0, 1, 2, '2018-07-24 09:45:33'),
-(225, 17, 26, 3, 1, 2, '2018-07-24 09:47:06'),
-(226, 17, 26, 1, 1, 2, '2018-07-27 18:45:17'),
-(227, 26, NULL, 0, 1, 2, '2018-07-28 09:45:09'),
-(228, 26, 17, 4, 3, 2, '2018-07-28 09:45:23'),
-(229, 17, 26, 3, 2, 2, '2018-07-28 09:52:42'),
-(230, 26, 17, 1, 1, 2, '2018-07-28 09:56:25'),
-(231, 17, NULL, 0, 1, 2, '2018-07-28 17:57:49'),
-(232, 17, 26, 1, 1, 2, '2018-07-28 17:58:22'),
-(233, 17, NULL, 0, 1, 0, '2018-07-29 10:23:27');
+(226, 17, 26, 2, 1, 2, '2018-07-25 11:27:44'),
+(227, 17, 26, 25, 1, 2, '2018-07-25 12:36:23'),
+(228, 26, 17, 1, 1, 2, '2018-07-25 14:12:25'),
+(229, 17, 26, 1, 1, 2, '2018-07-25 14:15:30'),
+(230, 26, 17, 1, 1, 2, '2018-07-25 14:18:18'),
+(231, 17, 26, 32, 18, 2, '2018-07-25 14:20:15'),
+(232, 26, 17, 6, 4, 1, '2018-07-25 16:30:31'),
+(233, 26, 17, 1, 1, 1, '2018-07-26 09:46:25'),
+(234, 26, NULL, 0, 1, 2, '2018-07-26 11:59:54'),
+(235, 26, 17, 1, 1, 2, '2018-07-26 12:01:52'),
+(236, 17, 26, 1, 1, 2, '2018-07-26 12:04:40'),
+(237, 17, 26, 1, 1, 2, '2018-07-26 12:05:58'),
+(238, 26, 17, 1, 1, 2, '2018-07-26 12:06:23'),
+(239, 17, 26, 1, 1, 2, '2018-07-26 12:09:59'),
+(240, 17, 26, 1, 1, 2, '2018-07-26 12:12:23'),
+(241, 26, 17, 36, 17, 2, '2018-07-26 12:13:25'),
+(242, 26, 17, 26, 14, 1, '2018-07-26 15:02:44'),
+(243, 17, 26, 1, 1, 2, '2018-07-26 16:07:05'),
+(244, 17, 26, 1, 1, 2, '2018-07-26 16:21:11'),
+(245, 17, 26, 2, 2, 2, '2018-07-26 16:22:11'),
+(246, 17, 26, 16, 9, 1, '2018-07-26 16:24:20'),
+(247, 17, 26, 3, 2, 2, '2018-07-27 09:30:53'),
+(248, 17, 26, 1, 1, 2, '2018-07-27 09:59:41'),
+(249, 26, 17, 1, 1, 2, '2018-07-27 10:09:18'),
+(250, 26, 17, 9, 5, 2, '2018-07-27 10:09:57'),
+(251, 26, 17, 7, 4, 2, '2018-07-27 11:23:22'),
+(252, 17, 26, 8, 4, 2, '2018-07-27 11:31:22'),
+(253, 17, 26, 5, 2, 2, '2018-07-27 13:37:37'),
+(254, 17, 26, 6, 3, 2, '2018-07-27 13:39:08'),
+(255, 17, 26, 21, 10, 2, '2018-07-27 13:40:38'),
+(256, 26, 17, 9, 5, 2, '2018-07-27 13:49:02'),
+(257, 17, 26, 5, 4, 2, '2018-07-27 13:55:09'),
+(258, 26, 17, 9, 6, 2, '2018-07-27 13:56:05'),
+(259, 26, 17, 18, 10, 2, '2018-07-27 13:59:38'),
+(260, 26, 17, 8, 4, 2, '2018-07-27 14:04:44'),
+(261, 26, 17, 19, 10, 2, '2018-07-27 14:08:58'),
+(262, 26, 17, 2, 1, 2, '2018-07-27 14:15:04'),
+(263, 17, 26, 23, 10, 2, '2018-07-27 14:15:56'),
+(264, 26, 17, 20, 10, 2, '2018-07-27 14:19:33'),
+(265, 17, 26, 22, 10, 2, '2018-07-27 14:25:16'),
+(266, 26, 17, 29, 10, 2, '2018-07-27 14:30:31'),
+(267, 17, 26, 5, 3, 2, '2018-07-27 15:21:25'),
+(268, 26, 17, 2, 1, 2, '2018-07-27 15:26:38'),
+(269, 26, 17, 9, 5, 2, '2018-07-27 15:27:14'),
+(270, 26, 17, 5, 3, 2, '2018-07-27 15:53:10'),
+(271, 26, 17, 5, 3, 2, '2018-07-27 15:59:41'),
+(272, 17, 26, 22, 10, 2, '2018-07-27 16:02:29'),
+(273, 17, 26, 6, 4, 2, '2018-07-27 16:26:41'),
+(274, 26, 17, 14, 7, 2, '2018-07-27 16:30:33'),
+(275, 26, 17, 5, 3, 2, '2018-07-27 16:40:08'),
+(276, 17, 26, 1, 1, 2, '2018-07-27 16:44:53'),
+(277, 26, NULL, 0, 1, 2, '2018-07-30 09:52:00'),
+(278, 26, NULL, 0, 1, 2, '2018-07-30 09:52:15'),
+(279, 26, NULL, 0, 1, 2, '2018-07-30 09:58:54'),
+(280, 26, 17, 1, 1, 2, '2018-07-30 10:01:49'),
+(281, 17, 26, 20, 10, 2, '2018-07-30 10:48:35'),
+(282, 17, 26, 12, 6, 2, '2018-07-30 17:08:26'),
+(283, 17, 26, 9, 5, 2, '2018-07-30 17:25:05'),
+(284, 17, 26, 10, 5, 2, '2018-07-30 17:39:40'),
+(285, 17, NULL, 0, 1, 2, '2018-07-31 09:17:44'),
+(286, 17, 26, 1, 1, 2, '2018-07-31 09:17:56'),
+(287, 26, 17, 10, 5, 2, '2018-07-31 09:19:02'),
+(288, 17, 26, 8, 4, 2, '2018-07-31 10:28:31'),
+(289, 17, 26, 13, 7, 2, '2018-07-31 10:35:22'),
+(290, 26, 17, 11, 6, 2, '2018-07-31 11:08:32'),
+(291, 26, 17, 11, 6, 2, '2018-07-31 11:19:10'),
+(292, 26, 17, 20, 10, 2, '2018-07-31 11:26:30'),
+(293, 26, 17, 15, 8, 2, '2018-07-31 16:06:55'),
+(294, 26, 17, 5, 3, 1, '2018-07-31 17:15:34');
 
 -- --------------------------------------------------------
 
@@ -273,73 +333,53 @@ CREATE TABLE IF NOT EXISTS `tmp_card` (
   KEY `FK_tmp_card_user_id` (`tmpcard_user_id_fk`),
   KEY `FK_tmp_card_type_id` (`tmpcard_type_id_fk`),
   KEY `FK_tmp_card_deck_id` (`tmpcard_deck_id_fk`)
-) ENGINE=InnoDB AUTO_INCREMENT=541 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2981 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `tmp_card`
 --
 
 INSERT INTO `tmp_card` (`tmpcard_id`, `tmpcard_name`, `tmpcard_description`, `tmpcard_bg`, `tmpcard_life`, `tmpcard_attack`, `tmpcard_mana`, `tmpcard_status`, `tmpcard_damage_received`, `tmpcard_type_id_fk`, `tmpcard_user_id_fk`, `tmpcard_deck_id_fk`) VALUES
-(401, 'Mr Jack', 'le Roi des citrouilles', 'mr-jack-bg.png', 5, 7, 5, '0', NULL, 4, 26, 1),
-(402, 'Edward', 'couic couic, ca vous la coupe', 'edouard-bg.png', 4, 2, 4, '0', NULL, 4, 26, 1),
-(403, 'Cavalier sans tête', 'Un tête à tête ?', 'cavalier-sans-tete-bg.png', 9, 9, 9, '0', NULL, 1, 26, 1),
-(404, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux-bg.png', 1, 2, 1, '0', NULL, 4, 26, 1),
-(405, 'Mr Pingouin', 'Je jette un froid', 'mr-pingouin-bg.png', 3, 1, 1, '0', NULL, 2, 26, 1),
-(406, 'Catwoman', 'Je suis née le jour de ma mort', 'catwoman-bg.png', 6, 8, 7, '0', NULL, 4, 26, 1),
-(407, 'Mr Pingouin', 'Je jette un froid', 'mr-pingouin-bg.png', 3, 1, 1, '0', NULL, 2, 26, 1),
-(408, 'Le martien', 'nous venons en paix', 'martien-bg.png', 3, 5, 3, '0', NULL, 4, 26, 1),
-(409, 'Le martien', 'nous venons en paix', 'martien-bg.png', 3, 5, 3, '0', NULL, 4, 26, 1),
-(410, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux-bg.png', 1, 2, 1, '0', NULL, 4, 26, 1),
-(411, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice-bg.png', 6, 3, 3, '0', NULL, 2, 26, 1),
-(412, 'Le chat', 'ce monde n’a aucun sens….', 'le-chat-bg.png', NULL, 1, 1, '0', NULL, 3, 26, 1),
-(413, 'Catwoman', 'Je suis née le jour de ma mort', 'catwoman-bg.png', 6, 8, 7, '0', NULL, 4, 26, 1),
-(414, 'Emily', 'un coeur mort peut-il se briser ?', 'emily-bg.png', 3, 2, 2, '0', NULL, 4, 26, 1),
-(415, 'Edward', 'couic couic, ca vous la coupe', 'edouard-bg.png', 4, 2, 4, '0', NULL, 4, 26, 1),
-(416, 'Barnabas', 'je reviendrais', 'barnabas-bg.png', NULL, 4, 3, '0', NULL, 3, 26, 1),
-(417, 'Mr Jack', 'le Roi des citrouilles', 'mr-jack-bg.png', 5, 7, 5, '0', NULL, 4, 26, 1),
-(418, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice-bg.png', 6, 3, 3, '1', NULL, 2, 26, 1),
-(419, 'Emily', 'un coeur mort peut-il se briser ?', 'emily-bg.png', 3, 2, 2, '1', NULL, 4, 26, 1),
-(420, 'Golden ticket ', 'A definir', 'golden-ticket-bg.png', NULL, 6, 5, '1', NULL, 3, 26, 1),
-(481, 'Emily', 'un coeur mort peut-il se briser ?', 'emily-bg.png', 3, 2, 2, '0', NULL, 4, 26, 1),
-(482, 'Barnabas', 'je reviendrais', 'barnabas-bg.png', NULL, 4, 3, '0', NULL, 3, 26, 1),
-(483, 'Edward', 'couic couic, ca vous la coupe', 'edouard-bg.png', 4, 2, 4, '0', NULL, 4, 26, 1),
-(484, 'Mr Pingouin', 'Je jette un froid', 'mr-pingouin-bg.png', 3, 1, 1, '0', NULL, 2, 26, 1),
-(485, 'Le chat', 'ce monde n’a aucun sens….', 'le-chat-bg.png', NULL, 1, 1, '0', NULL, 3, 26, 1),
-(486, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice-bg.png', 6, 3, 3, '0', NULL, 2, 26, 1),
-(487, 'Catwoman', 'Je suis née le jour de ma mort', 'catwoman-bg.png', 6, 8, 7, '0', NULL, 4, 26, 1),
-(488, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux-bg.png', 1, 2, 1, '0', NULL, 4, 26, 1),
-(489, 'Mr Jack', 'le Roi des citrouilles', 'mr-jack-bg.png', 5, 7, 5, '0', NULL, 4, 26, 1),
-(490, 'Emily', 'un coeur mort peut-il se briser ?', 'emily-bg.png', 3, 2, 2, '0', NULL, 4, 26, 1),
-(491, 'Le martien', 'nous venons en paix', 'martien-bg.png', 3, 5, 3, '0', NULL, 4, 26, 1),
-(492, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux-bg.png', 1, 2, 1, '0', NULL, 4, 26, 1),
-(493, 'Mr Pingouin', 'Je jette un froid', 'mr-pingouin-bg.png', 3, 1, 1, '0', NULL, 2, 26, 1),
-(494, 'Catwoman', 'Je suis née le jour de ma mort', 'catwoman-bg.png', 6, 8, 7, '0', NULL, 4, 26, 1),
-(495, 'Le martien', 'nous venons en paix', 'martien-bg.png', 3, 5, 3, '0', NULL, 4, 26, 1),
-(496, 'Cavalier sans tête', 'Un tête à tête ?', 'cavalier-sans-tete-bg.png', 9, 9, 9, '0', NULL, 1, 26, 1),
-(497, 'Edward', 'couic couic, ca vous la coupe', 'edouard-bg.png', 4, 2, 4, '0', NULL, 4, 26, 1),
-(498, 'Golden ticket ', 'A definir', 'golden-ticket-bg.png', NULL, 6, 5, '1', NULL, 3, 26, 1),
-(499, 'Mr Jack', 'le Roi des citrouilles', 'mr-jack-bg.png', 5, 7, 5, '1', NULL, 4, 26, 1),
-(500, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice-bg.png', 6, 3, 3, '1', NULL, 2, 26, 1),
-(521, 'Résurrection', 'Rappelle une créature morte', 'resurrection-bg.png', NULL, 7, 5, '0', 0, 3, 17, 2),
-(522, 'Voldemort', 'Avada Kedavra', 'voldemort-bg.png', 3, 2, 2, '0', 0, 4, 17, 2),
-(523, 'Paladin', 'Le rempart de la justice', 'paladin-bg.png', 3, 1, 1, '0', 0, 2, 17, 2),
-(524, 'Ragnaros', 'Meurs insecte', 'ragnaros-bg.png', 6, 8, 7, '0', 0, 4, 17, 2),
-(525, 'Drogo', 'Le feu et le sang', 'drogo-bg.png', 9, 9, 9, '0', 0, 1, 17, 2),
-(526, 'Paladin', 'Le rempart de la justice', 'paladin-bg.png', 3, 1, 1, '0', 0, 2, 17, 2),
-(527, 'Garrosh', 'La victoire ou la mort', 'garrosh-bg.png', 4, 2, 4, '0', 0, 4, 17, 2),
-(528, 'Eilistraee', 'La nuit est mon domaine', 'eilistraee-bg.png', 5, 6, 5, '0', 0, 4, 17, 2),
-(529, 'Armageddon', 'Detruit toutes les créatures du plateau', 'armageddon-bg.png', NULL, 5, 3, '0', 0, 3, 17, 2),
-(530, 'Garrosh', 'La victoire ou la mort', 'garrosh-bg.png', 4, 2, 4, '0', 0, 4, 17, 2),
-(531, 'Voldemort', 'Avada Kedavra', 'voldemort-bg.png', 3, 2, 2, '0', 0, 4, 17, 2),
-(532, 'Zoltan', 'C\'est pas la taille qui compte', 'zoltan-bg.png', 3, 4, 3, '0', 0, 4, 17, 2),
-(533, 'Eilistraee', 'La nuit est mon domaine', 'eilistraee-bg.png', 5, 6, 5, '0', 0, 4, 17, 2),
-(534, 'Zoltan', 'C\'est pas la taille qui compte', 'zoltan-bg.png', 3, 4, 3, '0', 0, 4, 17, 2),
-(535, 'Ragnaros', 'Meurs insecte', 'ragnaros-bg.png', 6, 8, 7, '0', 0, 4, 17, 2),
-(536, 'Maléfique', 'Dors mon ange', 'malefique-bg.png', 1, 1, 1, '0', 0, 4, 17, 2),
-(537, 'La moria', 'L\'infranchissable forteresse', 'moria-bg.png', 6, 3, 3, '0', 0, 2, 17, 2),
-(538, 'Le saint graal', 'Restaure X point de vie', 'graal-bg.png', NULL, 2, 1, '1', 0, 3, 17, 2),
-(539, 'La moria', 'L\'infranchissable forteresse', 'moria-bg.png', 6, 3, 3, '1', 0, 2, 17, 2),
-(540, 'Maléfique', 'Dors mon ange', 'malefique-bg.png', 1, 1, 1, '1', 0, 4, 17, 2);
+(2941, 'Armagedon', 'Detruit toutes les créatures du plateau', 'armagedon.png', NULL, 5, 3, '0', 0, 3, 26, 2),
+(2942, 'Zoltan', 'C\'est pas la taille qui compte', 'zoltan.png', 3, 4, 3, '0', 0, 4, 26, 2),
+(2943, 'Drogo', 'Le feu et le sang', 'drogo.png', 9, 9, 9, '0', 0, 1, 26, 2),
+(2944, 'Ragnarok', 'Meurs insecte', 'ragnarok.png', 6, 8, 7, '0', 0, 4, 26, 2),
+(2945, 'Maléfique', 'Dors mon ange', 'malefique.png', 1, 1, 1, '0', 0, 4, 26, 2),
+(2946, 'Maléfique', 'Dors mon ange', 'malefique.png', 1, 1, 1, '0', 0, 4, 26, 2),
+(2947, 'Zelda', 'C\'est ma legende', 'zelda.png', 5, 6, 5, '0', 0, 4, 26, 2),
+(2948, 'Ragnarok', 'Meurs insecte', 'ragnarok.png', 6, 8, 7, '0', 0, 4, 26, 2),
+(2949, 'Garrosh', 'La victoire ou la mort', 'garrosh.png', 4, 2, 4, '0', 0, 4, 26, 2),
+(2950, 'La moria', 'L\'infranchissable forteresse', 'moria.png', 6, 3, 3, '0', 0, 2, 26, 2),
+(2951, 'La moria', 'L\'infranchissable forteresse', 'moria.png', 6, 3, 3, '0', 0, 2, 26, 2),
+(2952, 'Jesus', 'Crucifiction', 'jesus.png', NULL, 7, 5, '0', 0, 3, 26, 2),
+(2953, 'Voldemort', 'Avada Kedavra', 'voldemort.png', 3, 2, 2, '0', 0, 4, 26, 2),
+(2954, 'Garrosh', 'La victoire ou la mort', 'garrosh.png', 4, 2, 4, '1', 0, 4, 26, 2),
+(2955, 'Paladin', 'Le rempart de la justice', 'paladin.png', 3, 1, 1, '4', 0, 2, 26, 2),
+(2956, 'Zelda', 'C\'est ma legende', 'zelda.png', 5, 6, 5, '1', 0, 4, 26, 2),
+(2957, 'Zoltan', 'C\'est pas la taille qui compte', 'zoltan.png', 3, 4, 3, '3', 0, 4, 26, 2),
+(2958, 'Le saint graal', 'Restaure X point de vie', 'graal.png', NULL, 2, 1, '1', 0, 3, 26, 2),
+(2959, 'Voldemort', 'Avada Kedavra', 'voldemort.png', 3, 2, 2, '4', 0, 4, 26, 2),
+(2960, 'Paladin', 'Le rempart de la justice', 'paladin.png', 3, 1, 1, '1', 0, 2, 26, 2),
+(2961, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux.png', 1, 2, 1, '0', NULL, 4, 17, 1),
+(2962, 'Edward', 'couic couic, ca vous la coupe', 'edward.png', 4, 2, 4, '0', NULL, 4, 17, 1),
+(2963, 'Barnabas', 'je reviendrais', 'barnabas.png', NULL, 4, 3, '0', NULL, 3, 17, 1),
+(2964, 'Le martien', 'nous venons en paix', 'marsattack.png', 3, 5, 3, '0', NULL, 4, 17, 1),
+(2965, 'Mr Jack', 'le Roi des citrouilles', 'jack.png', 5, 7, 5, '0', NULL, 4, 17, 1),
+(2966, 'Sépulcreux', 'tant de chemins pour vous atteindre', 'sepulcreux.png', 1, 2, 1, '0', NULL, 4, 17, 1),
+(2967, 'Mr Pingouin', 'Je jette un froid', 'pingouin.png', 3, 1, 1, '0', NULL, 2, 17, 1),
+(2968, 'Cavalier sans tête', 'Un tête à tête ?', 'cavaliersanstete.png', 9, 9, 9, '0', NULL, 1, 17, 1),
+(2969, 'Edward', 'couic couic, ca vous la coupe', 'edward.png', 4, 2, 4, '0', NULL, 4, 17, 1),
+(2970, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice.png', 6, 3, 3, '0', NULL, 2, 17, 1),
+(2971, 'Le martien', 'nous venons en paix', 'marsattack.png', 3, 5, 3, '0', NULL, 4, 17, 1),
+(2972, 'Emily', 'un coeur mort peut-il se briser ?', 'emily.png', 3, 2, 2, '0', NULL, 4, 17, 1),
+(2973, 'Le chat', 'ce monde n’a aucun sens….', 'chatducheshire.png', NULL, 1, 1, '0', NULL, 3, 17, 1),
+(2974, 'Emily', 'un coeur mort peut-il se briser ?', 'emily.png', 3, 2, 2, '4', NULL, 4, 17, 1),
+(2975, 'Catwoman', 'Je suis née le jour de ma mort', 'catwoman.png', 6, 8, 7, '1', NULL, 4, 17, 1),
+(2976, 'Golden ticket ', 'Une visite sans retour', 'goldenticket.png', NULL, 6, 5, '1', NULL, 3, 17, 1),
+(2977, 'Mr Jack', 'le Roi des citrouilles', 'jack.png', 5, 7, 5, '1', NULL, 4, 17, 1),
+(2978, 'Catwoman', 'Je suis née le jour de ma mort', 'catwoman.png', 6, 8, 7, '1', NULL, 4, 17, 1),
+(2979, 'Beetlejuice', 'Beetlejuice, Beetlejuice, Beetlejuice !', 'beetlejuice.png', 6, 3, 3, '1', NULL, 2, 17, 1),
+(2980, 'Mr Pingouin', 'Je jette un froid', 'pingouin.png', 3, 1, 1, '4', NULL, 2, 17, 1);
 
 -- --------------------------------------------------------
 
@@ -358,16 +398,15 @@ CREATE TABLE IF NOT EXISTS `tmp_hero` (
   `tmphero_user_id_fk` int(11) NOT NULL,
   PRIMARY KEY (`tmphero_id`),
   KEY `tmp_hero_user_FK` (`tmphero_user_id_fk`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `tmp_hero`
 --
 
 INSERT INTO `tmp_hero` (`tmphero_id`, `tmphero_mana`, `tmphero_name`, `tmphero_life`, `tmphero_bg`, `tmphero_damage_received`, `tmphero_user_id_fk`) VALUES
-(21, 1, 'Le Chapelier', 20, 'chapelier.png', 0, 26),
-(25, 1, 'Le Chapelier', 20, 'chapelier.png', 0, 26),
-(27, 1, 'Gandalf', 20, 'gandalf.png', 0, 17);
+(148, 0, 'Gandalf', 20, 'gandalf.png', 0, 26),
+(149, 3, 'Le Chapelier', 20, 'chapelier.png', 0, 17);
 
 -- --------------------------------------------------------
 
@@ -430,8 +469,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_last_name`, `user_first_name`, `user_mail`, `user_login`, `user_password`, `user_avatar`, `user_inscription`, `user_winned_game`, `user_played_game`, `user_ready`, `user_deck_id_fk`, `user_role_id_fk`, `user_game_id_fk`, `user_tmp_hero_id_fk`) VALUES
-(17, 'bi', 'bi', 'bibi@gmail.com', 'bibi', 'bibi', '112131.jpg', '2018-05-23 11:40:17', NULL, NULL, 1, 2, 3, 233, NULL),
-(26, NULL, NULL, 'tou@gmail.com', 'tou', 'tou', NULL, '2018-05-23 11:48:44', NULL, NULL, 1, 1, 3, 232, NULL),
+(17, 'bi', 'bi', 'bibi@gmail.com', 'bibi', 'bibi', '112131.jpg', '2018-05-23 11:40:17', NULL, NULL, 1, 1, 3, 294, NULL),
+(26, NULL, NULL, 'tou@gmail.com', 'tou', 'tou', NULL, '2018-05-23 11:48:44', NULL, NULL, 1, 2, 3, 294, NULL),
 (27, NULL, NULL, 'titi@gmail.com', 'titi', 'titi', NULL, '2018-05-23 11:49:32', NULL, NULL, 0, NULL, 3, NULL, NULL),
 (28, NULL, NULL, 'tobi@gmail.com', 'tobi', 'tobi', NULL, '2018-05-23 11:51:28', NULL, NULL, 0, NULL, 3, NULL, NULL);
 

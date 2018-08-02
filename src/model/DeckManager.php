@@ -396,7 +396,7 @@ class DeckManager
     {
         //define card status for setting position on board, card is already randomized
         for ($i=0 ; $i < count($cardList) ; $i++) {
-            if ($i < HAND_NBR_CARD) {
+            if ($i < 7) {
                 $cardList[$i]->setStatus(1);//define status
             } else {
                 $cardList[$i]->setStatus(0);//define status
