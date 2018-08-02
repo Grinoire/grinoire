@@ -350,7 +350,7 @@ class GameController extends CoreController
 
                 //pioche a chaque tour
                 if ($gameSession->getPlayer1Id() == $userId) {
-                    $drawedcards = $deckManager->getTmpCards($gameSession->getPlayer1Id());
+                    $drawedcards = $deckManager->getTmpCards($gameSession->getPlayer2Id());
                 } else {
                     $drawedcards = $deckManager->getTmpCards($gameSession->getPlayer1Id());
                 }
@@ -363,8 +363,8 @@ class GameController extends CoreController
                 $drawed = $drawedCard[rand(0, count($drawedcard))];
 
                 $cardOnBoard = 0;                                                                   //On initialise un compteur pour connaitre le nbr de carte sur le plateau
-                foreach ($drawedcards as $card) {                                                      //Pour chacune des cartes
-                    if ($card->getStatus() === 3 || $card->getStatus() === 4) {                     //si leur status est egale a 3 ou 4 (posé sur le plateau)
+                foreach ($drawedcards as $card) {                                                     //Pour chacune des cartes
+                    if ($card->getStatus() === 1) {                                                 //si leur status est egale a 1 (carte en main)
                         $cardOnBoard++;                                                             //on incremente le compteur de 1 pour connaitre le nbr de carte deja posées
                     }
                 }
@@ -419,6 +419,17 @@ class GameController extends CoreController
             }
 
             $data['render'] = true;
+            foreach ($deckManager->getTmpCards($userId) as $key => $card) {
+                $data['userCards'][]  = [
+                    'id'    => $card->getId(),
+                    'life'  => $card->getLife() - $card->getDamageReceived(),
+                    'mana'  => $card->getMana(),
+                    'attack'=> $card->getAttack(),
+                    'type'  => $card->getTypeIdFk(),
+                    'status'=> $card->getStatus(),
+                    'bg'    => $card->getBg()
+                ];
+            }
             foreach ($deckManager->getTmpCards($opponentId) as $key => $card) {
                 $data['cards'][]  = [
                     'id'    => $card->getId(),

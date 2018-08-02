@@ -113,7 +113,7 @@
 
 	stopTurn.addEventListener('click', function () {
 		ajax(null, '?c=game&a=nextTurn&ajax', renderBoard);
-		this.click;
+		// this.click;
 	});
 
 
@@ -254,6 +254,7 @@
 							});
 							opponentHand.appendChild(div);
 						} else {
+							//sinon si des carte ont ete pose sur le plateau
 							if (ajaxResponse.cards[index].status == 3) { //pose sur le plateau
 								console.log('generation');
 								//generation de carte legendaire
@@ -285,37 +286,8 @@
 									zoneOpponentBook.appendChild(div);
 									div.addEventListener('click', attack);
 
-									//generation de carte sort
 								}
-								// else if (ajaxResponse.cards[index].type == 3) {
-								// 	console.log('generation sort');
-								// 	let div = document.createElement('DIV', {
-								// 		style: "background-image:url('img/cards/" + ajaxResponse.cards[index].bg + "')",
-								// 		class: "card sort"
-								// 	});
-								// 	div.dataset.id = ajaxResponse.cards[index].id;
-								// 	div.dataset.status = ajaxResponse.cards[index].status;
-								// 	div.classList.add('card');
-								// 	div.classList.add('sort');
-								// 	div.setAttribute('style', "background-image:url('img/blazon/" + ajaxResponse.cards[index].bg + "')");
-								//
-								// 	let spanAttack = document.createElement('SPAN', {
-								// 		class: "sort-attack"
-								// 	});
-								// 	spanAttack.innerHTML = ajaxResponse.cards[index].attack;
-								//
-								// 	let spanMana = document.createElement('SPAN', {
-								// 		class: "sort-mana"
-								// 	});
-								// 	spanMana.innerHTML = ajaxResponse.cards[index].mana;
-								//
-								// 	div.appendChild(spanAttack);
-								// 	div.appendChild(spanMana);
-								// 	zoneOpponentBook.appendChild(div);
-								//
-								// }
-
-								//generation de carte créature
+								//generation carte creature
 								else if (ajaxResponse.cards[index].type == 4 || ajaxResponse.cards[index].type == 2) { //creature
 									console.log('generation creature');
 									let div = document.createElement('DIV');
@@ -374,6 +346,226 @@
 						stopTurn.classList.remove('play');
 					}
 				}
+
+
+
+				/**
+				 * --------------------------------------------------
+				 *     PARTIE USER
+				 * ------------------------------------------------------
+				 */
+
+				 //on check la liste des carte et defini les modif a faire
+				 for (var index = 0; index < ajaxResponse.userCards.length; index++) { //pr chaque carte
+					 if (JSON.stringify(ajaxResponse.userCards[index]) != JSON.stringify(lastAjaxValue.userCards[index])) { //si une carte est differente de la derniere requete
+
+						 //Si la carte existe deja dans la vue
+						 if (document.querySelector("div[data-id='" + ajaxResponse.userCards[index].id + "']")) {
+							 console.log('defausse');
+
+							 let element = document.querySelector("div[data-id='" + ajaxResponse.userCards[index].id + "']");
+
+							 //Si le statut n'est pas le meme
+							 if (element.dataset.status != ajaxResponse.userCards[index].status) {
+								 if (ajaxResponse.userCards[index].status == 2) { //on la defausse
+									 element.remove();
+								 }
+
+							 //Sinon si la vie n'est plus la meme on la met a jour
+							 } else if (element.firstElementChild.innerHTML != ajaxResponse.userCards[index].life) {
+								 console.log('life changed');
+								 element.firstElementChild.innerHTML = ajaxResponse.userCards[index].life;
+							 }
+
+							 //Si des carte on ete pioché
+						 } else if (ajaxResponse.userCards[index].status == 1) {
+							 console.log('drawed');
+							 if (ajaxResponse.userCards[index].type == 1) { //legendaire
+								 console.log('generation legendaire');
+								 let div = document.createElement('DIV');
+								 div.dataset.id = ajaxResponse.userCards[index].id;
+								 div.dataset.status = ajaxResponse.userCards[index].status;
+								 div.classList.add('card');
+								 div.classList.add('legendary');
+								 div.setAttribute('style', "background-image:url('img/cards/" + ajaxResponse.userCards[index].bg + "')");
+
+								 let spanLife = document.createElement('SPAN');
+								 spanLife.innerHTML = ajaxResponse.userCards[index].life;
+								 spanLife.classList.add('legendary-life');
+								 spanLife.classList.add('life');
+
+								 let spanAttack = document.createElement('SPAN');
+								 spanAttack.innerHTML = ajaxResponse.userCards[index].attack;
+								 spanLife.classList.add('legendary-attack');
+
+								 let spanMana = document.createElement('SPAN');
+								 spanMana.innerHTML = ajaxResponse.userCards[index].mana;
+								 spanLife.classList.add('legendary-mana');
+
+								 div.appendChild(spanLife);
+								 div.appendChild(spanAttack);
+								 div.appendChild(spanMana);
+								 playerHand.appendChild(div);
+								 div.addEventListener('click', getCardId);
+								 div.addEventListener('mouseover', setHover);
+
+								 //generation de carte sort
+							 }
+							 else if (ajaxResponse.userCards[index].type == 3) {
+							 	console.log('generation sort');
+							 	let div = document.createElement('DIV');
+							 	div.dataset.id = ajaxResponse.userCards[index].id;
+							 	div.dataset.status = ajaxResponse.userCards[index].status;
+							 	div.classList.add('card');
+							 	div.classList.add('sort');
+							 	div.setAttribute('style', "background-image:url('img/cards/" + ajaxResponse.userCards[index].bg + "')");
+
+							 	let spanAttack = document.createElement('SPAN', {
+							 		class: "sort-attack"
+							 	});
+							 	spanAttack.innerHTML = ajaxResponse.userCards[index].attack;
+
+							 	let spanMana = document.createElement('SPAN', {
+							 		class: "sort-mana"
+							 	});
+							 	spanMana.innerHTML = ajaxResponse.userCards[index].mana;
+
+							 	div.appendChild(spanAttack);
+							 	div.appendChild(spanMana);
+							 	playerHand.appendChild(div);
+								div.addEventListener('click', getCardId);
+								div.addEventListener('mouseover', setHover);
+
+							 }
+
+							 //generation de carte créature
+							 else if (ajaxResponse.userCards[index].type == 4 || ajaxResponse.userCards[index].type == 2) { //creature
+								 console.log('generation creature');
+								 let div = document.createElement('DIV');
+								 div.dataset.id = ajaxResponse.userCards[index].id;
+								 div.dataset.status = ajaxResponse.userCards[index].status;
+								 div.classList.add('card');
+								 div.classList.add('creature');
+								 div.setAttribute('style', "background-image:url('img/cards/" + ajaxResponse.userCards[index].bg + "')");
+
+								 let spanLife = document.createElement('SPAN');
+								 spanLife.innerHTML = ajaxResponse.userCards[index].life;
+								 spanLife.classList.add('creature-life');
+								 spanLife.classList.add('life');
+
+								 let spanAttack = document.createElement('SPAN');
+								 spanAttack.innerHTML = ajaxResponse.userCards[index].attack;
+								 spanAttack.classList.add('creature-attack');
+
+								 let spanMana = document.createElement('SPAN');
+								 spanMana.innerHTML = ajaxResponse.userCards[index].mana;
+								 spanMana.classList.add('creature-mana');
+
+								 div.appendChild(spanLife);
+								 div.appendChild(spanAttack);
+								 div.appendChild(spanMana);
+								 playerHand.appendChild(div);
+								 div.addEventListener('click', getCardId);
+								 div.addEventListener('mouseover', setHover);
+							 }
+
+							 //Plateau generation carte
+						 } else {
+							 if (ajaxResponse.userCards[index].status == 3) { //pose sur le plateau
+								 console.log('generation');
+								 //generation de carte legendaire
+								 if (ajaxResponse.userCards[index].type == 1) { //legendaire
+									 console.log('generation legendaire');
+									 let div = document.createElement('DIV');
+									 div.dataset.id = ajaxResponse.userCards[index].id;
+									 div.dataset.status = ajaxResponse.userCards[index].status;
+									 div.classList.add('blazon');
+									 div.classList.add('legendary');
+									 div.setAttribute('style', "background-image:url('img/blazon/" + ajaxResponse.userCards[index].bg + "')");
+
+									 let spanLife = document.createElement('SPAN');
+									 spanLife.innerHTML = ajaxResponse.userCards[index].life;
+									 spanLife.classList.add('legendary-life');
+									 spanLife.classList.add('life');
+
+									 let spanAttack = document.createElement('SPAN');
+									 spanAttack.innerHTML = ajaxResponse.userCards[index].attack;
+									 spanLife.classList.add('legendary-attack');
+
+									 let spanMana = document.createElement('SPAN');
+									 spanMana.innerHTML = ajaxResponse.userCards[index].mana;
+									 spanLife.classList.add('legendary-mana');
+
+									 div.appendChild(spanLife);
+									 div.appendChild(spanAttack);
+									 div.appendChild(spanMana);
+									 zonePlayerBook.appendChild(div);
+									 div.addEventListener('click', attack);
+
+									 //generation de carte sort
+								 }
+								 // else if (ajaxResponse.userCards[index].type == 3) {
+								 // 	console.log('generation sort');
+								 // 	let div = document.createElement('DIV', {
+								 // 		style: "background-image:url('img/cards/" + ajaxResponse.userCards[index].bg + "')",
+								 // 		class: "card sort"
+								 // 	});
+								 // 	div.dataset.id = ajaxResponse.userCards[index].id;
+								 // 	div.dataset.status = ajaxResponse.userCards[index].status;
+								 // 	div.classList.add('card');
+								 // 	div.classList.add('sort');
+								 // 	div.setAttribute('style', "background-image:url('img/blazon/" + ajaxResponse.userCards[index].bg + "')");
+								 //
+								 // 	let spanAttack = document.createElement('SPAN', {
+								 // 		class: "sort-attack"
+								 // 	});
+								 // 	spanAttack.innerHTML = ajaxResponse.userCards[index].attack;
+								 //
+								 // 	let spanMana = document.createElement('SPAN', {
+								 // 		class: "sort-mana"
+								 // 	});
+								 // 	spanMana.innerHTML = ajaxResponse.userCards[index].mana;
+								 //
+								 // 	div.appendChild(spanAttack);
+								 // 	div.appendChild(spanMana);
+								 // 	zoneOpponentBook.appendChild(div);
+								 //
+								 // }
+
+								 //generation de carte créature
+								 else if (ajaxResponse.userCards[index].type == 4 || ajaxResponse.userCards[index].type == 2) { //creature
+									 console.log('generation creature');
+									 let div = document.createElement('DIV');
+									 div.dataset.id = ajaxResponse.userCards[index].id;
+									 div.dataset.status = ajaxResponse.userCards[index].status;
+									 div.classList.add('blazon');
+									 div.classList.add('creature');
+									 div.setAttribute('style', "background-image:url('img/blazon/" + ajaxResponse.userCards[index].bg + "')");
+
+									 let spanLife = document.createElement('SPAN');
+									 spanLife.innerHTML = ajaxResponse.userCards[index].life;
+									 spanLife.classList.add('creature-life');
+									 spanLife.classList.add('life');
+
+									 let spanAttack = document.createElement('SPAN');
+									 spanAttack.innerHTML = ajaxResponse.userCards[index].attack;
+									 spanAttack.classList.add('creature-attack');
+
+									 let spanMana = document.createElement('SPAN');
+									 spanMana.innerHTML = ajaxResponse.userCards[index].mana;
+									 spanMana.classList.add('creature-mana');
+
+									 div.appendChild(spanLife);
+									 div.appendChild(spanAttack);
+									 div.appendChild(spanMana);
+									 zonePlayerBook.appendChild(div);
+									 div.addEventListener('click', attack);
+								 }
+								 //Sinon carte genere de la pioche
+							 }
+						 }
+					 }
+				 }
 
 			} else { //Si aucune difference avec la derniere MAJ
 				console.log('aucune donnée a actualiser');

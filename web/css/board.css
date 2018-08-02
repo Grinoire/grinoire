@@ -239,7 +239,7 @@ div.opponent-center-board {
 
     /* Range les carte proprement */
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
 }
 
@@ -337,7 +337,7 @@ div.player-center-board {
 
     /* Range les carte proprement */
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
