@@ -45,3 +45,16 @@
     margin-top: -14rem;
     padding: 0.3rem;
 }
+/*
+ANIMATION SUR LA PAGE HOME
+*/
+.left{
+    margin-left: -200rem;
+    opacity: 0;
+}
+.center{
+    margin-left: 0;
+    transition: 3s;
+    opacity: 1;
+}
+/*FIN DES ANIMATIONS*/

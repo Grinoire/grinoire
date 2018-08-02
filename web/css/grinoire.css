@@ -45,21 +45,6 @@
     font-weight: bold;
 }
 
-#grinoire-texte {
-    font-family: "Libre Baskerville", Serif;
-    font-style: italic;
-    font-weight: 200;
-    border-top: 0.1rem solid black;
-    border-bottom: 1px solid black;
-    text-align: center;
-    position: relative;
-    top: -12.9rem;
-    width: 41rem;
-    margin: auto;
-    line-height: 4rem;
-    font-size: 2.5rem;
-}
-
 #grinoire-jouer {
     font-size: 3rem;
 }
@@ -136,4 +121,28 @@
 #grinoire-liste-utilisateur a {
     text-decoration: none;
     color: black;
+}
+#grinoire-texte {
+    font-family: "Libre Baskerville", Serif;
+    font-style: italic;
+    font-weight: 200;
+    border-top: 0.1rem solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    position: relative;
+    /*top: -12.9rem;*/
+    width: 41rem;
+    margin: auto;
+    line-height: 4rem;
+    font-size: 2.5rem;
+}
+/*    ANIMATION       */
+.grinoire-p-bottom{
+    top: 45rem;
+    opacity: 0;
+}
+.grinoire-p-center{
+    transition: 3s;
+    top: -12.9rem;
+    opacity: 1;
 }

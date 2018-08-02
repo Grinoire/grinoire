@@ -10,6 +10,9 @@ function spanReturnMessageCommon(element, message) {
     }, 3000);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('section').classList.add('is-ready');
+    let headerImage = document.getElementById('header-img');
+    headerImage.classList.remove('header-img-none');
+    headerImage.classList.add('header-img-display');
 }, false);

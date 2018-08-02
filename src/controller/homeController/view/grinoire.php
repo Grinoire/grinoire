@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <p id="grinoire-texte">Entrez dans l'histoire...</p>
+        <p id="grinoire-texte" class="grinoire-p-bottom">Entrez dans l'histoire...</p>
 
     </div>
 </section>
