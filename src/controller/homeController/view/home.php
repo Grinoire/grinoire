@@ -8,7 +8,7 @@
 
             <p id="home-p" class="left">Entrez dans l'histoire...</p>
 
-            <img src="img/grinoire/container-form"/>
+            <img src="img/grinoire/container-form.png"/>
 
             <div id="home-lien">
                 <a href="?c=Home&amp;a=createAccount">CREÉR UN COMPTE</a>
@@ -19,5 +19,3 @@
 
     </div>
 </section>
-
-

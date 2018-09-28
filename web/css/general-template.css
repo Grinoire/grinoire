@@ -61,21 +61,6 @@ ANIMATION HEADER IMAGE EN BAS DU FICHIER
     font-weight: bold;
     transition-delay: 3s;
 }
-/**
-ANIMATION DE SUR LA SECTION
- */
-section {
-    grid-column: 1 / span 20;
-    height: 80vh;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-}
-section.is-ready{
-opacity: 1;
-transition-duration: 2s;
-}
 
 footer {
     height: 6rem;
@@ -110,12 +95,33 @@ select:-webkit-autofill{
     -webkit-box-shadow: 0 0 0px 1000px rgba(225, 215, 197, 1) inset;
 }
 
-/*ANIMETION IMAGE DU HEADER*/
+/* 
+------------------------------
+ANIMATION DE SUR LA SECTION
+------------------------------ 
+*/
+section {
+    grid-column: 1 / span 20;
+    height: 80vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+section.is-ready{
+opacity: 1;
+transition-duration: 2s;
+}
+
+
+/*ANIMATION IMAGE DU HEADER*/
+
 .header-img-none{
     opacity: 0;
 }
 .header-img-display{
-    transition: 6s;
+    transition: 2s;
     opacity: 1;
 }
+
 /*FIN ANIMATION HEADER*/

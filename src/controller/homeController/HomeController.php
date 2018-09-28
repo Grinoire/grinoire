@@ -29,8 +29,10 @@ class HomeController extends CoreController
     public function homeAction()
     {
         $this->init(__FILE__, __FUNCTION__);
-        $this->setNewLayout('template-home\\');
+        $this->setNewLayout('template-home/');
+        // require '../view/template-home/header.php';
         $this->render(true, 'home');
+        // require '../view/template-home/footer.php';
     }
 
     /**
@@ -49,8 +51,10 @@ class HomeController extends CoreController
                     redirection('index.php');
                 }
             } else {
-                $this->setNewLayout('template-home\\');
+                $this->setNewLayout('template-home/');
+                // require '../view/template-home/header.php';
                 $this->render(true, 'createAccount');
+                // require '../view/template-home/footer.php';
             }
         } catch (\Exception $e) {
             getErrorMessageDie($e);
@@ -90,8 +94,10 @@ class HomeController extends CoreController
                     redirection('?c=Home&a=login');
                 }
             } else {
-                $this->setNewLayout('template-home\\');
+                $this->setNewLayout('template-home/');
+                // require '../view/template-home/header.php';
                 $this->render(true, 'login');
+                // require '../view/template-home/footer.php';
             }
         } catch (\Exception $e) {
             getErrorMessageDie($e);
@@ -134,13 +140,15 @@ class HomeController extends CoreController
                     $deckManager = new DeckManager();
                     $deckManager->resetData($userId);                               //Efface la copie du deck et ses cartes genere temporairement (carte, hero)
                 }
-            }
+        
             $this->setSession(APP_NAME, array());                               //Vide la session liée a l'application
             session_unset();                                                    //Efface les sessions de l'utilisateur
             redirection('?c=Home&a=home');                                      //Redirige vers la vue connection
         } else { //Sinon on affiche la vue de l'acceuil
-            $this->setNewLayout('template-home\\');
+            $this->setNewLayout('template-home/');
+            // require '../view/template-home/header.php';
             $this->render(true, 'grinoire', $data);
+            // require '../view/template-home/footer.php';
         }
     }
 
@@ -215,8 +223,10 @@ class HomeController extends CoreController
                 } else {
                     $data['user'] = $profilManager->getProfilById($this->getSession('userConnected'));
                 }
-                $this->setNewLayout('template-home\\');
+                $this->setNewLayout('template-home/');
+                // require '../view/template-home/header.php';
                 $this->render(true, 'profil', $data);
+                // require '../view/template-home/footer.php';
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());

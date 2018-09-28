@@ -28,7 +28,7 @@
                     <?php
                     foreach ($user->getCardList()  as $card) { //pr chaque carte
                         if ($card->getStatus() === 0) {
-                            echo '<a href="?c=game&a=draw&id=' . $card->getId() . '"><div class="card back"></div></a>';
+                            echo '<a href="?c=Game&a=draw&id=' . $card->getId() . '"><div class="card back"></div></a>';
                         }
                     }
                     ?>
@@ -70,7 +70,7 @@
                 <!-- affichage du hero de l'adversaire -->
                 <div class="hero-opponent">
                     <?php if (isset($_GET["id"]) && isset($opponent)): ?>
-                        <a href="?c=game&a=attack&id=<?=$_GET["id"] . '&target=' . $opponent->getHero()->getId()?>&hero">
+                        <a href="?c=Game&a=attack&id=<?=$_GET["id"] . '&target=' . $opponent->getHero()->getId()?>&hero">
                             <?=
                             $opponent->getHero()->getName()
                             . '<br>degat: ' . $opponent->getHero()->getDamageReceived()
@@ -100,7 +100,7 @@
 
                                 foreach ($opponent->getCardList() as $card) { //on genere chaque carte
                                     if ($card->getStatus() === 3 || $card->getStatus() === 4) {
-                                        $content .= '<a href="?c=game&a=attack&id=' . $_GET["id"] . '&target=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
+                                        $content .= '<a href="?c=Game&a=attack&id=' . $_GET["id"] . '&target=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
                                         . $card->getName()
                                         . '<br>status: ' . $card->getStatus()
                                         . '<br>degat: ' . $card->getDamageReceived()
@@ -136,7 +136,7 @@
                                 $content = '<a class="boardGame-link" href="?c=game&a=moveCard&id=' . $_GET['idMain'] . '">Board';     // TODO: BBBBBBBBBBBBBBBBBUUUUUUUUUUUUUUUUUUGGGGGGGGGGGGGGG
                                 foreach ($user->getCardList() as $card) { //pr chaque carte
                                     if ($card->getStatus() === 3 || $card->getStatus() === 4) {
-                                        $content .= '<a href="?c=game&a=game&id=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
+                                        $content .= '<a href="?c=Game&a=game&id=' . $card->getId() . '"><div class="card" style="font-size: 11px">'
                                         . $card->getName()
                                         . '<br>status: ' . $card->getStatus()
                                         . '<br>degat: ' . $card->getDamageReceived()

@@ -40,7 +40,7 @@ class PdoManager
     {
         try {
             $this->pdo = new PDO(
-                'mysql:host=' . HOST_DB . ';dbname=' . NAME_DB . ';charset=utf8', 'root', '', array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION )
+                'mysql:host=' . HOST_DB . ';dbname=' . NAME_DB . ';charset=utf8', LOGIN_DB, MDP_DB, array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION )
             );
         } catch (PdoException $e) {
             getErrorMessageDie($e);

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace grinoire\src\controller\GameController;
+namespace grinoire\src\controller\gameController;
 
 use grinoire\src\controller\CoreController;
 use grinoire\src\exception\UserException;
@@ -55,25 +55,22 @@ class GameController extends CoreController
                     $userManager->setSelectedDeck($userId, $deckId);                    //On insere en bdd l'id du deck choisi
                     $deckManager->setTmpDeck($userId, $selectedCardList, $deckId);      //on genere des copie pour les carte et le hero appartenant a l'utilisateur
                     $this->setSession("deck", $deckManager->getDeck());                 //On genere une session pr le deck entier
-                    redirection('?c=game&a=matchMaking');                               //On redirige l'utilisateur vers matchMakingAction() pr y trouver une partie
+                    redirection('?c=Game&a=matchMaking');                               //On redirige l'utilisateur vers matchMakingAction() pr y trouver une partie
                 } else {                                                                //Sinon aucune carte n'a encore ete selectioner
                     $data['cardList'] = $deckManager->getAllCardByDeck($deckId);        //On recupere toutes les cartes originales
-                    require '../view/template-home/header.php';                         //on affiche la vue de selection des cartes
-                    $this->render(false, 'selectDeck', $data);
-                    require '../view/template-home/footer.php';
+                    $this->setNewLayout('template-home/');                    //on affiche la vue de selection des cartes
+                    $this->render(true, 'selectDeck', $data);
                 }
             } else {                                                                    //Sinon l'utilisateur n'a pas de deck selectionné
                 $data['decks'] = $deckManager->getAllDataForDeck();                     //On recupere les deck jouable
-                require '../view/template-home/header.php';                             //On affiche la vue de selection du deck
-                $this->render(false, 'selectDeck', $data);
-                require '../view/template-home/footer.php';
+                $this->setNewLayout('template-home/');
+                $this->render(true, 'selectDeck', $data);
             }
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
 
-            require '../view/template-home/header.php';
-            $this->render(false, 'selectDeck');
-            require '../view/template-home/footer.php';
+            $this->setNewLayout('template-home/');
+            $this->render(true, 'selectDeck');
         } catch (\Exception $e) {
             getErrorMessageDie($e);
         }
@@ -120,7 +117,7 @@ class GameController extends CoreController
                     }
                 }
             // }
-            redirection('?c=game&a=game');
+            redirection('?c=Game&a=game');
         } catch (UserException $e) {
             $this->setSession('error', $e->getMessage());
             $this->render(true);
@@ -233,7 +230,7 @@ class GameController extends CoreController
                                     echo json_encode($data);
                                     return;
                                 } else {
-                                    redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+                                    redirection('?c=Game&a=game');                                      //On redirige vers gameAction()
                                 }
                             }
                         }
@@ -247,7 +244,7 @@ class GameController extends CoreController
                                     echo json_encode($data);
                                     return;
                                 } else {
-                                    redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+                                    redirection('?c=Game&a=game');                                      //On redirige vers gameAction()
                                 }
                             }
                         }
@@ -308,7 +305,7 @@ class GameController extends CoreController
                 if (array_key_exists('ajax', $this->getGet())) {
                     echo json_encode($data);
                 } else {
-                    redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+                    redirection('?c=Game&a=game');                                      //On redirige vers gameAction()
                 }
             }
         }
@@ -391,7 +388,7 @@ class GameController extends CoreController
         if (array_key_exists('ajax', $this->getGet())) {
             echo json_encode($data);
         } else {
-            redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+            redirection('?c=Game&a=game');                                      //On redirige vers gameAction()
         }
     }
 
@@ -514,7 +511,7 @@ class GameController extends CoreController
                     }
             }
         }
-        redirection('?c=game&a=game');                                                              //On redirige vers gameAction()
+        redirection('?c=Game&a=game');                                                              //On redirige vers gameAction()
     }
 
 
@@ -577,7 +574,7 @@ class GameController extends CoreController
         if (array_key_exists('ajax', $this->getGet())) {
             echo json_encode($data);
         } else {
-            redirection('?c=game&a=game');                                      //On redirige vers gameAction()
+            redirection('?c=Game&a=game');                                      //On redirige vers gameAction()
         }
     }
 

@@ -38,7 +38,7 @@ if (!defined('DS'))         {define('DS', DIRECTORY_SEPARATOR);}
  */
 if (!defined('HOST_DB'))    {define('HOST_DB', 'localhost');}
 if (!defined('NAME_DB'))    {define('NAME_DB', 'grinoire');}
-if (!defined('LOGIN_DB'))   {define('LOGIN_DB', 'root');}
+if (!defined('LOGIN_DB'))   {define('LOGIN_DB', '');}
 if (!defined('MDP_DB'))     {define('MDP_DB', '');}
 
 
@@ -57,9 +57,9 @@ if (!defined('DEBUG'))      {define('DEBUG', 'DEV');}
  * ------------------------------------------------------
  */
 if (!defined('DOMAIN'))     {define('DOMAIN', (dirname(__FILE__)));}
-if (!defined('DIR_VIEW'))   {define('DIR_VIEW', dirname(dirname(__FILE__)) . '\view\\');}
-if (!defined('DIR_CTRL'))   {define('DIR_CTRL', dirname(dirname(__FILE__)) . '\src\controller\\');}
-if (!defined('DIR_IMG'))    {define('DIR_IMG', dirname(dirname(__FILE__)) . '\web\img\avatar\\');}
+if (!defined('DIR_VIEW'))   {define('DIR_VIEW', dirname(dirname(__FILE__)) . '/view/');}
+if (!defined('DIR_CTRL'))   {define('DIR_CTRL', dirname(dirname(__FILE__)) . '/src/controller/');}
+if (!defined('DIR_IMG'))    {define('DIR_IMG', dirname(dirname(__FILE__)) . '/web/img/avatar/');}
 
 
 

@@ -28,7 +28,7 @@
 
             <form id="profil-form" action="" method="POST" enctype="multipart/form-data">
                 <?php
-                if (!$user->getAvatar()) {
+                if (!$user->getAvatar()) {//si l'ustilisateur n'a pas d'avatar
                     ?>
                     <div class="avatar-img">
                         <label title="Modifier avatar" for="file" class="label-file">
@@ -37,14 +37,14 @@
                     </div>
                     <img class="avatar" src="img/avatar/default/avatar-default.png"/>
                     <?php
-                } else {
+                } else {            //sinon l'utilisateur a un avatar
                     ?>
                     <div class="avatar-img">
                         <label title="Modifier avatar" for="file" class="label-file">
                         </label>
                         <input id="file" class="input-file" type="file" name="avatar" value="">
                     </div>
-                    <img class="avatar" src="img/avatar/<?= htmlspecialchars($user->getAvatar()) ?>"/>
+                    <img class="avatar" src="img/avatar/<?php echo $user->getAvatar() ?>"/>
                     <?php
                 }
                 ?>

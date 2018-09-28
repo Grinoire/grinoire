@@ -1,7 +1,4 @@
-#home-section-wrapper {
-}
-
-#home-div-container { /*le papa a grid-template-row c donc ici que je manipule les grid-row*/
+#home-div-container {
     text-align: center;
 }
 
@@ -45,8 +42,11 @@
     margin-top: -14rem;
     padding: 0.3rem;
 }
+
 /*
+---------------------------
 ANIMATION SUR LA PAGE HOME
+---------------------------
 */
 .left{
     margin-left: -200rem;
@@ -54,7 +54,11 @@ ANIMATION SUR LA PAGE HOME
 }
 .center{
     margin-left: 0;
-    transition: 3s;
+    transition: 2s;
     opacity: 1;
 }
-/*FIN DES ANIMATIONS*/
+/*
+---------------------------
+FIN DES ANIMATIONS
+---------------------------
+*/
